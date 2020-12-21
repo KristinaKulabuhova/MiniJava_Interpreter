@@ -24,7 +24,8 @@
 %}
 
 id    [a-zA-Z][a-zA-Z_0-9]*
-const   [a-zA-Z_0-9]*
+str   \"[^"\n]*["\n]
+int   [0-9]*
 blank [ \t\r]
 
 %{
@@ -37,6 +38,9 @@ blank [ \t\r]
   yy::location& loc = driver.location;
   // Code run each time yylex is called.
   loc.step();
+
+
+  //"'"        return yy::parser::make_QUOTE    (loc);
 %}
 
 {blank}+   loc.step ();
@@ -46,6 +50,9 @@ blank [ \t\r]
               std::cout << loc.begin.line << " " << loc.end.line << std::endl;
               return yy::parser::make_MINUS  (loc);
            }
+
+"program"  return yy::parser::make_PROGRAM  (loc);
+
 "begin"    return yy::parser::make_BEGIN   (loc);
 "end"      return yy::parser::make_END   (loc);
 "var"      return yy::parser::make_VAR   (loc);
@@ -57,6 +64,8 @@ blank [ \t\r]
 "do"       return yy::parser::make_DO   (loc);
 "not"      return yy::parser::make_NOT   (loc);
 "to"       return yy::parser::make_TO   (loc);
+
+
 
 ","        return yy::parser::make_COMMA   (loc);
 ";"        return yy::parser::make_SEMICOLON   (loc);
@@ -83,7 +92,8 @@ blank [ \t\r]
 ">"        return yy::parser::make_G   (loc);
 ">="       return yy::parser::make_GEQ   (loc);
 
-{const}      return yy::parser::make_CONST(yytext, loc);
+{str}      return yy::parser::make_STR (yytext, loc);
+{int}      return yy::parser::make_INT (yytext, loc);
 {id}       return yy::parser::make_IDENTIFIER(yytext, loc);
 .          {
                 throw yy::parser::syntax_error(loc, "invalid character: " + std::string(yytext));

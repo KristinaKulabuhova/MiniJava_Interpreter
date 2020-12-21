@@ -12,8 +12,6 @@
 class Driver {
  public:
     Driver();
-    std::map<std::string, int> variables;
-    int result;
     int parse(const std::string& f);
     std::string file;
     bool trace_parsing;
@@ -28,6 +26,8 @@ class Driver {
     Scanner scanner;
     yy::parser parser;
     Program* program;
+
+    int executeProgram();
  private:
     std::ifstream stream;
 

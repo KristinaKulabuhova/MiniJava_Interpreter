@@ -2,7 +2,7 @@
 #include <driver.hh>
 
 int main(int argc, char** argv) {
-    int result = 0;
+    int exit_code;
     Driver driver;
 
     for (int i = 1; i < argc; ++i) {
@@ -11,11 +11,12 @@ int main(int argc, char** argv) {
         } else if (argv[i] == std::string("-s")) {
             driver.trace_scanning = true;
         } else if (!driver.parse(argv[i])) {
-            std::cout << driver.result << std::endl;
+             exit_code = driver.executeProgram();
+             std::cout << "\nProgram finished with code " << exit_code << ".\n";
         } else {
-            result = 1;
+            return 1;
         }
     }
 
-    return result;
+    return 0;
 }

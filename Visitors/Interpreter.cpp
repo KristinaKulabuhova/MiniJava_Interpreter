@@ -174,9 +174,12 @@ void Interpreter::GetType(std::pair<int, std::string>& type, const var_t &val) {
             type.first = string;
             break;
         }
+        default: {
+            type.second = "unknown type";
+            type.first = unknown;
+            break;
+        }
     }
-    type.second = "unknown type";
-    type.first = unknown;
 }
 
 void Interpreter::Visit(Write *write_module) {
