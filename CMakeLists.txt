@@ -4,11 +4,11 @@ SET(CMAKE_CXX_STANDARD 17)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 
-project(ParserExample)
+project(pascal)
 set(
         HEADERS
-        ${ParserExample_SOURCE_DIR}/driver.hh
-        ${ParserExample_SOURCE_DIR}/parser.hh
+        ${pascal_SOURCE_DIR}/driver.hh
+        ${pascal_SOURCE_DIR}/parser.hh
 )
 
 find_package(BISON REQUIRED)
@@ -17,20 +17,20 @@ find_package(FLEX REQUIRED)
 BISON_TARGET(
         MyParser
         parser.y
-        ${ParserExample_SOURCE_DIR}/parser.cpp
-        DEFINES_FILE ${ParserExample_SOURCE_DIR}/parser.hh
+        ${pascal_SOURCE_DIR}/parser.cpp
+        DEFINES_FILE ${pascal_SOURCE_DIR}/parser.hh
 )
 
 FLEX_TARGET(
         MyScanner
         scanner.l
-        ${ParserExample_SOURCE_DIR}/scanner.cpp
+        ${pascal_SOURCE_DIR}/scanner.cpp
 )
 
 ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
 
 add_executable(
-        ParserExample
+        pascal
         main.cpp
         driver.cpp
         ${BISON_MyParser_OUTPUTS}
@@ -92,4 +92,4 @@ add_executable(
         Program.h
         Program.cpp
 )
-target_include_directories(ParserExample PRIVATE ${ParserExample_SOURCE_DIR})
+target_include_directories(pascal PRIVATE ${pascal_SOURCE_DIR})
