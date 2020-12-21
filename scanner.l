@@ -56,7 +56,6 @@ blank [ \t\r]
 "begin"    return yy::parser::make_BEGIN   (loc);
 "end"      return yy::parser::make_END   (loc);
 "var"      return yy::parser::make_VAR   (loc);
-"integer"  return yy::parser::make_INTEGER   (loc);
 "if"       return yy::parser::make_IF   (loc);
 "then"     return yy::parser::make_THEN   (loc);
 "else"     return yy::parser::make_ELSE   (loc);
@@ -64,6 +63,7 @@ blank [ \t\r]
 "do"       return yy::parser::make_DO   (loc);
 "not"      return yy::parser::make_NOT   (loc);
 "to"       return yy::parser::make_TO   (loc);
+"for"      return yy::parser::make_FOR  (loc);
 
 
 

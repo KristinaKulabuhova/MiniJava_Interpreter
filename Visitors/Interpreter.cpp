@@ -188,15 +188,15 @@ void Interpreter::Visit(Write *write_module) {
     GetType(type, res);
     switch (type.first) {
         case integer: {
-            std::cout << std::get<int>(res);
+            std::cout << std::get<int>(res) << '\n';
             break;
         }
         case string: {
-            std::cout << std::get<std::string>(res);
+            std::cout << std::get<std::string>(res) << '\n';
             break;
         }
         default: {
-            std::cout << "<unknown type>";
+            std::cout << "<unknown type>\n";
         }
     }
 }
