@@ -3,7 +3,7 @@
 
 #include "BaseElements/BaseExpr.h"
 
-class ConstExpr : BaseExpr {
+class ConstExpr : public BaseExpr {
   public:
     var_t value;
     explicit ConstExpr(const std::string& tmp_val);

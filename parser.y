@@ -39,6 +39,8 @@
     class AndExpr;
     class OrExpr;
     class NotExpr;
+
+    class Program;
 }
 
 // %param { Driver &drv }
@@ -77,6 +79,8 @@
     #include "Expressions/OrExpr.h"
     #include "Expressions/NotExpr.h"
 
+    #include "Program.h"
+
     static yy::parser::symbol_type yylex(Scanner &scanner, Driver& driver) {
         return scanner.ScanToken();
     }
@@ -103,7 +107,7 @@
     END "end"
     COMMA ","
     SEMICOLON ";"
-    DOR "."
+    DOT "."
     COLON ":"
     VAR "var"
     INTEGER "integer"
@@ -144,32 +148,21 @@
 %nterm <Write*> write
 %nterm <While*> while
 %nterm <BaseExpr*> expr
-%nterm <AddExpr*> add
 %nterm <AndExpr*> and
-%nterm <ConstExpr*> const
-%nterm <DivExpr*> div
-%nterm <EqExpr*> eq
-%nterm <GeqExpr*> geq
-%nterm <GreaterExpr*> greater
-%nterm <IdentExpr*> ident
-%nterm <LeqExpr*> leq
-%nterm <LessExpr*> less
-%nterm <ModExpr*> mod
-%nterm <MulExpr*> mul
-%nterm <NEqExpr*> neq
-%nterm <NotExpr*> not
-%nterm <OrExpr*> or
-%nterm <SubtractExpr*> sub
 %nterm <Program*> program
 
-%printer { yyo << $$; } <*>;
+//%printer { yyo << $$; } <*>;
 
 %%
+
+%left "+" "-";
+%left "*" "div" "mod";
+
 %start unit;
 unit: program { driver.program = $1; };
 
-program: "identifier" "var" var_declarations "begin" "." exec_code "end" "." { $$ = new Program($1, $2, $5); };
-	| "identifier" "begin" "." exec_code "end" "." { $$ = $$ = new Program($1, {}, $5); }
+program: "identifier" "var" var_declarations "begin" "." exec_code "end" "." { $$ = new Program($1, $3, $6); };
+	| "identifier" "begin" "." exec_code "end" "." { $$ = new Program($1, {}, $4); }
 
 var_declarations: var_decl_list {
 		std::vector<VarDeclList*> declarations;
@@ -181,7 +174,7 @@ var_declarations: var_decl_list {
 		$$ = $2;
 	};
 	| %empty {
-		$$ = nullptr;
+		$$ = {};
 	}
 
 var_decl_list: "identifier" ":" "identifier" ";" {
@@ -219,12 +212,12 @@ exec_block: assignment {
 		$$ = $1;
 	}
 
-assignement: "identifier" ":=" expr ";" {
+assignment: "identifier" ":=" expr ";" {
 		$$ = new Assignment($1, $3);
 	}
 
 for: "for" "identifier" ":=" expr "to" expr "do" exec_block ";" {
-		$$ = new For($2, $4, $6, new EcecCode($8));
+		$$ = new For($2, $4, $6, new ExecCode($8));
 	}
 	| "for" "identifier" ":=" expr "to" expr "do" "begin" exec_code "end" ";" {
 		$$ = new For($2, $4, $6, $9);
@@ -269,7 +262,7 @@ expr: expr "+" expr {
 		$$ = new DivExpr($1, $3);
 	}
 	| expr "=" expr {
-		$$ new EqExpr($1, $3);
+		$$ = new EqExpr($1, $3);
 	}
 	| expr ">=" expr {
 		$$ = new GeqExpr($1, $3);
@@ -307,29 +300,6 @@ expr: expr "+" expr {
 	| "(" expr ")" {
 		$$ = $2;
 	}
-
-
-assignments:
-    %empty {}
-    | assignments assignment {};
-
-assignment:
-    "identifier" ":=" exp {
-        driver.variables[$1] = $3;
-        // std::cout << drv.location.begin.line << "-" << drv.location.end.line << std::endl;
-    };
-
-%left "+" "-";
-%left "*" "div" "mod";
-
-exp:
-    "number"
-    | "identifier" {$$ = driver.variables[$1];}
-    | exp "+" exp {$$ = $1 + $3; }
-    | exp "-" exp {$$ = $1 - $3; }
-    | exp "*" exp {$$ = $1 * $3; }
-    | exp "/" exp {$$ = $1 / $3; }
-    | "(" exp ")" {$$ = $2; };
 
 %%
 

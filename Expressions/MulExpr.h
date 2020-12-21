@@ -3,7 +3,7 @@
 
 #include "BaseElements/BaseExpr.h"
 
-class MulExpr : BaseExpr {
+class MulExpr : public BaseExpr {
   public:
     BaseExpr* p_lhs;
     BaseExpr* p_rhs;

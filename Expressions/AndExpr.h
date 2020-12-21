@@ -3,7 +3,7 @@
 
 #include "BaseElements/BaseExpr.h"
 
-class AndExpr : BaseExpr {
+class AndExpr : public BaseExpr {
   public:
     BaseExpr* p_lhs;
     BaseExpr* p_rhs;

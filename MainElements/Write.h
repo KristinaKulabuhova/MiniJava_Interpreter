@@ -4,7 +4,7 @@
 #include "BaseElements/BaseExecBlock.h"
 #include "BaseElements/BaseExpr.h"
 
-class Write : BaseExecBlock {
+class Write : public BaseExecBlock {
   public:
     BaseExpr* expression;
     explicit Write(BaseExpr* expression);

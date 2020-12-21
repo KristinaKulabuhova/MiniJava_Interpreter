@@ -6,7 +6,7 @@
 
 #include <string>
 
-class Read : BaseExecBlock {
+class Read : public BaseExecBlock {
   public:
     std::string var_name;
     explicit Read(std::string var_name);

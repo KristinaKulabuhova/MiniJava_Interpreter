@@ -3,7 +3,7 @@
 
 #include "BaseElements/BaseExpr.h"
 
-class NotExpr : BaseExpr {
+class NotExpr : public BaseExpr {
   public:
     BaseExpr* p_expr;
     explicit NotExpr(BaseExpr* p_expr);
