@@ -176,9 +176,9 @@ var_declarations: var_decl_list {
 var_decl_list: "identifier" ":" "identifier" ";" {
 		$$ = new VarDeclList($1, $3);
 	}
-	| "identifier" var_decl_list {
-		$2->addVar($1);
-		$$ = $2;
+	| "identifier" "," var_decl_list {
+		$3->addVar($1);
+		$$ = $3;
 	};
 
 exec_code: exec_block {
@@ -219,8 +219,8 @@ for: "for" "identifier" ":=" expr "to" expr "do" line_or_code ";" {
 if: "if" expr "then" line_or_code ";" {
 		$$ = new If($2, $4, nullptr);
 	}
-	| "if" expr "then" line_or_code "else" line_or_code ";" {
-		$$ = new If($2, $4, $6);
+	| "if" expr "then" line_or_code ";" "else" line_or_code ";" {
+		$$ = new If($2, $4, $7);
 	};
 
 line_or_code: exec_block {
@@ -290,7 +290,7 @@ expr: expr "+" expr {
 	| expr "or" expr {
 		$$ = new OrExpr($1, $3);
 	}
-	| expr "sub" expr {
+	| expr "-" expr {
 		$$ = new SubtractExpr($1, $3);
 	}
 	| "(" expr ")" {

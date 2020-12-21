@@ -84,7 +84,6 @@ void Interpreter::Visit(If* branching) {
     } else if (branching->false_branch) {
         branching->false_branch->Accept(*this);
     }
-    throw ExpectedBoolError("???");
 }
 
 void Interpreter::Visit(While* while_cycle) {
@@ -113,7 +112,7 @@ void Interpreter::Visit(For* for_cycle) {
     CheckIntCorrectness(lower_res);
     CheckIntCorrectness(upper_res);
     for (var_value[for_cycle->var_name] = std::get<int>(lower_res);
-         std::get<int>(var_value[for_cycle->var_name]) < std::get<int>(upper_res);
+         std::get<int>(var_value[for_cycle->var_name]) <= std::get<int>(upper_res);
          var_value[for_cycle->var_name] = std::get<int>(var_value[for_cycle->var_name]) + 1) {
         for_cycle->cycle_body->Accept(*this);
     }

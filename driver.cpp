@@ -36,7 +36,7 @@ void Driver::scan_end()
 
 int Driver::executeProgram() {
     Interpreter interpreter(program->var_declarations);
-    std::cout << "Executing program \"" << program->program_name << "\"...\n";
+    std::cout << "Executing program \"" << program->program_name << "\"...\n\n";
     try {
         program->executable_code->Accept(interpreter);
     } catch (const MultiDeclError& exception) {
