@@ -24,7 +24,7 @@
 %}
 
 id    [a-zA-Z][a-zA-Z_0-9]*
-str   \"[^"\n]*["\n]
+str   "'"[^'\n]*"'"
 int   [0-9]*
 blank [ \t\r]
 
