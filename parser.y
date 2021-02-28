@@ -127,21 +127,21 @@
 
 %start program;
 
-program: main_class class_declaration_list
+program: main_class class_declaration_list {$$ = new Program($1, $2);}
 
-main_class: "class" "identifier" "{" "public" "static" "void" "main" "(" ")" "{" statement "}" "}"
+main_class: "class" "identifier" "{" "public" "static" "void" "main" "(" ")" "{" statement "}" "}" { $$ = new MainClass($2, $11); };
 
-class_declaration_list: class_declaration_list class_declaration
-					  | %empty
+class_declaration_list: class_declaration_list class_declaration {$$ = $1; $$->AddDecl($2);}
+					  | %empty {$$ = new ClassDeclarationList();}
 
-class_declaration: "class" "identifier" "extends" "identifier" "{" declaration_list "}"
-				 | "class" "identifier" "{" declaration_list "}"
+class_declaration: "class" "identifier" "extends" "identifier" "{" declaration_list "}" ...
+				 | "class" "identifier" "{" declaration_list "}" ...
 
-declaration_list: declaration_list declaration
-				| %empty
+declaration_list: declaration_list declaration {$$ = $1; $$->AddDecl($2);}
+				| %empty {$$ = new DeclarationList();}
 
-declaration: variable_declaration
-		   | method_declaration
+declaration: variable_declaration {$$ = $1;}
+		   | method_declaration {$$ = $1;}
 
 method_declaration: "public" type "identifier" "(" formals ")" "{" statement_list "}"
 				  | "public" type "identifier" "(" ")" "{" statement_list "}"
@@ -151,13 +151,13 @@ variable_declaration: type "identifier" ";"
 formals: type "identifier"
 	  |  formals "," type "identifier"
 
-type: simple_type 
-	| simple_type "[]"
+type: simple_type {$$ = $1;}
+	| simple_type "[]" ...
 
-simple_type: "int"
-		   | "boolean" 
-		   | "void" 
-		   | "identifier"
+simple_type: "int" {$$ = new SimpleType("int");}
+		   | "boolean" {$$ = new SimpleType("boolean");}
+		   | "void" {$$ = new SimpleType("void");}
+		   | "identifier" {$$ = new SimpleType($1);}
 
 statement_list: statement_list statement
 				| %empty
@@ -167,20 +167,20 @@ statement: "assert" "(" expr ")" ";"
          | "{" statement_list "}"  
          | "if"  "(" expr ")" statement   
          | "if"  "(" expr ")" statement "else" statement 
-         | "while"  "(" expr ")" statement  
+         | "while"  "(" expr ")" statement {} 
          | "System" "." "out" "." "println" "(" expr ")" ";"  
          | "lvalue" "=" expr ";" 
-         | "return" expr ";"  
-         | method_invocation ";"
+         | "return" expr ";"  {} 
+         | method_invocation ";" {$$ = MethodInvocation($1);}
 
 method_invocation: call_expr "." "identifier" "(" expr_list ")"
 				 | call_expr "." "identifier" "(" ")"
 
-call_expr: "this" 
+call_expr: "this" {}
 		  | method_invocation 
 		  | "new" simple_type "[" expr "]"  
     	  | "new" simple_type "(" ")" 
-		  | lvalue
+		  | lvalue		{ $$ = new Lvalue($1); }
 
 expr_list: expr
 		  | expr_list "," expr 
@@ -188,26 +188,26 @@ expr_list: expr
 lvalue: "identifier" 
 	   | "identifier" "[" expr "]" 
 
-expr: expr "&&" expr  
-	| expr "||" expr
-	| expr "<" expr
-	| expr ">" expr
-	| expr ">=" expr
-	| expr "!=" expr
-	| expr "<=" expr
-	| expr "==" expr   
-	| expr "+" expr     
-	| expr "-" expr    
-	| expr "*" expr  
-	| expr "/" expr  
-	| expr "%" expr  
-	| call_expr "." "length"   
-	| call_expr
-	| "!" expr 
-    | "(" expr ")"   
-	| "int"   
-	| "true"  
-	| "false"     
+expr: expr "&&" expr  			{ $$ = new AndExpr($1, $3); }
+	| expr "||" expr			{ $$ = new OrExpr($1, $3); }
+	| expr "<" expr				{ $$ = new LessExpr($1, $3); }
+	| expr ">" expr				{ $$ = new GreaterExpr($1, $3); }
+	| expr ">=" expr			{ $$ = new GeqExpr($1, $3); }
+	| expr "!=" expr			{ $$ = new NeqExpr($1, $3); }
+	| expr "<=" expr			{ $$ = new LeqExpr($1, $3); }
+	| expr "==" expr   			{ $$ = new EqExpr($1, $3); }
+	| expr "+" expr    			{ $$ = new AddExpr($1, $3); }
+	| expr "-" expr     		{ $$ = new SubtractExpr($1, $3); }
+	| expr "*" expr  			{ $$ = new MulExpr($1, $3); }
+	| expr "/" expr  			{ $$ = new DivExpr($1, $3); }
+	| expr "%" expr  			{ $$ = new ModExpr($1, $3); }
+	| call_expr "." "length"    { $$ = new LengthExpr($1); }
+	| call_expr					{ $$ = $1; }
+	| "!" expr 					{ $$ = new NotExpr($2); }
+    | "(" expr ")"   			{ $$ = $2; }
+	| "int"   					{ $$ = new AddExpr(); }
+	| "true"  					{ $$ = new TrueExpr(); }
+	| "false"     				{ $$ = new FalseExpr(); }
 
 %%
 
