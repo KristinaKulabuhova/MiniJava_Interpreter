@@ -7,40 +7,8 @@
 %define parse.assert
 
 %code requires {
-    #include <string>
-    #include <vector>
-    class Scanner;
-    class Driver;
-
-    class VarDeclList;
-    class BaseExecBlock;
-    class ExecCode;
-    class Assignment;
-    class For;
-    class If;
-    class Read;
-    class Write;
-    class While;
-
-    class BaseExpr;
-    class AddExpr;
-    class DivExpr;
-    class ModExpr;
-    class MulExpr;
-    class SubtractExpr;
-    class IdentExpr;
-    class ConstExpr;
-    class LessExpr;
-    class GreaterExpr;
-    class LeqExpr;
-    class GeqExpr;
-    class EqExpr;
-    class NEqExpr;
-    class AndExpr;
-    class OrExpr;
-    class NotExpr;
-
     class Program;
+	...
 }
 
 // %param { Driver &drv }
@@ -52,35 +20,7 @@
     #include "driver.hh"
     #include "location.hh"
 
-    #include "VarDeclList/VarDeclList.h"
-    #include "MainElements/ExecCode.h"
-    #include "MainElements/Assignment.h"
-    #include "MainElements/For.h"
-    #include "MainElements/If.h"
-    #include "MainElements/Read.h"
-    #include "MainElements/Write.h"
-    #include "MainElements/While.h"
-
-    #include "Expressions/AddExpr.h"
-    #include "Expressions/DivExpr.h"
-    #include "Expressions/IdentExpr.h"
-    #include "Expressions/ModExpr.h"
-    #include "Expressions/MulExpr.h"
-    #include "Expressions/SubtractExpr.h"
-    #include "Expressions/ConstExpr.h"
-
-    #include "Expressions/LessExpr.h"
-    #include "Expressions/GreaterExpr.h"
-    #include "Expressions/LeqExpr.h"
-    #include "Expressions/GeqExpr.h"
-    #include "Expressions/EqExpr.h"
-    #include "Expressions/NEqExpr.h"
-    #include "Expressions/AndExpr.h"
-    #include "Expressions/OrExpr.h"
-    #include "Expressions/NotExpr.h"
-
-    #include "Program.h"
-
+    
     static yy::parser::symbol_type yylex(Scanner &scanner, Driver& driver) {
         return scanner.ScanToken();
     }
@@ -97,205 +37,177 @@
 
 %token
     FILEEND 0 "end of file"
-    PROGRAM "program"
-    ASSIGN ":="
-    MINUS "-"
-    PLUS "+"
-    STAR "*"
-    LPAREN "("
-    RPAREN ")"
-    BEGIN "begin"
-    END "rend"
-    COMMA ","
+   
+    CLASS 	"class"
+	PUBLIC 	"public"
+	STATIC 	"static"
+	EXTENDS "extends"
+
+	FALSE 	"false"
+	TRUE 	"true"
+	NEW 	"new"
+	OUT 	"out"
+	MAIN 	"main"
+	ASSERT 	"assert"
+	THIS 	"this"
+	PRINTLN "println"
+	SYSTEM 	"System"
+	LENGTH 	"length"
+
+	VOID 	"void"
+	INT 	"int"
+	BOOLEAN "boolean"
+	RETURN 	"return"
+
+	LROUND 	"("
+	RROUND 	")"
+	LCURLY 	"{"
+	RCURLY 	"}"
+	LSQUARE "["
+	RSQUARE "]"
+	BRACKS 	"[]"
+
+	WHILE 	"while"
+	IF 		"if"
+	ELSE 	"else"
+
+	COMMA 	","
     SEMICOLON ";"
-    DOT "."
-    COLON ":"
-    VAR "var"
-    IF "if"
-    THEN "then"
-    ELSE "else"
-    WHILE "while"
-    FOR "for"
-    DO "do"
-    NOT "not"
-    TO "to"
-    READ "read"
-    WRITE "write"
-    DIV "div"
-    MOD "mod"
-    OR "or"
-    AND "and"
-    L "<"
-    LEQ "<="
-    EQ "="
-    NEQ "<>"
-    G ">"
-    GEQ ">="
+    DOT 	"."
+
+	AND 	"&&"
+	OR 		"||"
+    EQ 		"=="
+	NEQ 	"!="
+	NEG 	"!"
+	GEQ 	">="
+	LEQ 	"<="
+	GREATER ">"
+    LESS 	"<"
+    ASSIGN 	"=" 
+    
+	PLUS 	"+"
+	MINUS 	"-"
+    SLASH 	"/"
+    MODUL 	"%"
+    STAR 	"*"
 ;
 
 %token <std::string> IDENTIFIER "identifier"
 %token <std::string> INT "int"
-%token <std::string> STR "str"
-%nterm <std::vector<VarDeclList*>> var_declarations
-%nterm <VarDeclList*> var_decl_list
-%nterm <ExecCode*> exec_code
-%nterm <BaseExecBlock*> exec_block
-%nterm <Assignment*> assignment
-%nterm <For*> for
-%nterm <If*> if
-%nterm <ExecCode*> line_or_code
-%nterm <Read*> read
-%nterm <Write*> write
-%nterm <While*> while
-%nterm <BaseExpr*> expr
+
 %nterm <Program*> program
+%nterm <MainClass*> main_class
+%nterm <ClassDeclarationList*> class_declaration_list
+%nterm <ClassDeclaration*> class_declaration
+%nterm <DeclarationList*> declaration_list
+%nterm <Declaration*> declaration
+%nterm <MethodDeclaration*> method_declaration
+%nterm <VariableDeclaration*> variable_declaration
+%nterm <Formals*> formals
+%nterm <Type*> type
+%nterm <SimpleType*> simple_type
+%nterm <StatementList*> statement_list
+%nterm <Statement*> statement
+%nterm <MethodInvocation*> method_invocation
+%nterm <CallExpr*> call_expr
+%nterm <ExprList*> expr_list
+%nterm <Lvalue*> lvalue
+%nterm <Expr*> expr
 
 //%printer { yyo << $$; } <*>;
 
 %%
 
 %left "+" "-";
-%left "*" "div" "mod";
+%left "||" "&&";
+%left "<" "<=" ">=" "==" "!=" ">"
+%left "*" "/" "%";
+%right "!";
 
-%start unit;
-unit: program { driver.program = $1; };
+%start program;
 
-program: "program" "identifier" ";" "var" var_declarations "begin" exec_code "rend" "." { $$ = new Program($2, $5, $7); }
-	| "program" "identifier" ";" "begin" exec_code "rend" "." { $$ = new Program($2, {}, $5); };
+program: main_class class_declaration_list
 
-var_declarations: var_decl_list {
-		std::vector<VarDeclList*> declarations;
-		declarations.push_back($1);
-		$$ = declarations;
-	}
-	| var_decl_list var_declarations {
-		$2.push_back($1);
-		$$ = $2;
-	}
+main_class: "class" "identifier" "{" "public" "static" "void" "main" "(" ")" "{" statement "}" "}"
 
-var_decl_list: "identifier" ":" "identifier" ";" {
-		$$ = new VarDeclList($1, $3);
-	}
-	| "identifier" "," var_decl_list {
-		$3->addVar($1);
-		$$ = $3;
-	};
+class_declaration_list: class_declaration_list class_declaration
+					  | %empty
 
-exec_code: exec_block {
-		$$ = new ExecCode($1);
-	}
-	| exec_code exec_block {
-		$1->addBaseBlock($2);
-		$$ = $1;
-	};
+class_declaration: "class" "identifier" "extends" "identifier" "{" declaration_list "}"
+				 | "class" "identifier" "{" declaration_list "}"
 
-exec_block: assignment {
-		$$ = $1;
-	}
-	| for {
-		$$ = $1;
-	}
-	| if {
-		$$ = $1;
-	}
-	| read {
-		$$ = $1;
-	}
-	| while {
-		$$ = $1;
-	}
-	| write {
-		$$ = $1;
-	};
+declaration_list: declaration_list declaration
+				| %empty
 
-assignment: "identifier" ":=" expr ";" {
-		$$ = new Assignment($1, $3);
-	};
+declaration: variable_declaration
+		   | method_declaration
 
-for: "for" "identifier" ":=" expr "to" expr "do" line_or_code ";" {
-		$$ = new For($2, $4, $6, $8);
-	}
+method_declaration: "public" type "identifier" "(" formals ")" "{" statement_list "}"
+				  | "public" type "identifier" "(" ")" "{" statement_list "}"
 
-if: "if" expr "then" line_or_code ";" {
-		$$ = new If($2, $4, nullptr);
-	}
-	| "if" expr "then" line_or_code "else" line_or_code ";" {
-		$$ = new If($2, $4, $6);
-	};
+variable_declaration: type "identifier" ";"
 
-line_or_code: exec_block {
-		$$ = new ExecCode($1);
-	}
-	| "begin" exec_code "rend" {
-		$$ = $2;
-	};
+formals: type "identifier"
+	  |  formals "," type "identifier"
 
-read: "read" "(" "identifier" ")" ";" {
-		$$ = new Read($3);
-	};
+type: simple_type 
+	| simple_type "[]"
 
-while: "while" expr "do" line_or_code ";" {
-		$$ = new While($2, $4);
-	};
+simple_type: "int"
+		   | "boolean" 
+		   | "void" 
+		   | "identifier"
 
-write: "write" "(" expr ")" ";"	{
-		$$ = new Write($3);
-	};
+statement_list: statement_list statement
+				| %empty
 
-expr: expr "+" expr {
-		$$ = new AddExpr($1, $3);
-	}
-	| expr "and" expr {
-		$$ = new AndExpr($1, $3);
-	}
-	| "int" {
-		$$ = new ConstExpr($1);
-	}
-	| "str" {
-		$$ = new ConstExpr($1);
-	}
-	| expr "div" expr {
-		$$ = new DivExpr($1, $3);
-	}
-	| expr "=" expr {
-		$$ = new EqExpr($1, $3);
-	}
-	| expr ">=" expr {
-		$$ = new GeqExpr($1, $3);
-	}
-	| expr ">" expr {
-		$$ = new GreaterExpr($1, $3);
-	}
-	| "identifier" {
-		$$ = new IdentExpr($1);
-	}
-	| expr "<=" expr {
-		$$ = new LeqExpr($1, $3);
-	}
-	| expr "<" expr {
-		$$ = new LessExpr($1, $3);
-	}
-	| expr "mod" expr {
-		$$ = new ModExpr($1, $3);
-	}
-	| expr "*" expr {
-		$$ = new MulExpr($1, $3);
-	}
-	| expr "<>" expr {
-		$$ = new NEqExpr($1, $3);
-	}
-	| "not" expr {
-		$$ = new NotExpr($2);
-	}
-	| expr "or" expr {
-		$$ = new OrExpr($1, $3);
-	}
-	| expr "-" expr {
-		$$ = new SubtractExpr($1, $3);
-	}
-	| "(" expr ")" {
-		$$ = $2;
-	};
+statement: "assert" "(" expr ")" ";" 
+    	 | variable_declaration 
+         | "{" statement_list "}"  
+         | "if"  "(" expr ")" statement   
+         | "if"  "(" expr ")" statement "else" statement 
+         | "while"  "(" expr ")" statement  
+         | "System" "." "out" "." "println" "(" expr ")" ";"  
+         | "lvalue" "=" expr ";" 
+         | "return" expr ";"  
+         | method_invocation ";"
+
+method_invocation: call_expr "." "identifier" "(" expr_list ")"
+				 | call_expr "." "identifier" "(" ")"
+
+call_expr: "this" 
+		  | method_invocation 
+		  | "new" simple_type "[" expr "]"  
+    	  | "new" simple_type "(" ")" 
+		  | lvalue
+
+expr_list: expr
+		  | expr_list "," expr 
+
+lvalue: "identifier" 
+	   | "identifier" "[" expr "]" 
+
+expr: expr "&&" expr  
+	| expr "||" expr
+	| expr "<" expr
+	| expr ">" expr
+	| expr ">=" expr
+	| expr "!=" expr
+	| expr "<=" expr
+	| expr "==" expr   
+	| expr "+" expr     
+	| expr "-" expr    
+	| expr "*" expr  
+	| expr "/" expr  
+	| expr "%" expr  
+	| call_expr "." "length"   
+	| call_expr
+	| "!" expr 
+    | "(" expr ")"   
+	| "int"   
+	| "true"  
+	| "false"     
 
 %%
 
