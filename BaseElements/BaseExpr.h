@@ -5,7 +5,7 @@
 
 class BaseExpr {
   public:
-    virtual var_t Accept(Visitor& visitor) = 0;
+    virtual int Accept(Visitor& visitor) = 0;
     virtual ~BaseExpr() = default;
 };
 

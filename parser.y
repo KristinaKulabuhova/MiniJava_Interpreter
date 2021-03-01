@@ -107,8 +107,8 @@
 %nterm <Formals*> formals
 %nterm <Type*> type
 %nterm <SimpleType*> simple_type
-%nterm <StatementList*> statement_list
-%nterm <Statement*> statement
+%nterm <ExecCode*> statement_list
+%nterm <BaseExecBlock*> statement
 %nterm <MethodInvocation*> method_invocation
 %nterm <CallExpr*> call_expr
 %nterm <ExprList*> expr_list
@@ -129,13 +129,13 @@
 
 program: main_class class_declaration_list {$$ = new Program($1, $2);}
 
-main_class: "class" "identifier" "{" "public" "static" "void" "main" "(" ")" "{" statement "}" "}" { $$ = new MainClass($2, $11); };
+main_class: "class" "identifier" "{" "public" "static" "void" "main" "(" ")" "{" statement_list "}" "}" { $$ = new MainClass($2, $11);};
 
-class_declaration_list: class_declaration_list class_declaration {$$ = $1; $$->AddDecl($2);}
-					  | %empty {$$ = new ClassDeclarationList();}
+class_declaration_list: class_declaration_list class_declaration {$$ = ;}
+					  | %empty {$$ = new }
 
-class_declaration: "class" "identifier" "extends" "identifier" "{" declaration_list "}" ...
-				 | "class" "identifier" "{" declaration_list "}" ...
+class_declaration: "class" "identifier" "extends" "identifier" "{" declaration_list "}"  {$$ = new Class($2, $4, $6)}
+				 | "class" "identifier" "{" declaration_list "}" 
 
 declaration_list: declaration_list declaration {$$ = $1; $$->AddDecl($2);}
 				| %empty {$$ = new DeclarationList();}
@@ -205,9 +205,9 @@ expr: expr "&&" expr  			{ $$ = new AndExpr($1, $3); }
 	| call_expr					{ $$ = $1; }
 	| "!" expr 					{ $$ = new NotExpr($2); }
     | "(" expr ")"   			{ $$ = $2; }
-	| "int"   					{ $$ = new AddExpr(); }
-	| "true"  					{ $$ = new TrueExpr(); }
-	| "false"     				{ $$ = new FalseExpr(); }
+	| "int"   					{ $$ = new AddExpr(); }//
+	| "true"  					{ $$ = new TrueExpr(); }//
+	| "false"     				{ $$ = new FalseExpr(); }//
 
 %%
 

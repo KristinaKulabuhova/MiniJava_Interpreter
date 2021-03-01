@@ -3,31 +3,15 @@
 
 #include "ForwardDeclarations.h"
 
-//class BaseExpr;
-//class AddExpr;
-//class DivExpr;
-//class ModExpr;
-//class MulExpr;
-//class SubtractExpr;
-//class IdentExpr;
-//class Assignment;
-//class ExecCode;
-//class While;
-//class For;
-//class LessExpr;
-//class GreaterExpr;
-//class LeqExpr;
-//class GeqExpr;
-//class EqExpr;
-//class NEqExpr;
-//class AndExpr;
-//class OrExpr;
-//class NotExpr;
-
 #include <variant>
 #include <string>
 
-using var_t = std::variant<int, std::string>;
+enum VarType {
+  int_t,
+  bool_t,
+  void_t,
+  unknown_t
+}
 
 class Visitor {
   public:
