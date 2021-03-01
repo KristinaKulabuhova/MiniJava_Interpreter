@@ -24,7 +24,7 @@
 %}
 
 id    [a-zA-Z][a-zA-Z_0-9]*
-str   "'"[^'\n]*"'"
+str   \"[^"\n]*["\n]
 int   [0-9]*
 blank [ \t\r]
 
@@ -81,7 +81,7 @@ blank [ \t\r]
 
 ","         return yy::parser::make_COMMA         (loc); 
 ";"         return yy::parser::make_SEMICOLON     (loc);
-"."         return yy::parser::make_COMMA         (loc);
+"."         return yy::parser::make_DOT           (loc);
 
 "&&"        return yy::parser::make_AND           (loc); 
 "||"        return yy::parser::make_OR            (loc);
