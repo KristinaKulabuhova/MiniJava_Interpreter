@@ -7,6 +7,6 @@ GreaterExpr::~GreaterExpr() {
     delete p_rhs;
 }
 
-var_t GreaterExpr::Accept(Visitor &visitor) {
+int GreaterExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }

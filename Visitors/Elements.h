@@ -11,8 +11,8 @@
 
 #include "Expressions/LessExpr.h"
 #include "Expressions/GreaterExpr.h"
-#include "Expressions/LeqExpr.h"
-#include "Expressions/GeqExpr.h"
+#include "Expressions/LEqExpr.h"
+#include "Expressions/GEqExpr.h"
 #include "Expressions/EqExpr.h"
 #include "Expressions/NEqExpr.h"
 #include "Expressions/AndExpr.h"

@@ -9,7 +9,7 @@ class MulExpr : public BaseExpr {
     BaseExpr* p_rhs;
     MulExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~MulExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
 };
 
 

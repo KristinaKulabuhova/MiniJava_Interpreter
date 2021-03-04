@@ -5,7 +5,7 @@ MulExpr::~MulExpr() {
     delete p_lhs;
 }
 
-var_t MulExpr::Accept(Visitor &visitor) {
+int MulExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }
 

@@ -6,6 +6,6 @@ LengthExpr::~LengthExpr() {
     delete array;
 }
 
-var_t LengthExpr::Accept(Visitor &visitor) {
+int LengthExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }

@@ -6,6 +6,6 @@ NotExpr::~NotExpr() {
     delete p_expr;
 }
 
-var_t NotExpr::Accept(Visitor &visitor) {
+int NotExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }

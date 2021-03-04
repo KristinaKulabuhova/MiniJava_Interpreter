@@ -1,7 +1,6 @@
 #ifndef PARSEREXAMPLE_INTERPRETER_H
 #define PARSEREXAMPLE_INTERPRETER_H
 
-#include "VarDeclList/VarDeclList.h"
 #include "Visitor.h"
 #include "Elements.h"
 
@@ -55,7 +54,7 @@ class Interpreter : public Visitor {
 
     var_t Visit(LessExpr* expression) override;
     var_t Visit(GreaterExpr* expression) override;
-    var_t Visit(LeqExpr* expression) override;
+    var_t Visit(LEqExpr* expression) override;
     var_t Visit(GeqExpr* expression) override;
     var_t Visit(EqExpr* expression) override;
     var_t Visit(NEqExpr* expression) override;

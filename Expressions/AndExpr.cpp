@@ -7,6 +7,6 @@ AndExpr::~AndExpr() {
     delete p_rhs;
 }
 
-var_t AndExpr::Accept(Visitor &visitor) {
+int AndExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }

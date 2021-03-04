@@ -9,7 +9,7 @@ class AndExpr : public BaseExpr {
     BaseExpr* p_rhs;
     AndExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~AndExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
 };
 
 

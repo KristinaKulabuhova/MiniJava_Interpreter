@@ -3,13 +3,13 @@
 
 #include "BaseElements/BaseExpr.h"
 
-class LeqExpr : public BaseExpr {
+class LEqExpr : public BaseExpr {
   public:
     BaseExpr* p_lhs;
     BaseExpr* p_rhs;
-    LeqExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~LeqExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    LEqExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
+    ~LEqExpr() override;
+    int Accept(Visitor& visitor) override;
 };
 
 

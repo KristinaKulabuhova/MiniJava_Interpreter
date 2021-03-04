@@ -5,7 +5,7 @@ AddExpr::~AddExpr() {
     delete p_rhs;
 }
 
-var_t AddExpr::Accept(Visitor &visitor) {
+int AddExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }
 

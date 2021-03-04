@@ -208,7 +208,7 @@ void Interpreter::CheckIntCorrectness(const var_t &val) {
     }
 }
 
-var_t Interpreter::Visit(LeqExpr *expression) {
+var_t Interpreter::Visit(LEqExpr *expression) {
     auto l_res = expression->p_lhs->Accept(*this);
     auto r_res = expression->p_rhs->Accept(*this);
     CheckOperationCorrectness("<=", true, l_res, r_res);

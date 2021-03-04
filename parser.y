@@ -99,14 +99,13 @@
 %nterm <Program*> program
 %nterm <MainClass*> main_class
 %nterm <ClassDeclarationList*> class_declaration_list
-%nterm <ClassDeclaration*> class_declaration
+%nterm <Class*> class_declaration
 %nterm <DeclarationList*> declaration_list
-%nterm <Declaration*> declaration
 %nterm <MethodDeclaration*> method_declaration
 %nterm <VariableDeclaration*> variable_declaration
 %nterm <Formals*> formals
 %nterm <Type*> type
-%nterm <SimpleType*> simple_type
+%nterm <VarType> simple_type
 %nterm <ExecCode*> statement_list
 %nterm <BaseExecBlock*> statement
 %nterm <MethodInvocation*> method_invocation
@@ -127,87 +126,88 @@
 
 %start program;
 
-program: main_class class_declaration_list {$$ = new Program($1, $2);}
+program: main_class class_declaration_list {$$ = new Program($1, $2); }
 
-main_class: "class" "identifier" "{" "public" "static" "void" "main" "(" ")" "{" statement_list "}" "}" { $$ = new MainClass($2, $11);};
+main_class: "class" "identifier" "{" "public" "static" "void" "main" "(" ")" "{" statement_list "}" "}" { $$ = new MainClass($2, $11); };
 
-class_declaration_list: class_declaration_list class_declaration {$$ = ;}
-					  | %empty {$$ = new }
+class_declaration_list: class_declaration_list class_declaration 	{ $$ = $1; $$->addClass($2); }
+					  | %empty 			{ $$ = new ClassDeclarationList(); }
 
-class_declaration: "class" "identifier" "extends" "identifier" "{" declaration_list "}"  {$$ = new Class($2, $4, $6)}
-				 | "class" "identifier" "{" declaration_list "}" 
+class_declaration:   "class" "identifier" "extends" "identifier" "{" declaration_list "}"  	{ $$ = new Class($2, $4, {}, {}); $$->initialize($6); }
+		   | "class" "identifier" "{" declaration_list "}" 				{ $$ = new Class($2, nullptr, {}, {}); $$->initialize($4); }
 
-declaration_list: declaration_list declaration {$$ = $1; $$->AddDecl($2);}
-				| %empty {$$ = new DeclarationList();}
+declaration_list: declaration_list variable_declaration {$$ = $1; $$->AddDecl($2);}
+		  | declaration_list method_declaration {$$ = $1; $$->AddDecl($2);}
+		  | %empty 				{$$ = new DeclarationList();}
 
-declaration: variable_declaration {$$ = $1;}
-		   | method_declaration {$$ = $1;}
+method_declaration: "public" type "identifier" "(" formals ")" "{" statement_list "}"		{}
+				  | "public" type "identifier" "(" ")" "{" statement_list "}"	{}
 
-method_declaration: "public" type "identifier" "(" formals ")" "{" statement_list "}"
-				  | "public" type "identifier" "(" ")" "{" statement_list "}"
+variable_declaration: type "identifier" ";"	{}
 
-variable_declaration: type "identifier" ";"
+formals:    type "identifier"			{ $$ = new Formals($1, $2); }
+	  | formals "," type "identifier"	{ $$ = $1, $$->addVar($3, $4); }
 
-formals: type "identifier"
-	  |  formals "," type "identifier"
+type:	  simple_type		 {$$ = $1;}
+	| simple_type "[]"	 {}
 
-type: simple_type {$$ = $1;}
-	| simple_type "[]" ...
+simple_type:    "int" 		{ $$ = int_t; }
+	      | "boolean" 	{ $$ = bool_t; }
+	      | "void" 		{ $$ = void_t; }
+	      | "identifier" 	{ $$ = custom_t; }
 
-simple_type: "int" {$$ = new SimpleType("int");}
-		   | "boolean" {$$ = new SimpleType("boolean");}
-		   | "void" {$$ = new SimpleType("void");}
-		   | "identifier" {$$ = new SimpleType($1);}
+statement_list:   statement_list statement	{ $$ = $1; $$->addBaseBlock($2); }
+		| %empty			{ $$ = new ExecCode(); }
 
-statement_list: statement_list statement
-				| %empty
+statement: "assert" "(" expr ")" ";" 				{ $$ = new AssertExpr($3); }
+    	 | variable_declaration 				{ $$ = $1; }
+         | "{" statement_list "}"  				{ $$ = new Block($2); }
+         | "if"  "(" expr ")" statement   			{ $$ = new If($3, $5, nullptr); }
+         | "if"  "(" expr ")" statement "else" statement 	{ $$ = new If($3, $5, $7); }
+         | "while"  "(" expr ")" statement 			{ $$ = new While($3, $5); }
+         | "System" "." "out" "." "println" "(" expr ")" ";"  	{ $$ = new Println($7); }
+         | lvalue "=" expr ";" 					{ $$ = new Assignment($1, $3)}
+         | "return" expr ";"  					{ $$ = new Return($2); }
+         | method_invocation ";"	 			{}
 
-statement: "assert" "(" expr ")" ";" 
-    	 | variable_declaration 
-         | "{" statement_list "}"  
-         | "if"  "(" expr ")" statement   
-         | "if"  "(" expr ")" statement "else" statement 
-         | "while"  "(" expr ")" statement {} 
-         | "System" "." "out" "." "println" "(" expr ")" ";"  
-         | "lvalue" "=" expr ";" 
-         | "return" expr ";"  {} 
-         | method_invocation ";" {$$ = MethodInvocation($1);}
+lvalue: "identidier"			{ $$ = new Lvalue(new VarExpr($1)); }
+       | "identifier" "[" expr "]"	{ $$ = new Lvalue(new VarExpr($1, $3)); }
+       | field_invocation		{ $$ = new Lvalue(new FieldExpr($1)); }
 
-method_invocation: call_expr "." "identifier" "(" expr_list ")"
-				 | call_expr "." "identifier" "(" ")"
+method_invocation:   call_expr "." "identifier" "(" expr_list ")" 	{}
+		   | call_expr "." "identifier" "(" ")"	{}
 
-call_expr: "this" {}
-		  | method_invocation 
-		  | "new" simple_type "[" expr "]"  
-    	  | "new" simple_type "(" ")" 
-		  | lvalue		{ $$ = new Lvalue($1); }
+field_invocation:   "this" "." "identifier"			{ $$ = new FieldExpr($3); }
+		  | "this" "." "identifier" "[" expr "]"	{ $$ = new FieldExpr($3, $5); }
 
-expr_list: expr
-		  | expr_list "," expr 
+expr_list:   expr			{ $$ = new ExecCode($1); }
+	   | expr_list "," expr 	{ $$ = $1; $$->addBaseBlock($3);}
 
-lvalue: "identifier" 
-	   | "identifier" "[" expr "]" 
-
-expr: expr "&&" expr  			{ $$ = new AndExpr($1, $3); }
+expr: 	  expr "&&" expr  			{ $$ = new AndExpr($1, $3); }
 	| expr "||" expr			{ $$ = new OrExpr($1, $3); }
 	| expr "<" expr				{ $$ = new LessExpr($1, $3); }
 	| expr ">" expr				{ $$ = new GreaterExpr($1, $3); }
-	| expr ">=" expr			{ $$ = new GeqExpr($1, $3); }
-	| expr "!=" expr			{ $$ = new NeqExpr($1, $3); }
-	| expr "<=" expr			{ $$ = new LeqExpr($1, $3); }
+	| expr ">=" expr			{ $$ = new GEqExpr($1, $3); }
+	| expr "!=" expr			{ $$ = new NEqExpr($1, $3); }
+	| expr "<=" expr			{ $$ = new LEqExpr($1, $3); }
 	| expr "==" expr   			{ $$ = new EqExpr($1, $3); }
 	| expr "+" expr    			{ $$ = new AddExpr($1, $3); }
-	| expr "-" expr     		{ $$ = new SubtractExpr($1, $3); }
+	| expr "-" expr     			{ $$ = new SubtractExpr($1, $3); }
 	| expr "*" expr  			{ $$ = new MulExpr($1, $3); }
 	| expr "/" expr  			{ $$ = new DivExpr($1, $3); }
 	| expr "%" expr  			{ $$ = new ModExpr($1, $3); }
-	| call_expr "." "length"    { $$ = new LengthExpr($1); }
-	| call_expr					{ $$ = $1; }
-	| "!" expr 					{ $$ = new NotExpr($2); }
-    | "(" expr ")"   			{ $$ = $2; }
-	| "int"   					{ $$ = new AddExpr(); }//
-	| "true"  					{ $$ = new TrueExpr(); }//
-	| "false"     				{ $$ = new FalseExpr(); }//
+	| expr "[" expr "]"			{ $$ = new  }
+	| expr "." "length"    			{ $$ = new LengthExpr($1); }
+	| "new" simple_type "[" expr "]"	{ $$ = new }
+	| "new" "identifier" "(" ")"		{ $$ = new }
+	| "identifier"				{ $$ = new VarExpr($1);}
+	| "identifier" "[" expr "]" 		{ $$ = new VarExpr($1, $3); }
+	| "number"				{ $$ = new }
+	| "this"				{ $$ = new ThisExpr(); }
+	| "true"				{ $$ = new TrueExpr(); }
+	| "false"				{ $$ = new FalseExpr(); }
+	| method_invocation			{ $$ = new }
+	| field_invocation			{ $$ = $1 }
 
 %%
 

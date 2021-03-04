@@ -10,28 +10,32 @@ enum VarType {
   int_t,
   bool_t,
   void_t,
-  unknown_t
-}
+  custom_t
+};
 
 class Visitor {
   public:
-    virtual var_t Visit(AddExpr* expression) = 0;
-    virtual var_t Visit(DivExpr* expression) = 0;
-    virtual var_t Visit(ModExpr* expression) = 0;
-    virtual var_t Visit(MulExpr* expression) = 0;
-    virtual var_t Visit(SubtractExpr* expression) = 0;
-    virtual var_t Visit(IdentExpr* expression) = 0;
-    virtual var_t Visit(ConstExpr* expression) = 0;
+    virtual int Visit(AddExpr* expression) = 0;
+    virtual int Visit(DivExpr* expression) = 0;
+    virtual int Visit(ModExpr* expression) = 0;
+    virtual int Visit(MulExpr* expression) = 0;
+    virtual int Visit(SubtractExpr* expression) = 0;
+    virtual int Visit(IdentExpr* expression) = 0;
+    virtual int Visit(ConstExpr* expression) = 0;
 
-    virtual var_t Visit(LessExpr* expression) = 0;
-    virtual var_t Visit(GreaterExpr* expression) = 0;
-    virtual var_t Visit(LeqExpr* expression) = 0;
-    virtual var_t Visit(GeqExpr* expression) = 0;
-    virtual var_t Visit(EqExpr* expression) = 0;
-    virtual var_t Visit(NEqExpr* expression) = 0;
-    virtual var_t Visit(AndExpr* expression) = 0;
-    virtual var_t Visit(OrExpr* expression) = 0;
-    virtual var_t Visit(NotExpr* expression) = 0;
+    virtual int Visit(LessExpr* expression) = 0;
+    virtual int Visit(GreaterExpr* expression) = 0;
+    virtual int Visit(LEqExpr* expression) = 0;
+    virtual int Visit(GEqExpr* expression) = 0;
+    virtual int Visit(EqExpr* expression) = 0;
+    virtual int Visit(NEqExpr* expression) = 0;
+    virtual int Visit(AndExpr* expression) = 0;
+    virtual int Visit(OrExpr* expression) = 0;
+    virtual int Visit(NotExpr* expression) = 0;
+    virtual int Visit(LengthExpr* expression) = 0;
+
+    virtual int Visit(FalseExpr* expression) = 0;
+    virtual int Visit(TrueExpr* expression) = 0;
 
     virtual void Visit(Assignment* assignment) = 0;
     virtual void Visit(ExecCode* code) = 0;

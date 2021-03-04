@@ -7,6 +7,6 @@ EqExpr::~EqExpr() {
     delete p_rhs;
 }
 
-var_t EqExpr::Accept(Visitor &visitor) {
+int EqExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }

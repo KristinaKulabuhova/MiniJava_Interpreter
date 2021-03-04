@@ -8,7 +8,7 @@ class NotExpr : public BaseExpr {
     BaseExpr* p_expr;
     explicit NotExpr(BaseExpr* p_expr);
     ~NotExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
 };
 
 

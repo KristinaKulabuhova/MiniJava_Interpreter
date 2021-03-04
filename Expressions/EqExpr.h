@@ -9,7 +9,7 @@ class EqExpr : public BaseExpr {
     BaseExpr* p_rhs;
     EqExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~EqExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
 };
 
 

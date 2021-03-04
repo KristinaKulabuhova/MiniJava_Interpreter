@@ -9,7 +9,7 @@ class SubtractExpr : public BaseExpr {
     BaseExpr* p_rhs;
     SubtractExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~SubtractExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
 };
 
 

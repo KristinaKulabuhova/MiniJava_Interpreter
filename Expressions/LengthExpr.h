@@ -6,9 +6,9 @@
 class LengthExpr : public BaseExpr {
   public:
     BaseExpr* array;
-    LeqExpr(BaseExpr* array);
-    ~LeqExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    LengthExpr(BaseExpr* array);
+    ~LengthExpr() override;
+    int Accept(Visitor& visitor) override;
 };
 
 

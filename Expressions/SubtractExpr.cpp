@@ -5,7 +5,7 @@ SubtractExpr::~SubtractExpr() {
     delete p_lhs;
 }
 
-var_t SubtractExpr::Accept(Visitor &visitor) {
+int SubtractExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }
 

@@ -7,6 +7,6 @@ OrExpr::~OrExpr() {
     delete p_rhs;
 }
 
-var_t OrExpr::Accept(Visitor &visitor) {
+int OrExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }

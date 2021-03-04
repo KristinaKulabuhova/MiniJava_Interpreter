@@ -7,6 +7,6 @@ LessExpr::~LessExpr() {
     delete p_rhs;
 }
 
-var_t LessExpr::Accept(Visitor &visitor) {
+int LessExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }

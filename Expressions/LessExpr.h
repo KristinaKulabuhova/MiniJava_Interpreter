@@ -9,7 +9,7 @@ class LessExpr : public BaseExpr {
     BaseExpr* p_rhs;
     LessExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~LessExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
 };
 
 

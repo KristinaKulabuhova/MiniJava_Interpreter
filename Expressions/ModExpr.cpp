@@ -5,7 +5,7 @@ ModExpr::~ModExpr() {
     delete p_rhs;
 }
 
-var_t ModExpr::Accept(Visitor &visitor) {
+int ModExpr::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }
 

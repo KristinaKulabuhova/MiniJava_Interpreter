@@ -3,13 +3,13 @@
 
 #include "BaseElements/BaseExpr.h"
 
-class GeqExpr : public BaseExpr{
+class GEqExpr : public BaseExpr{
   public:
     BaseExpr* p_lhs;
     BaseExpr* p_rhs;
-    GeqExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~GeqExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    GEqExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
+    ~GEqExpr() override;
+    int Accept(Visitor& visitor) override;
 };
 
 

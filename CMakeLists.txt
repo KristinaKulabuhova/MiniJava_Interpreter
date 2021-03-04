@@ -47,16 +47,16 @@ add_executable(
         Expressions/NEqExpr.cpp
         Expressions/EqExpr.h
         Expressions/EqExpr.cpp
-        Expressions/GeqExpr.h
-        Expressions/GeqExpr.cpp
-        Expressions/LeqExpr.h
-        Expressions/LeqExpr.cpp
+        Expressions/GEqExpr.h
+        Expressions/GEqExpr.cpp
+        Expressions/LEqExpr.h
+        Expressions/LEqExpr.cpp
         Expressions/GreaterExpr.h
         Expressions/GreaterExpr.cpp
         Expressions/LessExpr.h
         Expressions/LessExpr.cpp
-        Expressions/ConstExpr.h
-        Expressions/ConstExpr.cpp
+#        Expressions/ConstExpr.h
+#        Expressions/ConstExpr.cpp
         Expressions/IdentExpr.h
         Expressions/IdentExpr.cpp
         Expressions/AddExpr.h
@@ -69,27 +69,51 @@ add_executable(
         Expressions/ModExpr.cpp
         Expressions/MulExpr.h
         Expressions/MulExpr.cpp
-        MainElements/Assignment.h
-        MainElements/Assignment.cpp
-        MainElements/If.h
-        MainElements/If.cpp
+        Expressions/LengthExpr.h
+        Expressions/LengthExpr.cpp
+        ExecBlocks/Assignment.h
+        ExecBlocks/Assignment.cpp
+        ExecBlocks/If.h
+        ExecBlocks/If.cpp
         BaseElements/BaseExecBlock.h
-        MainElements/ExecCode.h
-        MainElements/ExecCode.cpp
-        MainElements/While.h
-        MainElements/While.cpp
-        MainElements/For.h
-        MainElements/For.cpp
-        MainElements/Read.h
-        MainElements/Read.cpp
-        MainElements/Write.h
-        MainElements/Write.cpp
+        ExecBlocks/ExecCode.h
+        ExecBlocks/ExecCode.cpp
+        ExecBlocks/While.h
+        ExecBlocks/While.cpp
+        ExecBlocks/For.h
+        ExecBlocks/For.cpp
+#        ExecBlocks/Read.h
+#        ExecBlocks/Read.cpp
+#        ExecBlocks/Write.h
+#        ExecBlocks/Write.cpp
         Visitors/Interpreter.h
         Visitors/Interpreter.cpp
-        VarDeclList/VarDeclList.h
-        VarDeclList/VarDeclList.cpp
+#        VarDeclList/VarDeclList.h
+#        VarDeclList/VarDeclList.cpp
         Visitors/Elements.h
+        MainElements/MethodDeclaration.h
+        MainElements/MethodDeclaration.cpp
+        ExecBlocks/VariableDeclaration.h
+        ExecBlocks/VariableDeclaration.cpp
+        MainElements/MainClass.h
+        MainElements/MainClass.cpp
+        MainElements/Class.h
+        MainElements/Class.cpp
+        SubsidiaryClasses/DeclarationList.h
+        SubsidiaryClasses/DeclarationList.cpp
+#        BaseElements/Declaration.h
+        Expressions/TrueExpr.cpp
+        Expressions/TrueExpr.h
+        Expressions/FalseExpr.cpp
+        Expressions/FalseExpr.h
+        SubsidiaryClasses/ClassDeclarationList.cpp
+        SubsidiaryClasses/ClassDeclarationList.h
+        SubsidiaryClasses/Formals.cpp
+        SubsidiaryClasses/Formals.h
+#        MainElements/VariableCall.cpp
+#        MainElements/VariableCall.h
+#        MainElements/VariableArrCall.cpp
+#        MainElements/VariableArrCall.h
         Program.h
-        Program.cpp
-)
+        Program.cpp ExecBlocks/Block.cpp ExecBlocks/Block.h Expressions/VarExpr.cpp Expressions/VarExpr.h Expressions/ThisExpr.cpp Expressions/ThisExpr.h Expressions/FieldExpr.cpp Expressions/FieldExpr.h ExecBlocks/Lvalue.cpp ExecBlocks/Lvalue.h ExecBlocks/AssertExpr.cpp ExecBlocks/AssertExpr.h ExecBlocks/Return.cpp ExecBlocks/Return.h ExecBlocks/Println.cpp ExecBlocks/Println.h)
 target_include_directories(pascal PRIVATE ${pascal_SOURCE_DIR})

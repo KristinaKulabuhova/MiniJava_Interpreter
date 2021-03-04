@@ -3,11 +3,11 @@
 
 #include "Visitors/Visitor.h"
 
-class Variable {
+class VariableDeclaration : public BaseExpr {
   public:
     virtual void Accept(Visitor& visitor);
-    virtual ~BaseClass() = default;
-    Variable(VarType type, std::string name, int value = 0);
+    virtual ~VariableDeclaration() = default;
+    VariableDeclaration(VarType type, std::string name, int value = 0);
 
   private:
     VarType type_;

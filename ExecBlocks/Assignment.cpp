@@ -1,6 +1,6 @@
 #include "Assignment.h"
 
-Assignment::Assignment(std::string var_name_, BaseExpr *expression) : var_name_(std::move(var_name_)), expression(expression) {}
+Assignment::Assignment(Lvalue* var, BaseExpr *expression) : var(var), expression(expression) {}
 
 void Assignment::Accept(Visitor &visitor) {
     visitor.Visit(this);

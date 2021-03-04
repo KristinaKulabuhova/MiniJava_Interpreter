@@ -9,7 +9,7 @@ class OrExpr : public BaseExpr {
     BaseExpr* p_rhs;
     OrExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~OrExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
 };
 
 

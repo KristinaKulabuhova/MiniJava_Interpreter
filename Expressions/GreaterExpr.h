@@ -9,7 +9,7 @@ class GreaterExpr : public BaseExpr {
     BaseExpr* p_rhs;
     GreaterExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~GreaterExpr() override;
-    var_t Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
 };
 
 

@@ -2,12 +2,12 @@
 #define PARSEREXAMPLE_MAINCLASS_H
 
 #include "Visitors/Visitor.h"
-#include "BaseExecBloch.h"
 #include "Class.h"
+#include "MethodDeclaration.h"
 
 class MainClass : public Class {
   public:
-    virtual ~MainClass() = default;
+    ~MainClass() override = default;
     MainClass(std::string name, ExecCode* exec_code);
 };
 
