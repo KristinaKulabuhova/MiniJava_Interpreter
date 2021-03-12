@@ -1,8 +1,8 @@
 #include "For.h"
 
 
-void For::Accept(Visitor &visitor) {
-    visitor.Visit(this);
+int For::Accept(Visitor &visitor) {
+    return visitor.Visit(this);
 }
 
 For::~For() {

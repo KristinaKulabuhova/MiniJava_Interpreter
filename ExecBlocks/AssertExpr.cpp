@@ -2,8 +2,8 @@
 
 AssertExpr::AssertExpr(BaseExpr *expression) : expression(expression) {}
 
-void AssertExpr::Accept(Visitor &visitor) {
-    visitor.Visit(this);
+int AssertExpr::Accept(Visitor &visitor) {
+    return visitor.Visit(this);
 }
 
 AssertExpr::~AssertExpr() {

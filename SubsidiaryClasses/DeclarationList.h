@@ -2,7 +2,7 @@
 #define PARSEREXAMPLE_DECLARATIONLIST_H
 
 #include "Visitors/Visitor.h"
-#include "MainElements/MethodDeclaration.h"
+#include "ExecBlocks/MethodDeclaration.h"
 #include <vector>
 #include <variant>
 

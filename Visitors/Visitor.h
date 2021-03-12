@@ -13,6 +13,11 @@ enum VarType {
   custom_t
 };
 
+struct VarTypeStr {
+    VarType type;
+    bool array{false};
+};
+
 class Visitor {
   public:
     virtual int Visit(AddExpr* expression) = 0;
@@ -37,13 +42,13 @@ class Visitor {
     virtual int Visit(FalseExpr* expression) = 0;
     virtual int Visit(TrueExpr* expression) = 0;
 
-    virtual void Visit(Assignment* assignment) = 0;
-    virtual void Visit(ExecCode* code) = 0;
-    virtual void Visit(If* branching) = 0;
-    virtual void Visit(While* while_cycle) = 0;
-    virtual void Visit(For* for_cycle) = 0;
-    virtual void Visit(Read* read_module) = 0;
-    virtual void Visit(Write* write_module) = 0;
+    virtual int Visit(Assignment* assignment) = 0;
+    virtual int Visit(ExecCode* code) = 0;
+    virtual int Visit(If* branching) = 0;
+    virtual int Visit(While* while_cycle) = 0;
+    virtual int Visit(For* for_cycle) = 0;
+    virtual int Visit(Read* read_module) = 0;
+    virtual int Visit(Write* write_module) = 0;
 };
 
 #endif //PARSEREXAMPLE_VISITOR_H

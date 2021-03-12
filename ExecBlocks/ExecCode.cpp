@@ -6,8 +6,8 @@ ExecCode::~ExecCode() {
     }
 }
 
-void ExecCode::Accept(Visitor &visitor) {
-    visitor.Visit(this);
+int ExecCode::Accept(Visitor &visitor) {
+    return visitor.Visit(this);
 }
 
 void ExecCode::addBaseBlock(BaseExecBlock *line) {

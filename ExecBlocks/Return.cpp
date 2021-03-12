@@ -2,8 +2,8 @@
 
 Return::Return(BaseExpr *expression) : expression(expression) {}
 
-void Return::Accept(Visitor &visitor) {
-    visitor.Visit(this);
+int Return::Accept(Visitor &visitor) {
+    return visitor.Visit(this);
 }
 
 Return::~Return() {

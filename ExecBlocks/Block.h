@@ -8,7 +8,7 @@ class Block : public BaseExecBlock {
   public:
     ExecCode* exec_code;
     Block(ExecCode* exec_code);
-    void Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
     ~Block() override;
 };
 

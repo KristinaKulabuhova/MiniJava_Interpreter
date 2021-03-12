@@ -8,7 +8,7 @@ class Return : public BaseExecBlock {
   public:
     BaseExpr* expression;
     explicit Return(BaseExpr* expression);
-    void Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
     ~Return() override;
 };
 

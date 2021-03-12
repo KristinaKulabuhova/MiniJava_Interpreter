@@ -25,7 +25,7 @@
 
 id    [a-zA-Z][a-zA-Z_0-9]*
 str   \"[^"\n]*["\n]
-int   [0-9]*
+num   [0-9]*
 blank [ \t\r]
 
 %{
@@ -101,7 +101,7 @@ blank [ \t\r]
 "*"         return yy::parser::make_STAR          (loc);  
 
 {str}       return yy::parser::make_STR       (yytext, loc);
-{int}       return yy::parser::make_INT       (yytext, loc);
+{num}       return yy::parser::make_NUM       (yytext, loc);
 {id}        return yy::parser::make_IDENTIFIER(yytext, loc);
 .          {
                 throw yy::parser::syntax_error(loc, "invalid character: " + std::string(yytext));

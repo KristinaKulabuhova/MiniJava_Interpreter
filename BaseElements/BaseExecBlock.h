@@ -5,7 +5,7 @@
 
 class BaseExecBlock {
   public:
-    virtual void Accept(Visitor& visitor) = 0;
+    virtual int Accept(Visitor& visitor) = 0;
     virtual ~BaseExecBlock() = default;
 };
 

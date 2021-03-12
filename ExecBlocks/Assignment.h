@@ -11,7 +11,7 @@ class Assignment : public BaseExecBlock {
     Lvalue* var;
     BaseExpr* expression;
     Assignment(Lvalue* var, BaseExpr* expression);
-    void Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
     ~Assignment() override;
 };
 

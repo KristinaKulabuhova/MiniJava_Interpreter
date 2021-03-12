@@ -2,8 +2,8 @@
 
 Println::Println(BaseExpr *expression) : expression(expression) {}
 
-void Println::Accept(Visitor &visitor) {
-    visitor.Visit(this);
+int Println::Accept(Visitor &visitor) {
+    return visitor.Visit(this);
 }
 
 Println::~Println() {

@@ -9,7 +9,7 @@ class While : public BaseExecBlock {
     BaseExpr* statement;
     ExecCode* cycle_body;
     While(BaseExpr* statement, ExecCode* cycle_body);
-    void Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
     ~While() override;
 };
 

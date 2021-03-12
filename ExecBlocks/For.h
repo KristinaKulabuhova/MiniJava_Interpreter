@@ -13,7 +13,7 @@ class For : public BaseExecBlock {
     BaseExpr* upper_bound;
     ExecCode* cycle_body;
     For(std::string var_name, BaseExpr* lower_bound, BaseExpr* upper_bound, ExecCode* cycle_body);
-    void Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
     ~For() override;
 };
 

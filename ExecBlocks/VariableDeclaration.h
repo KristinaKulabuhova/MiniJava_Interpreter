@@ -2,15 +2,16 @@
 #define PARSEREXAMPLE_VARIABLE_H
 
 #include "Visitors/Visitor.h"
+#include "BaseElements/BaseExpr.h"
 
 class VariableDeclaration : public BaseExpr {
   public:
-    virtual void Accept(Visitor& visitor);
+    virtual int Accept(Visitor& visitor) override;
     virtual ~VariableDeclaration() = default;
-    VariableDeclaration(VarType type, std::string name, int value = 0);
+    VariableDeclaration(VarTypeStr type, std::string name, int value = 0);
 
   private:
-    VarType type_;
+    VarTypeStr type_;
     std::string name_;
     int value_;
 };

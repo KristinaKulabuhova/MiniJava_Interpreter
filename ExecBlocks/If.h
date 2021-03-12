@@ -10,7 +10,7 @@ class If : public BaseExecBlock {
     ExecCode* true_branch;
     ExecCode* false_branch;
     If(BaseExpr* statement, ExecCode* true_branch, ExecCode* false_branch);
-    void Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
     ~If() override;
 };
 

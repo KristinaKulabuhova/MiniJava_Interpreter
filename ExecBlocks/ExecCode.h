@@ -10,7 +10,7 @@ class ExecCode : public BaseExecBlock {
     std::vector<BaseExecBlock*> program_lines_;
     ExecCode() = default;
     explicit ExecCode(BaseExecBlock* line);
-    void Accept(Visitor& visitor) override;
+    int Accept(Visitor& visitor) override;
     ~ExecCode() override;
     void addBaseBlock(BaseExecBlock* line);
 };

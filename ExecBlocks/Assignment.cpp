@@ -2,8 +2,8 @@
 
 Assignment::Assignment(Lvalue* var, BaseExpr *expression) : var(var), expression(expression) {}
 
-void Assignment::Accept(Visitor &visitor) {
-    visitor.Visit(this);
+int Assignment::Accept(Visitor &visitor) {
+    return visitor.Visit(this);
 }
 
 Assignment::~Assignment() {
