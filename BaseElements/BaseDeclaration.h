@@ -5,7 +5,7 @@
 class BaseDeclaration {
   public:
     virtual int Accept(Visitor& visitor) = 0;
-    virtual ~BaseExpr() = default;
+    virtual ~BaseDeclaration() = default;
 };
 
 #endif //MINI_JAVA_BASEDECLARATION_H

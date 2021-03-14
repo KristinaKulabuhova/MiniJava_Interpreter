@@ -5,74 +5,67 @@
 #include "Elements.h"
 
 #include <map>
+#include <variant>
+#include <vector>
 #include <stdexcept>
 #include <iostream>
 
-class MultiDeclError : public std::runtime_error {
-  public:
-    explicit MultiDeclError(const std::string& var_name) :
-    std::runtime_error("Multiple declaration of variable \"" + var_name + "\".") {};
-};
-
-class UndefRefError : public std::runtime_error {
-  public:
-    explicit UndefRefError(const std::string& var_name) :
-    std::runtime_error("Undefined reference to \"" + var_name + "\".") {};
-};
-
-class WrongBinaryOperandsError : public std::runtime_error {
-  public:
-    explicit WrongBinaryOperandsError(const std::string& operation,
-                                      const std::string& first_type, const std::string& second_type) :
-    std::runtime_error("Wrong operands to binary operation \""
-    + operation + "\": " + first_type + "\" and \"" + second_type + "\".") {};
-};
-
-class ExpectedBoolError : public std::runtime_error {
-  public:
-    explicit ExpectedBoolError(const std::string& type) :
-    std::runtime_error("Can't interpret type \"" + type + "\" as bool.") {};
-};
-
-class ExpectedIntError : public std::runtime_error {
-  public:
-    explicit ExpectedIntError(const std::string& type) :
-            std::runtime_error("Can't interpret type \"" + type + "\" as integer.") {};
-};
-
 class Interpreter : public Visitor {
   public:
-    std::map<std::string, var_t> var_value;
     explicit Interpreter(const std::vector<VarDeclList*>& var_decl_list);
-    var_t Visit(AddExpr* expression) override;
-    var_t Visit(DivExpr* expression) override;
-    var_t Visit(ModExpr* expression) override;
-    var_t Visit(MulExpr* expression) override;
-    var_t Visit(SubtractExpr* expression) override;
-    var_t Visit(IdentExpr* expression) override;
-    var_t Visit(ConstExpr* expression) override;
+    int Visit(AtExpr* expression) override;
+    int Visit(FieldExpr* expression) override;
+    int Visit(NewArrExpr* expression) override;
+    int Visit(NewCustomVarExpr* expression) override;
 
-    var_t Visit(LessExpr* expression) override;
-    var_t Visit(GreaterExpr* expression) override;
-    var_t Visit(LEqExpr* expression) override;
-    var_t Visit(GeqExpr* expression) override;
-    var_t Visit(EqExpr* expression) override;
-    var_t Visit(NEqExpr* expression) override;
-    var_t Visit(AndExpr* expression) override;
-    var_t Visit(OrExpr* expression) override;
-    var_t Visit(NotExpr* expression) override;
+    int Visit(AndExpr* expression) override;
+    int Visit(NotExpr* expression) override;
+    int Visit(OrExpr* expression) override;
 
-    void Visit(Assignment* assignment) override;
-    void Visit(ExecCode* code) override;
-    void Visit(If* branching) override;
-    void Visit(While* while_cycle) override;
-    void Visit(For* for_cycle) override;
-    void Visit(Read* read_module) override;
-    void Visit(Write* write_module) override;
-    void CheckOperationCorrectness(const std::string& operation, bool only_for_numbers, const var_t& first_val, const var_t& second_val);
-    void CheckBoolCorrectness(const var_t& val);
-    void CheckIntCorrectness(const var_t& val);
-    void GetType(std::pair<int, std::string>& type, const var_t& val);
+    int Visit(AddExpr* expression) override;
+    int Visit(ModExpr* expression) override;
+    int Visit(MulExpr* expression) override;
+    int Visit(DivExpr* expression) override;
+    int Visit(SubtractExpr* expression) override;
+
+    int Visit(EqExpr* expression) override;
+    int Visit(GEqExpr* expression) override;
+    int Visit(Greater* expression) override;
+    int Visit(NEqExpr* expression) override;
+    int Visit(LEqExpr* expression) override;
+    int Visit(LessExpr* expression) override;  
+    
+    int Visit(IdentExpr* expression) override;
+    int Visit(LengthExpr* expression) override;
+    int Visit(VarExpr* expression) override;
+    int Visit(NumExpr* expression) override;
+    int Visit(ThisExpr* expression) override;
+    
+    int Visit(FalseExpr* expression) override;
+    int Visit(TrueExpr* expression) override;
+
+    int Visit(Class* expression) override;
+    int Visit(MainClass* expression) override;
+    int Visit(MethodInvocation* expression) override;
+
+    int Visit(For* expression) override;
+    int Visit(If* branching) override;
+    int Visit(While* expression) override;
+
+    int Visit(Lvalue* expression) override;
+    int Visit(MethodDeclaration* expression) override;
+    int Visit(Println* expression) override;
+    int Visit(Return* expression) override;
+    int Visit(VariableDeclaration* expression) override;
+    int Visit(AssertExpr* expression) override;
+    int Visit(Assignment* assignment) override;
+    int Visit(Block* expression) override;
+    int Visit(ExecCode* expression) override; 
+
+    int GetRusult(Program* program);
+
+    private:
+    std::map<std::string, VarType> var_value; 
 };
 
 

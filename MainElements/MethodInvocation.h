@@ -12,6 +12,7 @@ class MethodInvocation : public BaseExpr, public BaseExecBlock {
     BaseExpr* callable_expr;
     std::string name;
     ExprList* arguments;
+    
     MethodInvocation(BaseExpr* callable_expr, std::string name, ExprList* arguments);
     int Accept(Visitor& visitor) override;
 };

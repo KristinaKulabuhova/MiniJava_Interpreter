@@ -7,7 +7,7 @@ class TrueExpr : BaseExpr{
   public:
     TrueExpr() = default;
     ~TrueExpr() override = default;
-    int Accept(Visitor& visitor) override;
+
 };
 
 
