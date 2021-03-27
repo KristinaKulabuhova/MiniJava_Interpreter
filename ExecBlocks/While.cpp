@@ -1,6 +1,6 @@
 #include "While.h"
 
-While::While(BaseExpr *statement, ExecCode *cycle_body) : statement(statement), cycle_body(cycle_body) {}
+While::While(BaseExpr *statement, BaseExecBlock *cycle_body) : statement(statement), cycle_body(cycle_body) {}
 
 int While::Accept(Visitor &visitor) {
     return visitor.Visit(this);

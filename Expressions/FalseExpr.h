@@ -3,7 +3,7 @@
 
 #include "BaseElements/BaseExpr.h"
 
-class FalseExpr : BaseExpr {
+class FalseExpr : public BaseExpr {
   public:
     FalseExpr() = default;
     ~FalseExpr() override = default;

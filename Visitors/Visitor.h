@@ -6,6 +6,9 @@
 #include <variant>
 #include <string>
 
+#ifndef VARTYPE
+#define VARTYPE
+
 enum VarType {
   int_t,
   bool_t,
@@ -13,10 +16,18 @@ enum VarType {
   custom_t
 };
 
+#endif
+
+#ifndef VARTYPESTR
+#define VARTYPESTR
+
 struct VarTypeStr {
-    VarType type;
+    VarType type{int_t};
     bool array{false};
+    explicit VarTypeStr(VarType type, bool array = false) : type(type), array(array) {}
 };
+
+#endif
 
 class Visitor {
   public:
@@ -37,7 +48,7 @@ class Visitor {
 
     virtual int Visit(EqExpr* expression) = 0;
     virtual int Visit(GEqExpr* expression) = 0;
-    virtual int Visit(Greater* expression) = 0;
+    virtual int Visit(GreaterExpr* expression) = 0;
     virtual int Visit(NEqExpr* expression) = 0;
     virtual int Visit(LEqExpr* expression) = 0;
     virtual int Visit(LessExpr* expression) = 0;  

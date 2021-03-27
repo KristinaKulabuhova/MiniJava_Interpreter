@@ -7,8 +7,7 @@ class VarExpr : public BaseExpr {
   public:
     std::string name;
     BaseExpr* index;
-    VarExpr(std::string name);
-    VarExpr(std::string name, BaseExpr* index);
+    explicit VarExpr(std::string name, BaseExpr* index = nullptr);
     int Accept(Visitor& visitor) override;
     ~VarExpr() override;
 };

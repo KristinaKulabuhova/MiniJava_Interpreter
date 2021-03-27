@@ -34,25 +34,11 @@ void Driver::scan_end()
     stream.close();
 }
 
-int Driver::executeProgram() {
-    Interpreter interpreter(program->var_declarations);
-    std::cout << "Executing program \"" << program->program_name << "\"...\n\n";
+int Driver::executeProgram() const {
+    PrintVisitor print_visitor;
     try {
-        program->executable_code->Accept(interpreter);
-    } catch (const MultiDeclError& exception) {
-        std::cout << "\n" << exception.what() << "\n";
-        return -1;
-    } catch (const UndefRefError& exception) {
-        std::cout << "\n" << exception.what() << "\n";
-        return -1;
-    } catch (const WrongBinaryOperandsError& exception) {
-        std::cout << "\n" << exception.what() << "\n";
-        return -1;
-    } catch (const ExpectedBoolError& exception) {
-        std::cout << "\n" << exception.what() << "\n";
-        return -1;
-    } catch (const ExpectedIntError& exception) {
-        std::cout << "\n" << exception.what() << "\n";
+        program->main_class->Accept(print_visitor);
+    } catch (...) {
         return -1;
     }
     return 0;

@@ -7,9 +7,8 @@ class FieldExpr : public BaseExpr {
   public:
     std::string name;
     BaseExpr* index;
-    
-    explicit FieldExpr(std::string name);
-    FieldExpr(std::string name, BaseExpr* index);
+
+    explicit FieldExpr(std::string name, BaseExpr* index = nullptr);
     int Accept(Visitor& visitor) override;
     ~FieldExpr() override;
 };

@@ -7,7 +7,8 @@
 #include "parser.hh"
 
 #include "Program.h"
-#include "Visitors/Interpreter.h"
+//#include "Visitors/Interpreter.h"
+#include "Visitors/PrintVisitor.h"
 
 class Driver {
  public:
@@ -27,7 +28,7 @@ class Driver {
     yy::parser parser;
     Program* program;
 
-    int executeProgram();
+    int executeProgram() const;
  private:
     std::ifstream stream;
 

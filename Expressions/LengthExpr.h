@@ -7,7 +7,7 @@ class LengthExpr : public BaseExpr {
   public:
     BaseExpr* array;
     
-    LengthExpr(BaseExpr* array);
+    explicit LengthExpr(BaseExpr* array);
     ~LengthExpr() override;
     int Accept(Visitor& visitor) override;
 };

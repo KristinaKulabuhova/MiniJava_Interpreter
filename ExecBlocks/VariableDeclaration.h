@@ -2,9 +2,9 @@
 #define PARSEREXAMPLE_VARIABLE_H
 
 #include "Visitors/Visitor.h"
-#include "BaseElements/BaseExpr.h"
+#include "BaseElements/BaseExecBlock.h"
 
-class VariableDeclaration : public BaseExpr {
+class VariableDeclaration : public BaseExecBlock {
   public:
     virtual int Accept(Visitor& visitor) override;
     virtual ~VariableDeclaration() = default;

@@ -2,8 +2,8 @@
 
 #include <utility>
 
-Class::Class(std::string name, Class* parent_class) :
-name_(std::move(name)), parent_class_(parent_class) {}
+Class::Class(std::string name, std::string parent_class) :
+name_(std::move(name)), parent_class_(std::move(parent_class)) {}
 
 void Class::initialize(DeclarationList *decl_list) {
     for (std::variant<MethodDeclaration*, VariableDeclaration*>& declaration : decl_list->declarations) {

@@ -15,5 +15,5 @@ void ExecCode::addBaseBlock(BaseExecBlock *line) {
 }
 
 ExecCode::ExecCode(BaseExecBlock *line) {
-    program_lines_.emplace_back(line)
+    program_lines_.emplace_back(line);
 }

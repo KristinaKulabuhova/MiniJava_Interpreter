@@ -17,7 +17,7 @@ class SubtractExpr;
 
 class EqExpr;
 class GEqExpr;
-class Greater;
+class GreaterExpr;
 class NEqExpr;
 class LEqExpr;
 class LessExpr;

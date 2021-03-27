@@ -86,8 +86,8 @@ add_executable(
 #        ExecBlocks/Read.cpp
 #        ExecBlocks/Write.h
 #        ExecBlocks/Write.cpp
-        Visitors/Interpreter.h
-        Visitors/Interpreter.cpp
+#        Visitors/Interpreter.h
+#        Visitors/Interpreter.cpp
 #        VarDeclList/VarDeclList.h
 #        VarDeclList/VarDeclList.cpp
         Visitors/Elements.h
@@ -143,5 +143,7 @@ add_executable(
         Expressions/NewArrExpr.h
         Expressions/NewCustomVarExpr.cpp
         Expressions/NewCustomVarExpr.h
+        Visitors/PrintVisitor.cpp
+        Visitors/PrintVisitor.h
 )
 target_include_directories(mini_java PRIVATE ${pascal_SOURCE_DIR})

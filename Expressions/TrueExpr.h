@@ -3,11 +3,11 @@
 
 #include "BaseElements/BaseExpr.h"
 
-class TrueExpr : BaseExpr{
+class TrueExpr : public BaseExpr{
   public:
     TrueExpr() = default;
     ~TrueExpr() override = default;
-
+    int Accept(Visitor& visitor) override;
 };
 
 
