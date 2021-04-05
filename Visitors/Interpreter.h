@@ -4,6 +4,8 @@
 #include "Visitor.h"
 #include "Elements.h"
 
+#include "symbol_table\ScopeLayerTree.h"
+
 #include <map>
 #include <variant>
 #include <vector>
@@ -58,6 +60,7 @@ class Interpreter : public Visitor {
     int Visit(Return* expression) override;
     int Visit(VariableDeclaration* expression) override;
     int Visit(AssertExpr* expression) override;
+    int Visit(ScopeAssignmentList* list) override;
     int Visit(Assignment* assignment) override;
     int Visit(Block* expression) override;
     int Visit(ExecCode* expression) override; 
@@ -65,7 +68,9 @@ class Interpreter : public Visitor {
     int GetRusult(Program* program);
 
     private:
-    std::map<std::string, VarType> var_value; 
+      std::map<std::string, VarType> var_value; 
+      ScopeLayerTree tree_;
+      std::shared_ptr<SymbolLayer> current_layer_;
 };
 
 

@@ -1,5 +1,10 @@
 #include "Interpreter.h"
 
+Interpreter::Interpreter() : tree_(std::make_shared<ScopeLayer()>) {
+    current_layer_ = tree.root_;
+    //   tree_.GetRoot();
+} 
+
 Interpreter::Interpreter(const std::vector<VarDeclList*>& var_declarations) {
     for (const auto& var_decl_list : var_declarations) {
         for (const auto &var_name : var_decl_list->var_names) {
@@ -90,9 +95,28 @@ int Interpreter::Visit(VarExpr *expression) {
     return expression->name;
 }
 
+void Interpreter::Visit(ScopeAssignmentList* list) {
+    std::cout << "Going inside" << std::endl;
+
+    current_layer_ = current_layer_->GetChild(offsets_.top());
+
+    offsets_.push(0);
+    list->statement_list->Accept(this);
+
+    offsets_.pop();
+    size_t index = offsets_.top();
+
+    offsets_.pop();
+    offsets_.push(index + 1);
+
+    current_layer_ = current_layer_->GetParent();
+}
+
 void Interpreter::Visit(Assignment* assignment) {
     auto res = assignment->expression->Accept(*this);
     var_value[assignment->var_name_] = res;
+
+    current_layer_->Put(Symbol(assignment->variable_), std::make_shared<Integer>(value));
 }
 
 void Interpreter::Visit(ExecCode* code) {
@@ -108,6 +132,8 @@ void Interpreter::Visit(If* branching) {
     } else if (branching->false_branch) {
         branching->false_branch->Accept(*this);
     }
+
+    current_layer_->Put(Symbol(assignment->variable_), std::make_shared<Integer>(value));
 }
 
 void Interpreter::Visit(While* while_cycle) {
