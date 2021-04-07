@@ -29,6 +29,40 @@ struct VarTypeStr {
 
 #endif
 
+
+class MultiDeclError : public std::runtime_error {
+  public:
+    explicit MultiDeclError(const std::string& var_name) :
+    std::runtime_error("Multiple declaration of variable \"" + var_name + "\".") {};
+};
+
+class UndefRefError : public std::runtime_error {
+  public:
+    explicit UndefRefError(const std::string& var_name) :
+    std::runtime_error("Undefined reference to \"" + var_name + "\".") {};
+};
+
+class WrongBinaryOperandsError : public std::runtime_error {
+  public:
+    explicit WrongBinaryOperandsError(const std::string& operation,
+                                      const std::string& first_type, const std::string& second_type) :
+    std::runtime_error("Wrong operands to binary operation \""
+    + operation + "\": " + first_type + "\" and \"" + second_type + "\".") {};
+};
+
+class ExpectedBoolError : public std::runtime_error {
+  public:
+    explicit ExpectedBoolError(const std::string& type) :
+    std::runtime_error("Can't interpret type \"" + type + "\" as bool.") {};
+};
+
+class ExpectedIntError : public std::runtime_error {
+  public:
+    explicit ExpectedIntError(const std::string& type) :
+            std::runtime_error("Can't interpret type \"" + type + "\" as integer.") {};
+};
+
+
 class Visitor {
   public:
     virtual int Visit(AtExpr* expression) = 0;

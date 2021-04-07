@@ -1,11 +1,22 @@
 #include "driver.hh"
 
+#include "symbol_table/ScopeLayerTree.h"
+
 
 
 Driver::Driver() :
     trace_parsing(false),
     trace_scanning(false),
     scanner(*this), parser(scanner, *this) {
+}
+
+void Driver::Evaluate() {
+    SymbolTreeVisitor visitor;
+    visitor.Visit(program);
+
+    std::shared_ptr<ScopeLayerTree> tree = visitor.GetTree();
+    Interpreter interpreter(tree);
+    return interpreter.GetResult(program);
 }
 
 

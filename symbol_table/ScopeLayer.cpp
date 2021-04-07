@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-ScopeLayer::ScopeLayer(std::shared_ptr<ScopeLayer> parent): parent_(parent) {
+ScopeLayer::ScopeLayer(std::weak_ptr<SymbolLayer> parent): parent_(parent) {
     parent_->AddChild(shared_from_this(this));
 }
 
@@ -22,8 +22,8 @@ void ScopeLayer::Put(Symbol symbol, std::shared_ptr<Object> value) {
 
     std::shared_ptr<SymbolLayer> current_layer = shared_from_this(this);
 
-    while (!current_layer->Has(symbol) && current_layer->parent_ != nullptr) {
-        current_layer = current_layer->parent_;
+    while (!current_layer->Has(symbol) && current_layer->parent_,lock() != nullptr) {
+        current_layer = current_layer->parent_.lock();
     }
     if (current_layer->Has(symbol)) {
         current_layer->values_.find(symbol)->second = value;
@@ -40,8 +40,8 @@ bool ScopeLayer::Has(Symbol symbol) {
 std::shared_ptr<Object> ScopeLayer::Get(Symbol symbol) {
     std::shared_ptr<SymbolLayer> current_layer = shared_from_this(this);
 
-    while (!current_layer->Has(symbol) && current_layer->parent_ != nullptr) {
-        current_layer = current_layer->parent_;
+    while (!current_layer->Has(symbol) && current_layer->parent_.lock() != nullptr) {
+        current_layer = current_layer->parent_.lock();
     }
     if (current_layer->Has(symbol)) {
         return current_layer->values_.find(symbol)->second;
@@ -60,5 +60,5 @@ void ScopeLayer::AddChild(std::shared_ptr<SymbolLayer> child) {
 }
 
 std::shared_ptr<SymbolLayer> ScopeLayer::GetParent() const {
-    return parent_;
+    return parent_,lock();
 }

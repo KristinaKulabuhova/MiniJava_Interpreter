@@ -1,21 +1,18 @@
-#ifndef PARSEREXAMPLE_INTERPRETER_H
-#define PARSEREXAMPLE_INTERPRETER_H
+#pragma once 
 
-#include "Visitor.h"
-#include "Elements.h"
+#include "TemplateVisitor.h"
 
-#include "symbol_table\ScopeLayerTree.h"
-
+#include "symbol_table/Table.h"
 #include <map>
-#include <variant>
-#include <vector>
-#include <stdexcept>
-#include <iostream>
 
-class Interpreter : public Visitor {
-  public:
-    explicit Interpreter(std::shared_ptr<ScopeLayerTree> tree);
-    explicit Interpreter(const std::vector<VarDeclList*>& var_decl_list);
+#include "symbol_table/ScopeLayerTree.h"
+
+
+class SymbolTreeVisitor: public Visitor, public std::enable_shared_from_this<SymbolTreeBuilder> {
+ public:
+    SymbolTreeVisitor();
+    ~SymbolTreeVisitor() = default;
+
     int Visit(AtExpr* expression) override;
     int Visit(FieldExpr* expression) override;
     int Visit(NewArrExpr* expression) override;
@@ -33,7 +30,7 @@ class Interpreter : public Visitor {
 
     int Visit(EqExpr* expression) override;
     int Visit(GEqExpr* expression) override;
-    int Visit(Greater* expression) override;
+    int Visit(GreaterExpr* expression) override;
     int Visit(NEqExpr* expression) override;
     int Visit(LEqExpr* expression) override;
     int Visit(LessExpr* expression) override;  
@@ -61,20 +58,14 @@ class Interpreter : public Visitor {
     int Visit(Return* expression) override;
     int Visit(VariableDeclaration* expression) override;
     int Visit(AssertExpr* expression) override;
-    int Visit(ScopeAssignmentList* list) override;
     int Visit(Assignment* assignment) override;
     int Visit(Block* expression) override;
-    int Visit(ExecCode* expression) override; 
+    int Visit(ExecCode* expression) override;  
 
-    int GetRusult(Program* program);
+    int Visit(Program* program) override;
 
-    private:
-      std::map<std::string, VarType> var_value; 
-      std::shared_ptr<SymbolLayer> tree_;
-      std::shared_ptr<SymbolLayer> current_layer_;
-
-      std::stack<int> offsets_;
+    std::shared_ptr<ScopeLayer> GetTree();
+ private:
+    ScopeLayerTree tree_;
+    std::shared_ptr<ScopeLayer> current_layer_;
 };
-
-
-#endif //PARSEREXAMPLE_INTERPRETER_H

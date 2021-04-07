@@ -1,9 +1,9 @@
 #include "Interpreter.h"
 
-Interpreter::Interpreter() : tree_(std::make_shared<ScopeLayer()>) {
-    current_layer_ = tree.root_;
-    //   tree_.GetRoot();
-} 
+Interpreter::Interpreter(std::shared_ptr<ScopeLayerTree> tree): tree_(tree) {
+    offsets_.push(0);
+    current_layer_ = tree_->root_;
+}
 
 Interpreter::Interpreter(const std::vector<VarDeclList*>& var_declarations) {
     for (const auto& var_decl_list : var_declarations) {
