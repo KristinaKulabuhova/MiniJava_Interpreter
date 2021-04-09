@@ -11,7 +11,6 @@ class MethodDeclaration : BaseExecBlock {
     int Accept(Visitor& visitor) override;
     ~MethodDeclaration() override = default;
     MethodDeclaration(std::string name, Formals* arguments, VarTypeStr return_type, ExecCode* exec_code);
-  private:
     std::string name_;
     Formals* arguments_;
     VarTypeStr return_type_;

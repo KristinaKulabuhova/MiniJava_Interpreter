@@ -34,6 +34,8 @@
 
 #include "MainElements/Class.h"
 #include "MainElements/MainClass.h"
+#include "MainElements/MethodInvocation.h"
+
 #include "ExecBlocks/MethodDeclaration.h"
 
 #include "ExecBlocks/For.h"
@@ -51,5 +53,7 @@
 #include "ExecBlocks/ExecCode.h"
 
 #include "Program.h"
+
+#include "SubsidiaryClasses/Formals.h"
 
 #endif //PARSEREXAMPLE_ELEMENTS_H

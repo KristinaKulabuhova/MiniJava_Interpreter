@@ -81,6 +81,8 @@ class Visitor {
     virtual int Visit(ExecCode* expression) = 0;  
 
     virtual int Visit(Program* program) = 0;
+
+    virtual int Visit(Formals* formals) = 0;
 };
 
 #endif //PARSEREXAMPLE_VISITOR_H

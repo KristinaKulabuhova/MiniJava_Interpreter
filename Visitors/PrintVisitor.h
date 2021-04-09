@@ -59,9 +59,13 @@ class PrintVisitor : public Visitor {
 
     int Visit(Program* program) override;
 
+    int Visit(Formals* formals) override;
+
   private:
     size_t tabs_counter_ = 0;
     void printTabs() const;
+
+    void printVarTypeStr(const VarTypeStr& var_type_str);
 };
 
 

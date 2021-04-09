@@ -4,8 +4,9 @@
 #include "Expressions/VarExpr.h"
 #include "Expressions/FieldExpr.h"
 
-class Lvalue {
+class Lvalue : public BaseExpr {
   public:
+    int Accept(Visitor& visitor) override;
     std::variant<VarExpr*, FieldExpr*> lvalue;
     explicit Lvalue(std::variant<VarExpr*, FieldExpr*> lvalue);
     ~Lvalue() = default;
