@@ -1,14 +1,13 @@
 #pragma once 
 
-#include "TemplateVisitor.h"
+#include "Visitor.h"
 
-#include "symbol_table/Table.h"
+#include "Elements.h"
+
 #include <map>
 
-#include "symbol_table/ScopeLayerTree.h"
 
-
-class SymbolTreeVisitor: public Visitor, public std::enable_shared_from_this<SymbolTreeBuilder> {
+class SymbolTreeVisitor: public Visitor {
  public:
     SymbolTreeVisitor();
     ~SymbolTreeVisitor() = default;
@@ -68,4 +67,5 @@ class SymbolTreeVisitor: public Visitor, public std::enable_shared_from_this<Sym
  private:
     ScopeLayerTree tree_;
     std::shared_ptr<ScopeLayer> current_layer_;
+    size_t blocks_counter_;
 };

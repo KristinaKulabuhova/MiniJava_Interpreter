@@ -6,3 +6,19 @@ name_(std::move(name)), arguments_(arguments), return_type_(return_type), exec_c
 int MethodDeclaration::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }
+
+std::string MethodDeclaration::getName() const {
+    return name_;
+}
+
+std::shared_ptr<Formals> MethodDeclaration::getFormals() const {
+    return arguments_;
+}
+
+VarTypeStr MethodDeclaration::getType() const {
+    return return_type_;
+}
+
+std::shared_ptr<ExecCode> MethodDeclaration::getCode() const {
+    return exec_code_;
+}

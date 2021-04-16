@@ -52,4 +52,11 @@
 
 #include "Program.h"
 
+#include "symbol_table/ScopeLayer.h"
+#include "symbol_table/ScopeLayerTree.h"
+
+#include "types/StClass.h"
+#include "types/StFunction.h"
+#include "types/StVariable.h"
+
 #endif //PARSEREXAMPLE_ELEMENTS_H

@@ -1,7 +1,7 @@
 #pragma once
 
-class Object {
+class Symbol {
  public:
     virtual int ToInt();
-    virtual ~Object() = default;
+    virtual ~Symbol() = default;
 };

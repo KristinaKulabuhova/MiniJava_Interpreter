@@ -2,12 +2,10 @@
 
 #include "ScopeLayer.h"
 
-class ScopeLay {
+class ScopeLayerTree {
     public:
-        explicit ScopeLayerTree(std::shared_ptr<ScopeLay>)
-
-        std::shared_ptr<SymbolLayer> GetRoot() const;
-        
+        explicit ScopeLayerTree(std::shared_ptr<ScopeLayer> );
+        std::shared_ptr<ScopeLayer> getRoot() const;
     private:  
         std::shared_ptr<ScopeLayer> root_;
 };

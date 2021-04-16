@@ -5,6 +5,7 @@
 
 #include <variant>
 #include <string>
+#include <stdexcept>
 
 #ifndef VARTYPE
 #define VARTYPE

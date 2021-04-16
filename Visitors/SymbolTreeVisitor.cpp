@@ -1,178 +1,204 @@
 #include "SymbolTreeVisitor.h"
 
-#include <iostream>
+#include <memory>
 
-SymbolTreeVisitor::SymbolTreeVisitor(): tree_(new ScopeLayer) {
-    current_layer_ = tree_.root_;
+SymbolTreeVisitor::SymbolTreeVisitor() :
+tree_(std::make_shared<ScopeLayer>()), current_layer_(tree_.getRoot()), blocks_counter_(0) {}
+
+int SymbolTreeVisitor::Visit(AtExpr *expression) {
+    return 0;
 }
 
-void SymbolTreeVisitor::Visit(NumExpr* expression) {
+int SymbolTreeVisitor::Visit(FieldExpr *expression) {
+    return 0;
 }
 
-void SymbolTreeVisitor::Visit(AddExpr** expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
+int SymbolTreeVisitor::Visit(NewArrExpr *expression) {
+    return 0;
 }
 
-void SymbolTreeVisitor::Visit(SubtractExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
+int SymbolTreeVisitor::Visit(NewCustomVarExpr *expression) {
+    return 0;
 }
 
-void SymbolTreeVisitor::Visit(MulExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
+int SymbolTreeVisitor::Visit(AndExpr *expression) {
+    return 0;
 }
 
-void SymbolTreeVisitor::Visit(DivExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
+int SymbolTreeVisitor::Visit(NotExpr *expression) {
+    return 0;
 }
 
-void SymbolTreeVisitor::Visit(ModExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
+int SymbolTreeVisitor::Visit(OrExpr *expression) {
+    return 0;
 }
 
-void SymbolTreeVisitor::Visit(IdentExpr* expression) { //?
-    expression->Accept(shared_from_this());
+int SymbolTreeVisitor::Visit(AddExpr *expression) {
+    return 0;
 }
 
-void SymbolTreeVisitor::Visit(StatementList* assignment_list) {
-    for (Statement* assignment: assignment_list->statements_) {
-        assignment->Accept(this);
+int SymbolTreeVisitor::Visit(ModExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(MulExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(DivExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(SubtractExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(EqExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(GEqExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(GreaterExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(NEqExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(LEqExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(LessExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(IdentExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(LengthExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(VarExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(NumExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(ThisExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(FalseExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(TrueExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(Class *expression) {
+    auto prev_layer = current_layer_;
+    current_layer_ = std::make_shared<ScopeLayer>(current_layer_->weak_from_this(), expression->name_);
+    prev_layer->AddChild(current_layer_);
+    for (auto& field : expression->variables_) {
+        field->Accept(*this);
     }
-}
-
-void SymbolTreeVisitor::Visit(VarDecl* var_decl) {
-    std::cout << "Declaring var " << var_decl->variable_ << std::endl;
-    current_layer_->DeclareVariable(Symbol(var_decl->variable_));
-}
-
-void SymbolTreeVisitor::Visit(ScopeAssignmentList* list) {
-    auto new_layer = new ScopeLayer(current_layer_);
-
-    current_layer_ = new_layer;
-    list->statement_list->Accept(this);
-    current_layer_ = current_layer_->GetParent();
-}
-
-void SymbolTreeVisitor::Visit(Program* program) {
-    program->assignments_->Accept(this);
-    program->expression_->Accept(this); // tos value is called
-}
-
-void SymbolTreeVisitor::Visit(AssertExpr* expression) {
-    expression->expression->Accept(shared_from_this());
-}
-
-void SymbolTreeVisitor::Visit(Return* expression) {
-    expression->expression->Accept(shared_from_this());
-}
-
-void SymbolTreeVisitor::Visit(Println* expression) {
-    expression->expression->Accept(shared_from_this());
-}
-
-std::shared_ptr<ScopeLayerTree> SymbolTreeVisitor::GetTree() {
-    return std::shared_ptr<ScopeLayerTree>(&tree_);
-}
-
-void SymbolTreeVisitor::Visit(AtExpr* expression) {} //
-void SymbolTreeVisitor::Visit(FieldExpr* expression) {} //
-
-void SymbolTreeVisitor::Visit(NewArrExpr* expression) {
-    // Not supported
-}
-
-void SymbolTreeVisitor::Visit(NewCustomVarExpr* expression) {} //
-
-void SymbolTreeVisitor::Visit(AndExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
-}
-
-void SymbolTreeVisitor::Visit(NotExpr* expression) {
-    expression->p_expr->Accept(shared_from_this());
-}
-
-void SymbolTreeVisitor::Visit(OrExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
-}
-
-void SymbolTreeVisitor::Visit(EqExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
-}
-
-void SymbolTreeVisitor::Visit(GEqExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
-}
-
-void SymbolTreeVisitor::Visit(GreaterExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
-}
-
-void SymbolTreeVisitor::Visit(NEqExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
-}
-
-void SymbolTreeVisitor::Visit(LEqExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
-}
-
-void SymbolTreeVisitor::Visit(LessExpr* expression) {
-    expression->p_lhs->Accept(shared_from_this());
-    expression->l_lhs->Accept(shared_from_this());
-}  
-    
-void SymbolTreeVisitor::Visit(IdentExpr* expression) {} //
-
-void SymbolTreeVisitor::Visit(LengthExpr* expression) {
-    // Not supported
-}
-
-void SymbolTreeVisitor::Visit(VarExpr* expression) {} //
-
-void SymbolTreeVisitor::Visit(ThisExpr* expression) {
-
-}
-    
-void SymbolTreeVisitor::Visit(FalseExpr* expression) {
-}
-
-void SymbolTreeVisitor::Visit(TrueExpr* expression) {
-}
-
-void SymbolTreeVisitor::Visit(Class* expression) {} // про обходы подумать
-void SymbolTreeVisitor::Visit(MainClass* expression) {} // про обходы подумать
-void SymbolTreeVisitor::Visit(MethodInvocation* expression) {} // про обходы подумать
-
-void SymbolTreeVisitor::Visit(For* expression) {} //
-
-void SymbolTreeVisitor::Visit(If* branching) {
-    expression->statement->Accept(shared_from_this());
-    expression->true_branch->Accept(shared_from_this());
-    if (expression->false_branch) {
-        expression->false_branch->Accept(shared_from_this());
+    for (auto& method : expression->methods_) {
+        method->Accept(*this);
     }
+    return 0;
 }
 
-void SymbolTreeVisitor::Visit(While* expression) {
-    expression->statement->Accept(shared_from_this());
-    expression->cycle_body->Accept(shared_from_this());
+int SymbolTreeVisitor::Visit(MainClass *expression) {
+    expression->Class::Accept(*this);
+    return 0;
 }
 
-void SymbolTreeVisitor::Visit(Lvalue* expression) {} //
-void SymbolTreeVisitor::Visit(MethodDeclaration* expression) {} //
-    
-    
-void SymbolTreeVisitor::Visit(VariableDeclaration* expression) {} // про обходы подумать
-void SymbolTreeVisitor::Visit(Assignment* assignment) {} //
-void SymbolTreeVisitor::Visit(Block* expression) {} //
-void SymbolTreeVisitor::Visit(ExecCode* expression) {}  //
+int SymbolTreeVisitor::Visit(MethodInvocation *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(For *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(If *branching) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(While *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(Lvalue *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(MethodDeclaration *expression) {
+    blocks_counter_ = 0;
+    current_layer_->Put(expression->getName(),
+                        std::make_shared<StFunction>(std::shared_ptr<MethodDeclaration>(expression)));
+    auto prev_layer = current_layer_;
+    current_layer_ = std::make_shared<ScopeLayer>(current_layer_->weak_from_this(), expression->getName());
+    prev_layer->AddChild(current_layer_);
+    expression->getCode()->Accept(*this);
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(Println *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(Return *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(VariableDeclaration *expression) {
+    current_layer_->Put(expression->getName(),
+                        std::make_shared<StVariable>(std::shared_ptr<VariableDeclaration>(expression)));
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(AssertExpr *expression) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(Assignment *assignment) {
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(Block *expression) {
+    auto prev_layer = current_layer_;
+    current_layer_ = std::make_shared<ScopeLayer>(current_layer_->weak_from_this(),
+                                                  std::to_string(blocks_counter_++));
+    prev_layer->AddChild(current_layer_);
+    auto prev_blocks_counter = blocks_counter_;
+    blocks_counter_ = 0;
+    expression->exec_code->Accept(*this);
+    blocks_counter_ = prev_blocks_counter;
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(ExecCode *expression) {
+    for (auto& program_block : expression->program_lines_) {
+        program_block->Accept(*this);
+    }
+    return 0;
+}
+
+int SymbolTreeVisitor::Visit(Program *program) {
+    return 0;
+}
+
+std::shared_ptr<ScopeLayer> SymbolTreeVisitor::GetTree() {
+    return std::shared_ptr<ScopeLayer>();
+}

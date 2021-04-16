@@ -98,7 +98,7 @@ add_executable(
         MainElements/MainClass.h
         MainElements/MainClass.cpp
         MainElements/Class.h
-        MainElements/Class.cpp
+        MainElements/StClass.cpp
         SubsidiaryClasses/DeclarationList.h
         SubsidiaryClasses/DeclarationList.cpp
 #        BaseElements/Declaration.h
@@ -145,5 +145,18 @@ add_executable(
         Expressions/NewCustomVarExpr.h
         Visitors/PrintVisitor.cpp
         Visitors/PrintVisitor.h
-)
+
+        Visitors/SymbolTreeVisitor.cpp
+        Visitors/SymbolTreeVisitor.h
+
+        symbol_table/ScopeLayer.cpp
+        symbol_table/ScopeLayer.h
+        symbol_table/ScopeLayerTree.cpp
+        symbol_table/ScopeLayerTree.h
+
+        types/StClass.h
+        types/StFunction.h
+        types/Symbol.cpp
+        types/Symbol.h
+        types/StVariable.cpp types/StVariable.h types/StFunction.cpp types/StClass.cpp)
 target_include_directories(mini_java PRIVATE ${pascal_SOURCE_DIR})

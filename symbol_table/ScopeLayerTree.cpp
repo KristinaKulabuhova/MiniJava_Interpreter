@@ -1,9 +1,9 @@
-
 #include <symbol_table/ScopeLayerTree.h>
 
-SymbolTree::SymbolTree(std::shared_ptr<SymbolLayer> root) : root_(root) {
-}
+#include <utility>
 
-std::shared_ptr<SymbolLayer> SymbolTree::GetRoot() const {
+ScopeLayerTree::ScopeLayerTree(std::shared_ptr<ScopeLayer>  root) : root_(std::move(root)) {}
+
+std::shared_ptr<ScopeLayer> ScopeLayerTree::getRoot() const {
     return root_;
 }
