@@ -102,7 +102,7 @@
 
 
     
-    static yy::parser::symbol_type yylex(Scanner &scanner, Driver& /*driver*/) {
+    static yy::parser::symbol_type yylex(Scanner &scanner, Driver& driver) {
         return scanner.ScanToken();
     }
 }
@@ -205,7 +205,9 @@
 %left "*" "/" "%";
 %right "!";
 
-%start program;
+%start unit;
+
+unit: program { driver.program = $1; };
 
 program: main_class class_declaration_list { $$ = new Program($1, $2); }
 

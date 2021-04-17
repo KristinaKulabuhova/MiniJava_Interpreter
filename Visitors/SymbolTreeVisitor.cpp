@@ -150,6 +150,9 @@ int SymbolTreeVisitor::Visit(MethodDeclaration *expression) {
     auto prev_layer = current_layer_;
     current_layer_ = std::make_shared<ScopeLayer>(current_layer_->weak_from_this(), expression->getName());
     prev_layer->AddChild(current_layer_);
+    for (auto& argument : expression->getFormals()->variables) {
+        VariableDeclaration(argument.first, argument.second).Accept(*this);
+    }
     expression->getCode()->Accept(*this);
     return 0;
 }
@@ -196,6 +199,10 @@ int SymbolTreeVisitor::Visit(ExecCode *expression) {
 }
 
 int SymbolTreeVisitor::Visit(Program *program) {
+    program->main_class->Accept(*this);
+    for (auto& class_decl : program->class_decl_list->classes) {
+        class_decl->Accept(*this);
+    }
     return 0;
 }
 

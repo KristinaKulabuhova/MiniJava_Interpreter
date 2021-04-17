@@ -10,6 +10,7 @@ class Program {
     MainClass* main_class;
     ClassDeclarationList* class_decl_list;
     Program(MainClass* main_class, ClassDeclarationList* class_decl_list);
+    int Accept(Visitor& visitor);
     ~Program();
 };
 

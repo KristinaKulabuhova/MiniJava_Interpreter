@@ -10,14 +10,14 @@ Driver::Driver() :
     scanner(*this), parser(scanner, *this) {
 }
 
-void Driver::Evaluate() {
-    SymbolTreeVisitor visitor;
-    visitor.Visit(program);
-
-    std::shared_ptr<ScopeLayerTree> tree = visitor.GetTree();
-    Interpreter interpreter(tree);
-    return interpreter.GetResult(program);
-}
+//void Driver::Evaluate() {
+//    SymbolTreeVisitor visitor;
+//    visitor.Visit(program);
+//
+//    std::shared_ptr<ScopeLayerTree> tree = visitor.GetTree();
+//    Interpreter interpreter(tree);
+//    return interpreter.GetResult(program);
+//}
 
 
 int Driver::parse(const std::string& f) {
@@ -53,5 +53,11 @@ int Driver::executeProgram() const {
         return -1;
     }
     return 0;
+}
+
+std::shared_ptr<ScopeLayer> Driver::getScopeLayerTree() const {
+    SymbolTreeVisitor visitor;
+    program->Accept(visitor);
+    return visitor.GetTree();
 }
 

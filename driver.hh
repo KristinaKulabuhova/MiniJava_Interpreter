@@ -9,6 +9,7 @@
 #include "Program.h"
 //#include "Visitors/Interpreter.h"
 #include "Visitors/PrintVisitor.h"
+#include "Visitors/SymbolTreeVisitor.h"
 
 class Driver {
  public:
@@ -27,6 +28,8 @@ class Driver {
     Scanner scanner;
     yy::parser parser;
     Program* program;
+
+    std::shared_ptr<ScopeLayer> getScopeLayerTree() const;
 
     int executeProgram() const;
  private:
