@@ -1,14 +1,14 @@
-cmake_minimum_required(VERSION 3.16)
+cmake_minimum_required(VERSION 3.17)
 
-SET(CMAKE_CXX_STANDARD 20)
+SET(CMAKE_CXX_STANDARD 17)
 
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
 
 project(mini_java)
 set(
         HEADERS
-        ${pascal_SOURCE_DIR}/driver.hh
-        ${pascal_SOURCE_DIR}/parser.hh
+        ${mini_java_SOURCE_DIR}/driver.hh
+        ${mini_java_SOURCE_DIR}/parser.hh
 )
 
 find_package(BISON REQUIRED)
@@ -17,14 +17,14 @@ find_package(FLEX REQUIRED)
 BISON_TARGET(
         MyParser
         parser.y
-        ${pascal_SOURCE_DIR}/parser.cpp
-        DEFINES_FILE ${pascal_SOURCE_DIR}/parser.hh
+        ${mini_java}/parser.cpp
+        DEFINES_FILE ${mini_java_SOURCE_DIR}/parser.hh
 )
 
 FLEX_TARGET(
         MyScanner
         scanner.l
-        ${pascal_SOURCE_DIR}/scanner.cpp
+        ${mini_java_SOURCE_DIR}/scanner.cpp
 )
 
 ADD_FLEX_BISON_DEPENDENCY(MyScanner MyParser)
@@ -158,5 +158,8 @@ add_executable(
         types/StFunction.h
         types/Symbol.cpp
         types/Symbol.h
-        types/StVariable.cpp types/StVariable.h types/StFunction.cpp types/StClass.cpp)
-target_include_directories(mini_java PRIVATE ${pascal_SOURCE_DIR})
+        types/StVariable.cpp
+        types/StVariable.h
+        types/StFunction.cpp
+        types/StClass.cpp)
+target_include_directories(mini_java PRIVATE ${mini_java_SOURCE_DIR})

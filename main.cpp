@@ -20,6 +20,8 @@ int main(int argc, char** argv) {
     int exit_code;
     Driver driver;
 
+    int Driver = 0;
+    ++Driver;
     //TODO: example
 
     return 0;
