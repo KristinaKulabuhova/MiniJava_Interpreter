@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16)
 
 SET(CMAKE_CXX_STANDARD 17)
 
@@ -17,7 +17,8 @@ find_package(FLEX REQUIRED)
 BISON_TARGET(
         MyParser
         parser.y
-        ${mini_java}/parser.cpp
+        ${mini_java_SOURCE_DIR}/parser.cpp
+        # COMPILE_FLAGS -Wcounterexamples
         DEFINES_FILE ${mini_java_SOURCE_DIR}/parser.hh
 )
 
@@ -161,5 +162,6 @@ add_executable(
         types/StVariable.cpp
         types/StVariable.h
         types/StFunction.cpp
-        types/StClass.cpp)
+        types/StClass.cpp
+)
 target_include_directories(mini_java PRIVATE ${mini_java_SOURCE_DIR})
