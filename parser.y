@@ -191,19 +191,14 @@
 %nterm <BaseExecBlock*> statement
 %nterm <MethodInvocation*> method_invocation
 %nterm <ExprList*> expr_list
-%nterm <Lvalue*> lvalue
 %nterm <BaseExpr*> expr
 %nterm <FieldExpr*> field_invocation
 
 //%printer { yyo << $$; } <*>;
 
 %%
-
-%left "+" "-";
-%left "||" "&&";
-%left "<" "<=" ">=" "==" "!=" ">";
-%left "*" "/" "%";
-%right "!";
+%left "+" "-" "*" "/" "%" "<" "<=" ">" ">=" "==" "!=" "||" "&&" "." "!" "[";
+%right ")" "else";
 
 %start unit;
 
@@ -249,19 +244,16 @@ statement: "assert" "(" expr ")" ";" 				{ $$ = new AssertExpr($3); }
          | "if"  "(" expr ")" statement "else" statement 	{ $$ = new If($3, $5, $7); }
          | "while"  "(" expr ")" statement 			{ $$ = new While($3, $5); }
          | "System" "." "out" "." "println" "(" expr ")" ";"  	{ $$ = new Println($7); }
-         | lvalue "=" expr ";" 					{ $$ = new Assignment($1, $3); }
+         | expr "=" expr ";" 					{ $$ = new Assignment($1, $3); }
          | "return" expr ";"  					{ $$ = new Return($2); }
          | method_invocation ";"	 			{ $$ = $1; }
 
-lvalue: "identifier"			{ $$ = new Lvalue(new VarExpr($1)); }
-       | "identifier" "[" expr "]"	{ $$ = new Lvalue(new VarExpr($1, $3)); }
-       | field_invocation		{ $$ = new Lvalue($1); }
-
 method_invocation:   expr "." "identifier" "(" ")"		{ $$ = new MethodInvocation($1, $3, nullptr); }
 		   | expr "." "identifier" "(" expr_list ")"	{ $$ = new MethodInvocation($1, $3, $5); }
+           | field_invocation "(" ")"		{ $$ = new MethodInvocation($1, nullptr); }
+		   | field_invocation "(" expr_list ")"	{ $$ = new MethodInvocation($1, $3); }
 
 field_invocation: "this" "." "identifier"			 { $$ = new FieldExpr($3); }
-		        | "this" "." "identifier" "[" expr "]"	{ $$ = new FieldExpr($3, $5); }
 
 expr_list: expr			                { $$ = new ExprList($1); }
 	     | expr_list "," expr 	        { $$ = $1; $$->addExpr($3);}
@@ -284,9 +276,7 @@ expr: expr "&&" expr  			        { $$ = new AndExpr($1, $3); }
 	| "new" simple_type "[" expr "]"	{ $$ = new NewArrExpr($2, $4); }
 	| "new" "identifier" "(" ")"		{ $$ = new NewCustomVarExpr($2); }
 	| "identifier"				{ $$ = new VarExpr($1);}
-	| "identifier" "[" expr "]" 		{ $$ = new VarExpr($1, $3); }
 	| "number"				{ $$ = new NumExpr($1); }
-	| "this"				{ $$ = new ThisExpr(); }
 	| "true"				{ $$ = new TrueExpr(); }
 	| "false"				{ $$ = new FalseExpr(); }
 	| method_invocation			{ $$ = $1; }
