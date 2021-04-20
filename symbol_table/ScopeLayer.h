@@ -1,33 +1,35 @@
 #pragma once
 
+#include "Symbol.h"
+#include "objects/Object.h"
+
 #include <unordered_map>
 #include <string>
 #include <memory>
 #include <vector>
 
-#include "types/Symbol.h"
-
 
 class ScopeLayer : public std::enable_shared_from_this<ScopeLayer> {
-    
- public:
+
+  public:
+    explicit ScopeLayer(std::shared_ptr<ScopeLayer> parent);
     ScopeLayer() = default;
 
-    ScopeLayer(std::weak_ptr<ScopeLayer> parent, std::string name);
+    void DeclareVariable(Symbol symbol);
+    void Put(Symbol symbol, std::shared_ptr<Object> value);
+    std::shared_ptr<Object> Get(Symbol symbol);
+    bool Has(Symbol symbol);
 
-//    void DeclareVariable(std::string name);
-    void Put(const std::string& name, std::shared_ptr<Symbol> value);
-    std::shared_ptr<Symbol> Get(const std::string& name);
-    bool Has(const std::string& name);
+    std::shared_ptr<SymbolLayer> GetParent() const;
+    std::shared_ptr<SymbolLayer> GetChild(size_t index);
 
-    std::shared_ptr<ScopeLayer> getParent() const;
-    std::shared_ptr<ScopeLayer> GetChild(size_t index);
+    void AddChild(std::shared_ptr<SymbolLayer> child);
 
-    void AddChild(const std::shared_ptr<ScopeLayer>& child);
-
- private:
-    std::unordered_map<std::string, std::shared_ptr<Symbol>> symbol_table_;
+  private:
+    std::unordered_map<Symbol, std::shared_ptr<Object>> values_;
+    std::unordered_map<std::string, size_t> symbol_offset_;
+    std::vector<Symbol> symbols_; // table of symbols
     std::string name_;
-    std::weak_ptr<ScopeLayer> parent_;
-    std::vector<std::shared_ptr<ScopeLayer>> children_;
+    std::weak_ptr<SymbolLayer> parent_;
+    std::vector<std::shared_ptr<SymbolLayer>> children_;
 };
