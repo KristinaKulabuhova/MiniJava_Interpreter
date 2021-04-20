@@ -1,11 +1,12 @@
 #include "Assignment.h"
 
-Assignment::Assignment(Lvalue* var, BaseExpr *expression) : var(var), expression(expression) {}
-
 int Assignment::Accept(Visitor &visitor) {
     return visitor.Visit(this);
 }
 
 Assignment::~Assignment() {
-    delete expression;
+    delete to;
+    delete from;
 }
+
+Assignment::Assignment(BaseExpr *to, BaseExpr *from) : to(to), from(from) {}

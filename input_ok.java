@@ -1,10 +1,11 @@
-public class Program{ 
-      
+class Program {
     public static void main (){
           
-        int a = 8;
-        int b = a++;
-        System.out.println(a);  // 9
-        System.out.println(b);  // 8
+        int a;
+        a = 8;
+        int b;
+        b = a + 1;
+        System.out.println(a);
+        System.out.println(b);
     }
 }

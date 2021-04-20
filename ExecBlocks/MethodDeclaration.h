@@ -17,7 +17,7 @@ class MethodDeclaration : BaseExecBlock {
     std::shared_ptr<Formals> getFormals() const;
     VarTypeStr getType() const;
     std::shared_ptr<ExecCode> getCode() const;
-  private:
+
     std::string name_;
     std::shared_ptr<Formals> arguments_;
     VarTypeStr return_type_;

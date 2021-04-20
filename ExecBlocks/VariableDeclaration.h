@@ -13,7 +13,6 @@ class VariableDeclaration : public BaseExecBlock {
     std::string getName() const;
     int getValue() const;
 
-  private:
     VarTypeStr type_;
     std::string name_;
     int value_;

@@ -59,4 +59,8 @@
 #include "types/StFunction.h"
 #include "types/StVariable.h"
 
+#include "SubsidiaryClasses/Formals.h"
+
+#include "MainElements/MethodInvocation.h"
+
 #endif //PARSEREXAMPLE_ELEMENTS_H

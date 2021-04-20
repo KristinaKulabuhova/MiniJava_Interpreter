@@ -18,7 +18,7 @@ BISON_TARGET(
         MyParser
         parser.y
         ${mini_java_SOURCE_DIR}/parser.cpp
-        COMPILE_FLAGS -Wcounterexamples
+#        COMPILE_FLAGS -Wcounterexamples
         DEFINES_FILE ${mini_java_SOURCE_DIR}/parser.hh
 )
 

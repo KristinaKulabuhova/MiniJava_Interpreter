@@ -51,4 +51,6 @@ class ExecCode;
 
 class Program;
 
+class Formals;
+
 #endif //PARSEREXAMPLE_FORWARDDECLARATIONS_H

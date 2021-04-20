@@ -9,35 +9,13 @@ int PrintVisitor::Visit(AtExpr *expression) {
 }
 
 int PrintVisitor::Visit(FieldExpr *expression) {
-    std::cout << "FIELD_EXPR(" << expression->name;
-    if (expression->index) {
-        std::cout << ", ";
-        expression->index->Accept(*this);
-    }
-    std::cout << ")";
+    std::cout << "THIS." << expression->name;
     return 0;
 }
 
 int PrintVisitor::Visit(NewArrExpr *expression) {
     std::cout << "NEW_ARR_EXPR(";
-    switch (expression->simple_type) {
-        case int_t: {
-            std::cout << "int_t";
-            break;
-        }
-        case bool_t: {
-            std::cout << "bool_t";
-            break;
-        }
-        case void_t: {
-            std::cout << "void_t";
-            break;
-        }
-        default: {
-            std::cout << "custom_t";
-            break;
-        }
-    }
+    printVarTypeStr(VarTypeStr(expression->simple_type));
     std::cout << ", ";
     expression->n_elements->Accept(*this);
     std::cout << ")";
@@ -219,15 +197,32 @@ int PrintVisitor::Visit(MainClass *expression) {
 }
 
 int PrintVisitor::Visit(MethodInvocation *expression) {
-    std::abort();
+    expression->callable_expr->Accept(*this);
+    std::cout << " POINT " << expression->name << "(";
+    if (!expression->arguments->expressions.empty()) {
+        expression->arguments->expressions.front()->Accept(*this);
+    }
+    for (size_t i = 1; i < expression->arguments->expressions.size(); ++i) {
+        std::cout << ", ";
+        expression->arguments->expressions[i]->Accept(*this);
+    }
+    std::cout << ")";
+    return 0;
 }
 
 int PrintVisitor::Visit(For *expression) {
-    std::abort();
+    std::cout << "FOR(" << expression->var_name << " FROM ";
+    expression->lower_bound->Accept(*this);
+    std::cout << " TO ";
+    expression->upper_bound->Accept(*this);
+    std::cout << "):\n";
+    ++tabs_counter_;
+    expression->cycle_body->Accept(*this);
+    --tabs_counter_;
+    return 0;
 }
 
 int PrintVisitor::Visit(If *branching) {
-    printTabs();
     std::cout << "IF (";
     branching->statement->Accept(*this);
     std::cout << "):\n";
@@ -245,7 +240,6 @@ int PrintVisitor::Visit(If *branching) {
 }
 
 int PrintVisitor::Visit(While *expression) {
-    printTabs();
     std::cout << "WHILE (";
     expression->statement->Accept(*this);
     std::cout << "):\n";
@@ -256,7 +250,6 @@ int PrintVisitor::Visit(While *expression) {
 }
 
 int PrintVisitor::Visit(Lvalue *expression) {
-    printTabs();
     std::cout << "LVALUE(";
     if (std::holds_alternative<VarExpr*>(expression->lvalue)) {
         std::get<VarExpr*>(expression->lvalue)->Accept(*this);
@@ -268,38 +261,73 @@ int PrintVisitor::Visit(Lvalue *expression) {
 }
 
 int PrintVisitor::Visit(MethodDeclaration *expression) {
+    printVarTypeStr(expression->return_type_);
+    std::cout << " " << expression->name_ << "(";
+    expression->arguments_->Accept(*this);
+    std::cout << "):\n";
+    ++tabs_counter_;
+    expression->exec_code_->Accept(*this);
+    --tabs_counter_;
     return 0;
 }
 
 int PrintVisitor::Visit(Println *expression) {
+    std::cout << "PRINTLN(";
+    expression->expression->Accept(*this);
     return 0;
 }
 
 int PrintVisitor::Visit(Return *expression) {
+    std::cout << "RETURN ";
+    expression->expression->Accept(*this);
     return 0;
 }
 
 int PrintVisitor::Visit(VariableDeclaration *expression) {
+    printVarTypeStr(expression->type_);
+    std::cout << " " << expression->name_ << ";\n";
     return 0;
 }
 
 int PrintVisitor::Visit(AssertExpr *expression) {
+    std::cout << "ASSERT(";
+    expression->expression->Accept(*this);
+    std::cout << ")";
     return 0;
 }
 
 int PrintVisitor::Visit(Assignment *assignment) {
+    std::cout << "ASSIGN TO ";
+    assignment->to->Accept(*this);
+    std::cout << " FROM ";
+    assignment->from->Accept(*this);
     return 0;
 }
 
 int PrintVisitor::Visit(Block *expression) {
+    std::cout << "NEW_BLOCK_BEGIN:\n";
+    ++tabs_counter_;
+    expression->exec_code->Accept(*this);
+    --tabs_counter_;
+    printTabs();
+    std::cout << "BLOCK_END\n";
     return 0;
 }
 
 int PrintVisitor::Visit(ExecCode *expression) {
+    for (auto& line : expression->program_lines_) {
+        printTabs();
+        line->Accept(*this);
+        std::cout << "\n";
+    }
     return 0;
 }
 
 int PrintVisitor::Visit(Program *program) {
+    program->main_class->Accept(*this);
+    for (auto& decl : program->class_decl_list->classes) {
+        decl->Accept(*this);
+    }
     return 0;
 }
 
@@ -309,4 +337,35 @@ void PrintVisitor::printTabs() const {
     }
 }
 
+int PrintVisitor::Visit(Formals *formals) {
+    if (!formals->variables.empty()) {
+        printVarTypeStr(formals->variables.front().first);
+        std::cout << " " << formals->variables.front().second;
+    }
+    for (size_t i = 1 ; i < formals->variables.size(); ++i) {
+        std::cout << ", ";
+        printVarTypeStr(formals->variables[i].first);
+        std::cout << " " << formals->variables[i].second;
+    }
+    return 0;
+}
 
+void PrintVisitor::printVarTypeStr(const VarTypeStr &var_type_str) {
+    switch (var_type_str.type) {
+        case int_t: {
+            std::cout << "INT";
+        }
+        case bool_t: {
+            std::cout << "BOOLEAN";
+        }
+        case void_t: {
+            std::cout << "VOID";
+        }
+        default: {
+            std::cout << "CUSTOM";
+        }
+    }
+    if (var_type_str.array) {
+        std::cout << "[]";
+    }
+}

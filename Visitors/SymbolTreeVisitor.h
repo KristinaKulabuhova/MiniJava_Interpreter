@@ -63,6 +63,10 @@ class SymbolTreeVisitor: public Visitor {
 
     int Visit(Program* program) override;
 
+    int Visit(Formals* /*formals*/) override {
+        return 0;
+    }
+
     std::shared_ptr<ScopeLayer> GetTree();
  private:
     ScopeLayerTree tree_;

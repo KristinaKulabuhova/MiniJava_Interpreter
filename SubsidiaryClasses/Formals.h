@@ -9,6 +9,7 @@ class Formals {
     std::vector<std::pair<VarTypeStr, std::string>> variables;
     Formals(VarTypeStr type, std::string name);
     void addVar(VarTypeStr type, std::string name);
+    int Accept(Visitor& visitor);
 };
 
 

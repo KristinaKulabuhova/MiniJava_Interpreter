@@ -102,7 +102,7 @@
 
 
     
-    static yy::parser::symbol_type yylex(Scanner &scanner, Driver& driver) {
+    static yy::parser::symbol_type yylex(Scanner &scanner, Driver& /*driver*/) {
         return scanner.ScanToken();
     }
 }
@@ -250,8 +250,8 @@ statement: "assert" "(" expr ")" ";" 				{ $$ = new AssertExpr($3); }
 
 method_invocation:   expr "." "identifier" "(" ")"		{ $$ = new MethodInvocation($1, $3, nullptr); }
 		   | expr "." "identifier" "(" expr_list ")"	{ $$ = new MethodInvocation($1, $3, $5); }
-           | field_invocation "(" ")"		{ $$ = new MethodInvocation($1, nullptr); }
-		   | field_invocation "(" expr_list ")"	{ $$ = new MethodInvocation($1, $3); }
+          	   | field_invocation "(" ")"			{ $$ = new MethodInvocation($1); }
+		   | field_invocation "(" expr_list ")"		{ $$ = new MethodInvocation($1, $3); }
 
 field_invocation: "this" "." "identifier"			 { $$ = new FieldExpr($3); }
 
