@@ -106,6 +106,7 @@ int SymbolTreeVisitor::Visit(TrueExpr */*expression*/) {
 }
 
 int SymbolTreeVisitor::Visit(Class *expression) {
+
     auto prev_layer = current_layer_;
     current_layer_ = std::make_shared<ScopeLayer>(current_layer_->weak_from_this(), expression->name_);
     prev_layer->AddChild(current_layer_);

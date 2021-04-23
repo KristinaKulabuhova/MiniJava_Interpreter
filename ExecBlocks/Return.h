@@ -1,5 +1,4 @@
-#ifndef PASCAL_RETURN_H
-#define PASCAL_RETURN_H
+#pragma once
 
 #include "BaseElements/BaseExecBlock.h"
 #include "BaseElements/BaseExpr.h"
@@ -8,9 +7,8 @@ class Return : public BaseExecBlock {
   public:
     BaseExpr* expression;
     explicit Return(BaseExpr* expression);
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
     ~Return() override;
 };
 
 
-#endif //PASCAL_RETURN_H

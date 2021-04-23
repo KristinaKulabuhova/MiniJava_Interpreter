@@ -7,6 +7,6 @@ NEqExpr::~NEqExpr() {
     delete p_rhs;
 }
 
-int NEqExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void NEqExpr::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }

@@ -5,8 +5,8 @@ SubtractExpr::~SubtractExpr() {
     delete p_lhs;
 }
 
-int SubtractExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void SubtractExpr::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }
 
 SubtractExpr::SubtractExpr(BaseExpr *p_lhs, BaseExpr *p_rhs) : p_lhs(p_lhs), p_rhs(p_rhs) {}

@@ -7,6 +7,6 @@ LEqExpr::~LEqExpr() {
     delete p_rhs;
 }
 
-int LEqExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void LEqExpr::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }

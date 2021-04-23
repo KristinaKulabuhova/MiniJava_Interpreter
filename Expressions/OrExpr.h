@@ -1,6 +1,4 @@
-#ifndef PARSEREXAMPLE_OREXPR_H
-#define PARSEREXAMPLE_OREXPR_H
-
+#pragma once
 #include "BaseElements/BaseExpr.h"
 
 class OrExpr : public BaseExpr {
@@ -9,8 +7,6 @@ class OrExpr : public BaseExpr {
     BaseExpr* p_rhs;
     OrExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~OrExpr() override;
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
-
-#endif //PARSEREXAMPLE_OREXPR_H

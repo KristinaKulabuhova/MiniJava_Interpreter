@@ -1,5 +1,4 @@
-#ifndef PARSEREXAMPLE_MODEXPR_H
-#define PARSEREXAMPLE_MODEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
@@ -9,8 +8,7 @@ class ModExpr : public BaseExpr {
     BaseExpr* p_rhs;
     ModExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~ModExpr() override;
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
 
-#endif

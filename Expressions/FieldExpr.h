@@ -1,6 +1,4 @@
-#ifndef PASCAL_FIELDEXPR_H
-#define PASCAL_FIELDEXPR_H
-
+#pragma once
 #include "BaseElements/BaseExpr.h"
 
 class FieldExpr : public BaseExpr {
@@ -8,8 +6,7 @@ class FieldExpr : public BaseExpr {
     std::string name;
 
     explicit FieldExpr(std::string name);
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
 
-#endif //PASCAL_FIELDEXPR_H

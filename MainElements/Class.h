@@ -1,5 +1,4 @@
-#ifndef PARSEREXAMPLE_BASECLASS_H
-#define PARSEREXAMPLE_BASECLASS_H
+#pragma once
 
 #include "Visitors/Visitor.h"
 #include "ExecBlocks/VariableDeclaration.h"
@@ -10,7 +9,7 @@
 
 class Class : public BaseDeclaration{
   public:
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
     ~Class() override;
     Class(std::string name, std::string parent_class);
     void initialize(DeclarationList* decl_list);
@@ -23,5 +22,3 @@ class Class : public BaseDeclaration{
     std::vector<VariableDeclaration*> variables_;
     std::vector<MethodDeclaration*> methods_;
 };
-
-#endif //PARSEREXAMPLE_BASECLASS_H

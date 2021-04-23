@@ -1,6 +1,4 @@
-#ifndef PARSEREXAMPLE_LESSEXPR_H
-#define PARSEREXAMPLE_LESSEXPR_H
-
+#pragma once
 #include "BaseElements/BaseExpr.h"
 
 class LessExpr : public BaseExpr {
@@ -9,8 +7,7 @@ class LessExpr : public BaseExpr {
     BaseExpr* p_rhs;
     LessExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~LessExpr() override;
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
 
-#endif //PARSEREXAMPLE_LESSEXPR_H

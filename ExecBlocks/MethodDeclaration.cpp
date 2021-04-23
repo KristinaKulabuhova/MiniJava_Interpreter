@@ -1,10 +1,10 @@
 #include "ExecBlocks/MethodDeclaration.h"
 
-MethodDeclaration::MethodDeclaration(std::string name, Formals* arguments, VarTypeStr return_type, ExecCode* exec_code) :
+MethodDeclaration::MethodDeclaration(std::string name, Formals* arguments, VarTypeStr* return_type, ExecCode* exec_code) :
 name_(std::move(name)), arguments_(arguments), return_type_(return_type), exec_code_(exec_code) {}
 
-int MethodDeclaration::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void MethodDeclaration::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }
 
 std::string MethodDeclaration::getName() const {
@@ -15,7 +15,7 @@ std::shared_ptr<Formals> MethodDeclaration::getFormals() const {
     return arguments_;
 }
 
-VarTypeStr MethodDeclaration::getType() const {
+VarTypeStr* MethodDeclaration::getType() const {
     return return_type_;
 }
 

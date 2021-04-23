@@ -1,7 +1,7 @@
 #include "FieldExpr.h"
 
-int FieldExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void FieldExpr::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }
 
 FieldExpr::FieldExpr(std::string name) : name(std::move(name)) {}

@@ -1,5 +1,4 @@
-#ifndef LENGTH_H
-#define LENGTH_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
@@ -9,8 +8,6 @@ class LengthExpr : public BaseExpr {
     
     explicit LengthExpr(BaseExpr* array);
     ~LengthExpr() override;
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
-
-#endif

@@ -1,6 +1,5 @@
-#ifndef MINI_JAVA_EXPRLIST_H
-#define MINI_JAVA_EXPRLIST_H
 
+#pragma once
 #include "Visitors/Visitor.h"
 #include "BaseElements/BaseExpr.h"
 #include <vector>
@@ -12,5 +11,3 @@ class ExprList {
     void addExpr(BaseExpr* expression);
 };
 
-
-#endif //MINI_JAVA_EXPRLIST_H

@@ -1,5 +1,4 @@
-#ifndef PARSEREXAMPLE_DECLARATIONLIST_H
-#define PARSEREXAMPLE_DECLARATIONLIST_H
+#pragma once
 
 #include "Visitors/Visitor.h"
 #include "ExecBlocks/MethodDeclaration.h"
@@ -12,4 +11,3 @@ class DeclarationList {
     void addDecl(const std::variant<MethodDeclaration*, VariableDeclaration*>& declaration);
 };
 
-#endif

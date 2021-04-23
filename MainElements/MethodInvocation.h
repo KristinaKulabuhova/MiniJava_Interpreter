@@ -1,6 +1,4 @@
-#ifndef MINI_JAVA_METHODINVOCATION_H
-#define MINI_JAVA_METHODINVOCATION_H
-
+#pragma once
 #include "BaseElements/BaseExpr.h"
 #include "Visitors/Visitor.h"
 #include "SubsidiaryClasses/Formals.h"
@@ -16,8 +14,6 @@ class MethodInvocation : public BaseExpr, public BaseExecBlock {
     
     MethodInvocation(BaseExpr* callable_expr, std::string name, ExprList* arguments);
     explicit MethodInvocation(FieldExpr* callable_expr, ExprList* expr_list = nullptr);
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
-
-#endif //MINI_JAVA_METHODINVOCATION_H

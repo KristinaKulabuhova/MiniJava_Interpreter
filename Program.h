@@ -1,5 +1,4 @@
-#ifndef PARSEREXAMPLE_PROGRAM_H
-#define PARSEREXAMPLE_PROGRAM_H
+#pragma once
 
 #include "SubsidiaryClasses/ClassDeclarationList.h"
 #include "MainElements/MainClass.h"
@@ -10,9 +9,8 @@ class Program {
     MainClass* main_class;
     ClassDeclarationList* class_decl_list;
     Program(MainClass* main_class, ClassDeclarationList* class_decl_list);
-    int Accept(Visitor& visitor);
+    void Accept(Visitor& visitor);
     ~Program();
 };
 
 
-#endif //PARSEREXAMPLE_PROGRAM_H

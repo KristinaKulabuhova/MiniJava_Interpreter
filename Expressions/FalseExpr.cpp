@@ -1,5 +1,5 @@
 #include "FalseExpr.h"
 
-int FalseExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void FalseExpr::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }

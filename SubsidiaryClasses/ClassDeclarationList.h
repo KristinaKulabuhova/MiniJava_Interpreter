@@ -1,5 +1,4 @@
-#ifndef PASCAL_CLASSDECLARATIONLIST_H
-#define PASCAL_CLASSDECLARATIONLIST_H
+#pragma once
 
 #include "MainElements/Class.h"
 
@@ -9,5 +8,3 @@ class ClassDeclarationList {
     void addClass(Class* new_class);
 };
 
-
-#endif //PASCAL_CLASSDECLARATIONLIST_H

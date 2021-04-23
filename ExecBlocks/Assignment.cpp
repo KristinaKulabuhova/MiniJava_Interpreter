@@ -1,7 +1,7 @@
 #include "Assignment.h"
 
-int Assignment::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void Assignment::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }
 
 Assignment::~Assignment() {

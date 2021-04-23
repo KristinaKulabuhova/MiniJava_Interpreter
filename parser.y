@@ -21,32 +21,18 @@
     class FieldExpr;
     class Formals;
 
-    class Lvalue;
     class MainClass;
     class MethodDeclaration;
     class MethodInvocation;
 
     class VariableDeclaration;
 
+    class VarTypeStr;
+    class SimpleType;
+
     class Scanner;
     class Driver;
 
-    enum VarType {
-      int_t,
-      bool_t,
-      void_t,
-      custom_t
-    };
-
-    #define VARTYPE
-
-    struct VarTypeStr {
-        VarType type{int_t};
-        bool array{false};
-        explicit VarTypeStr(VarType type = void_t, bool array = false) : type(type), array(array) {}
-    };
-
-    #define VARTYPESTR
 }
 
 // %param { Driver &drv }
@@ -62,9 +48,7 @@
     #include "ExecBlocks/Assignment.h"
     #include "ExecBlocks/Block.h"
     #include "ExecBlocks/ExecCode.h"
-    #include "ExecBlocks/For.h"
     #include "ExecBlocks/If.h"
-    #include "ExecBlocks/Lvalue.h"
     #include "ExecBlocks/MethodDeclaration.h"
     #include "ExecBlocks/VariableDeclaration.h"
     #include "ExecBlocks/Println.h"
@@ -93,9 +77,11 @@
     #include "Expressions/NumExpr.h"
     #include "Expressions/OrExpr.h"
     #include "Expressions/SubtractExpr.h"
-    #include "Expressions/ThisExpr.h"
+  
     #include "Expressions/TrueExpr.h"
-    #include "Expressions/VarExpr.h"
+//   #include "Expressions/VarExpr.h"
+    #include "Expressions/VarType.h"
+    #include "Expressions/SimpleType.h"
     #include "SubsidiaryClasses/ExprList.h"
     #include "MainElements/MethodInvocation.h"
 
@@ -185,8 +171,8 @@
 %nterm <MethodDeclaration*> method_declaration
 %nterm <VariableDeclaration*> variable_declaration
 %nterm <Formals*> formals
-%nterm <VarTypeStr> type
-%nterm <VarType> simple_type
+%nterm <VarTypeStr*> type
+%nterm <SimpleType*> simple_type
 %nterm <ExecCode*> statement_list
 %nterm <BaseExecBlock*> statement
 %nterm <MethodInvocation*> method_invocation
@@ -226,13 +212,13 @@ variable_declaration: type "identifier" ";"	{ $$ = new VariableDeclaration($1, $
 formals: type "identifier"			{ $$ = new Formals($1, $2); }
 	   | formals "," type "identifier"	{ $$ = $1, $$->addVar($3, $4); }
 
-type: simple_type		 { $$ = VarTypeStr($1); }
-	| simple_type "[]"	 { $$ = VarTypeStr($1, true); }
+type: simple_type		 { $$ = new VarTypeStr($1, false); }
+	| simple_type "[]"	 { $$ = new VarTypeStr($1, true); }
 
-simple_type:    "int" 		{ $$ = int_t; }
-	      | "boolean" 	{ $$ = bool_t; }
-	      | "void" 		{ $$ = void_t; }
-	      | "identifier" 	{ $$ = custom_t; }
+simple_type:"int" 		{ $$ = new SimpleType(0, ""); }
+	      | "boolean" 	{ $$ = new SimpleType(1, ""); }
+	      | "void" 		{ $$ = new SimpleType(2, ""); }
+	      | "identifier" 	{ $$ = new SimpleType(3, $1); }
 
 statement_list:   statement_list statement	{ $$ = $1; $$->addBaseBlock($2); }
 		      | %empty			{ $$ = new ExecCode(); }
@@ -275,7 +261,7 @@ expr: expr "&&" expr  			        { $$ = new AndExpr($1, $3); }
 	| expr "." "length"    			{ $$ = new LengthExpr($1); }
 	| "new" simple_type "[" expr "]"	{ $$ = new NewArrExpr($2, $4); }
 	| "new" "identifier" "(" ")"		{ $$ = new NewCustomVarExpr($2); }
-	| "identifier"				{ $$ = new VarExpr($1);}
+	| "identifier"				{ $$ = new IdentExpr($1);}
 	| "number"				{ $$ = new NumExpr($1); }
 	| "true"				{ $$ = new TrueExpr(); }
 	| "false"				{ $$ = new FalseExpr(); }

@@ -24,8 +24,8 @@ void Class::addVariable(VariableDeclaration *declaration) {
     variables_.emplace_back(declaration);
 }
 
-int Class::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void Class::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }
 
 Class::~Class() {

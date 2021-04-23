@@ -2,8 +2,8 @@
 
 Block::Block(ExecCode *exec_code) : exec_code(exec_code) {}
 
-int Block::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void Block::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }
 
 Block::~Block() {

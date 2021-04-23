@@ -2,8 +2,8 @@
 
 While::While(BaseExpr *statement, BaseExecBlock *cycle_body) : statement(statement), cycle_body(cycle_body) {}
 
-int While::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void While::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }
 
 While::~While() {

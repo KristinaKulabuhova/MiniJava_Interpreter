@@ -56,8 +56,7 @@ add_executable(
         Expressions/GreaterExpr.cpp
         Expressions/LessExpr.h
         Expressions/LessExpr.cpp
-#        Expressions/ConstExpr.h
-#        Expressions/ConstExpr.cpp
+    
         Expressions/IdentExpr.h
         Expressions/IdentExpr.cpp
         Expressions/AddExpr.h
@@ -81,17 +80,10 @@ add_executable(
         ExecBlocks/ExecCode.cpp
         ExecBlocks/While.h
         ExecBlocks/While.cpp
-        ExecBlocks/For.h
-        ExecBlocks/For.cpp
-#        ExecBlocks/Read.h
-#        ExecBlocks/Read.cpp
-#        ExecBlocks/Write.h
-#        ExecBlocks/Write.cpp
-#        Visitors/Interpreter.h
-#        Visitors/Interpreter.cpp
-#        VarDeclList/VarDeclList.h
-#        VarDeclList/VarDeclList.cpp
-        Visitors/Elements.h
+   
+   
+        Visitors/Interpreter.h
+        Visitors/Interpreter.cpp
         ExecBlocks/MethodDeclaration.h
         ExecBlocks/MethodDeclaration.cpp
         ExecBlocks/VariableDeclaration.h
@@ -99,10 +91,9 @@ add_executable(
         MainElements/MainClass.h
         MainElements/MainClass.cpp
         MainElements/Class.h
-        MainElements/StClass.cpp
+        MainElements/Class.cpp
         SubsidiaryClasses/DeclarationList.h
         SubsidiaryClasses/DeclarationList.cpp
-#        BaseElements/Declaration.h
         Expressions/TrueExpr.cpp
         Expressions/TrueExpr.h
         Expressions/FalseExpr.cpp
@@ -117,14 +108,9 @@ add_executable(
 #        MainElements/VariableArrCall.h
         Program.h
         Program.cpp ExecBlocks/Block.cpp
-        ExecBlocks/Block.h Expressions/VarExpr.cpp
-        Expressions/VarExpr.h
-        Expressions/ThisExpr.cpp
-        Expressions/ThisExpr.h
+
         Expressions/FieldExpr.cpp
         Expressions/FieldExpr.h
-        ExecBlocks/Lvalue.cpp
-        ExecBlocks/Lvalue.h
         ExecBlocks/AssertExpr.cpp
         ExecBlocks/AssertExpr.h
         ExecBlocks/Return.cpp
@@ -136,32 +122,23 @@ add_executable(
         BaseElements/BaseDeclaration.h
         SubsidiaryClasses/ExprList.cpp
         SubsidiaryClasses/ExprList.h
+        Visitors/AllIncludes.h
+        
         Expressions/NumExpr.cpp
         Expressions/NumExpr.h
         Expressions/AtExpr.cpp
+        Expressions/VarType.cpp
+        Expressions/VarType.h
         Expressions/AtExpr.h
         Expressions/NewArrExpr.cpp
         Expressions/NewArrExpr.h
         Expressions/NewCustomVarExpr.cpp
         Expressions/NewCustomVarExpr.h
+
         Visitors/PrintVisitor.cpp
         Visitors/PrintVisitor.h
 
-        Visitors/SymbolTreeVisitor.cpp
-        Visitors/SymbolTreeVisitor.h
-
-        symbol_table/ScopeLayer.cpp
-        symbol_table/ScopeLayer.h
-        symbol_table/ScopeLayerTree.cpp
-        symbol_table/ScopeLayerTree.h
-
-        types/StClass.h
-        types/StFunction.h
-        types/Symbol.cpp
-        types/Symbol.h
-        types/StVariable.cpp
-        types/StVariable.h
-        types/StFunction.cpp
-        types/StClass.cpp
-)
+        symbols/StFunction.h
+        symbols/StFunction.cpp
+)    
 target_include_directories(mini_java PRIVATE ${mini_java_SOURCE_DIR})

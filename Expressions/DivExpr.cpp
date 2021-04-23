@@ -5,8 +5,8 @@ DivExpr::~DivExpr() {
     delete p_rhs;
 }
 
-int DivExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void DivExpr::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }
 
 DivExpr::DivExpr(BaseExpr *p_lhs, BaseExpr *p_rhs) : p_lhs(p_lhs), p_rhs(p_rhs) {}

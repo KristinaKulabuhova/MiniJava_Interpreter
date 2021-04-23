@@ -1,215 +1,207 @@
+
 #include "Interpreter.h"
 
-Interpreter::Interpreter(std::shared_ptr<ScopeLayerTree> tree): tree_(tree) {
-    offsets_.push(0);
-    current_layer_ = tree_->root_;
+void Interpreter::Visit(AtExpr* expression) {}
+void Interpreter::Visit(FieldExpr* expression) {}
+void Interpreter::Visit(NewArrExpr* expression) {}
+void Interpreter::Visit(NewCustomVarExpr* expression) {}
+
+void Interpreter::Visit(AndExpr* expression) {}
+void Interpreter::Visit(NotExpr* expression) {}
+void Interpreter::Visit(OrExpr* expression) {}
+
+void Interpreter::Visit(AddExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+
+    expression->p_rhs->Accept(*this);
+    value += tos_value_;
+    SetTosValue(value);
 }
 
-Interpreter::Interpreter(const std::vector<VarDeclList*>& var_declarations) {
-    for (const auto& var_decl_list : var_declarations) {
-        for (const auto &var_name : var_decl_list->var_names) {
-            if (var_value.find(var_name) != var_value.end()) {
-                throw MultiDeclError(var_name);
-            }
-            if (var_decl_list->type == integer) {
-                var_value[var_name] = 0;
-            } else if (var_decl_list->type == string) {
-                var_value[var_name] = std::string();
-            }
-        }
-    }
+void Interpreter::Visit(ModExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+
+    expression->p_rhs->Accept(*this);
+    value %= tos_value_;
+    SetTosValue(value);
 }
 
-std::variant<int, std::string> Interpreter::Visit(IdentExpr* expression) {
-    try {
-        var_value[expression->var_name_];
-    } catch (const std::out_of_range& exception) {
-        throw UndefRefError(expression->var_name_);
-    }
-    return var_value[expression->var_name_];
+void Interpreter::Visit(MulExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+
+    expression->p_rhs->Accept(*this);
+    value *= tos_value_;
+    SetTosValue(value);
 }
 
-std::variant<int, std::string> Interpreter::Visit(AddExpr* expression) {
-    auto first_res = expression->p_lhs->Accept(*this);
-    auto second_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(first_res) + std::get<int>(second_res);
+void Interpreter::Visit(DivExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+
+    expression->p_rhs->Accept(*this);
+    value /= tos_value_;
+    SetTosValue(value);
 }
 
-int Interpreter::Visit(DivExpr* expression) {
-    auto first_res = expression->p_lhs->Accept(*this);
-    auto second_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(first_res) / std::get<int>(second_res);
+void Interpreter::Visit(SubtractExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+
+    expression->p_rhs->Accept(*this);
+    value -= tos_value_;
+    SetTosValue(value);
 }
 
-int Interpreter::Visit(ModExpr *expression) {
-    auto first_res = expression->p_lhs->Accept(*this);
-    auto second_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(first_res) % std::get<int>(second_res);
+void Interpreter::Visit(EqExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+    expression->p_rhs->Accept(*this);
+
+    SetTosValue(value == tos_value_);
 }
 
-int Interpreter::Visit(MulExpr* expression) {
-    auto first_res = expression->p_lhs->Accept(*this);
-    auto second_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(first_res) * std::get<int>(second_res);
+void Interpreter::Visit(GEqExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+    expression->p_rhs->Accept(*this);
+
+    SetTosValue(value >= tos_value_);
 }
 
-int Interpreter::Visit(SubtractExpr* expression) {
-    auto first_res = expression->p_lhs->Accept(*this);
-    auto second_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(first_res) - std::get<int>(second_res);
+void Interpreter::Visit(GreaterExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+    expression->p_rhs->Accept(*this);
+
+    SetTosValue(value > tos_value_);
 }
 
-int Visit(FalseExpr* expression) {
-    expression->Accept(*this);
-    return 0;
+void Interpreter::Visit(NEqExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+    expression->p_rhs->Accept(*this);
+
+    SetTosValue(value != tos_value_);
 }
 
-int Visit(TrueExpr* expression) {
-    expression->Accept(*this);
-    return 1;
+void Interpreter::Visit(LEqExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+    expression->p_rhs->Accept(*this);
+
+    SetTosValue(value <= tos_value_);
 }
 
-int Interpreter::Visit(LengthExpr *expression) {
-    auto res = expression->array->Accept(*this);
-    return std::get<int>(res);  
+void Interpreter::Visit(LessExpr* expression) {
+    int value = 0;
+    expression->p_lhs->Accept(*this);
+    value += tos_value_;
+    expression->p_rhs->Accept(*this);
+
+    SetTosValue(value < tos_value_);
+}  
+
+void Interpreter::Visit(IdentExpr* expression) {
+    SetTosValue(variables_[expression->var_name_]);
 }
 
-int Interpreter::Visit(FieldExpr *expression) {
-    auto res = expression->array->Accept(*this);
-    return std::get<int>(res);  
+void Interpreter::Visit(LengthExpr* expression) {}
+
+void Interpreter::Visit(NumExpr* expression) {
+    SetTosValue(expression->value);
 }
 
-int Visit(ThisExpr* expression) { 
+void Interpreter::Visit(FalseExpr* expression) {
+    SetTosValue(false);
+}
+void Interpreter::Visit(TrueExpr* expression) {
+    SetTosValue(true);
 }
 
-int Visit(AssertExpr* expression) { 
-    auto res = expression->expression->Accept(*this);
-    return assert(res);
+void Interpreter::Visit(Class* expression) {}
+
+void Interpreter::Visit(MainClass* expression) {
+    expression->methods_[0]->Accept(*this);
+}
+void Interpreter::Visit(MethodInvocation* expression) {}
+
+void Interpreter::Visit(If* branching) {
+    branching->statement->Accept(*this);
+
+	if (tos_value_) {
+        branching->true_branch->Accept(*this);
+	} else if (branching->false_branch != nullptr) {
+		branching->false_branch->Accept(*this);
+	}
+
+	UnsetTosValue();
 }
 
-int Interpreter::Visit(VarExpr *expression) {
-    expression->name->Accept(*this); 
-    if (expression->index != nullptr) {
-        expression->index->Accept(*this);
-    }
-    return expression->name;
+void Interpreter::Visit(While* expression) {
+    expression->statement->Accept(*this);
+	while(tos_value_) {
+	    expression->cycle_body->Accept(*this);
+	}
+	UnsetTosValue();
 }
 
-void Interpreter::Visit(ScopeAssignmentList* list) {
-    std::cout << "Going inside" << std::endl;
+void Interpreter::Visit(MethodDeclaration* expression) {}
 
-    current_layer_ = current_layer_->GetChild(offsets_.top());
+void Interpreter::Visit(Println* expression) {
+    expression->expression->Accept(*this);
+	std::cout << tos_value_ << '\n';
+	UnsetTosValue();
+}
 
-    offsets_.push(0);
-    list->statement_list->Accept(this);
+void Interpreter::Visit(Return* expression) {}
 
-    offsets_.pop();
-    size_t index = offsets_.top();
-
-    offsets_.pop();
-    offsets_.push(index + 1);
-
-    current_layer_ = current_layer_->GetParent();
+void Interpreter::Visit(VariableDeclaration* expression) {
+    variables_[expression->name_] = 0;
+}
+void Interpreter::Visit(AssertExpr* expression) {
+    expression->expression->Accept(*this);
+	assert(tos_value_);
+	UnsetTosValue();
 }
 
 void Interpreter::Visit(Assignment* assignment) {
-    auto res = assignment->expression->Accept(*this);
-    var_value[assignment->var_name_] = res;
-
-    current_layer_->Put(Symbol(assignment->variable_), std::make_shared<Integer>(value));
+    assignment->to->Accept(*this);
+	assignment->from->Accept(*this);
+	variables_[curr_name_] = tos_value_;
+	UnsetTosValue();
 }
 
-void Interpreter::Visit(ExecCode* code) {
-    for (const auto& program_line : code->program_lines_) {
-        program_line->Accept(*this);
-    }
+void Interpreter::Visit(Block* expression) {
+    expression->exec_code->Accept(*this);
 }
 
-void Interpreter::Visit(If* branching) {
-    auto res = branching->statement->Accept(*this);
-    if (std::get<int>(res)  != 0) {
-        branching->true_branch->Accept(*this);
-    } else if (branching->false_branch) {
-        branching->false_branch->Accept(*this);
-    }
+void Interpreter::Visit(ExecCode* expression) {}  
 
-    current_layer_->Put(Symbol(assignment->variable_), std::make_shared<Integer>(value));
+void Interpreter::Visit(Program* program) {
+    program->main_class->Accept(*this);
 }
 
-void Interpreter::Visit(While* while_cycle) {
-    while (std::get<int>(while_cycle->statement->Accept(*this))) {
-        while_cycle->cycle_body->Accept(*this);
-    }
+void Interpreter::Visit(Formals* formals) {}
+
+void Interpreter::SetTosValue(int value) {
+	is_tos_expr_ = true;
+	tos_value_ = value;
 }
 
-void Interpreter::Visit(For* for_cycle) {
-    auto lower_res = for_cycle->lower_bound->Accept(*this);
-    auto upper_res = for_cycle->upper_bound->Accept(*this);
-    for (var_value[for_cycle->var_name] = std::get<int>(lower_res);
-        std::get<int>(var_value[for_cycle->var_name]) <= std::get<int>(upper_res);
-        var_value[for_cycle->var_name] = std::get<int>(var_value[for_cycle->var_name]) + 1) {
-        for_cycle->cycle_body->Accept(*this);
-    }
+void Interpreter::UnsetTosValue() {
+	is_tos_expr_ = false;
+	tos_value_ = 0;
 }
-
-//---------------------------------------------- Logic operators ----------------------------------------------//
-
-var_t Interpreter::Visit(LessExpr *expression) {
-    auto l_res = expression->p_lhs->Accept(*this);
-    auto r_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(l_res) < std::get<int>(r_res);
-}
-
-var_t Interpreter::Visit(GreaterExpr *expression) {
-    auto l_res = expression->p_lhs->Accept(*this);
-    auto r_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(l_res) > std::get<int>(r_res);
-}
-
-void Interpreter::Visit(Println *expression) {
-    auto res = write_module->expression->Accept(*this);
-    std::cout << std::get<int>(res) << '\n';
-}
-
-int Interpreter::Visit(LEqExpr *expression) {
-    auto l_res = expression->p_lhs->Accept(*this);
-    auto r_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(l_res) <= std::get<int>(r_res);
-}
-
-int Interpreter::Visit(GeqExpr *expression) {
-    auto l_res = expression->p_lhs->Accept(*this);
-    auto r_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(l_res) >= std::get<int>(r_res);
-}
-
-int Interpreter::Visit(EqExpr *expression) {
-    auto l_res = expression->p_lhs->Accept(*this);
-    auto r_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(l_res) == std::get<int>(r_res);
-}
-
-int Interpreter::Visit(NEqExpr *expression) {
-    auto l_res = expression->p_lhs->Accept(*this);
-    auto r_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(l_res) != std::get<int>(r_res);
-}
-
-int Interpreter::Visit(AndExpr *expression) {
-    auto l_res = expression->p_lhs->Accept(*this);
-    auto r_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(l_res) && std::get<int>(r_res);
-}
-
-int Interpreter::Visit(OrExpr *expression) {
-    auto l_res = expression->p_lhs->Accept(*this);
-    auto r_res = expression->p_rhs->Accept(*this);
-    return std::get<int>(l_res) || std::get<int>(r_res);
-}
-
-int Interpreter::Visit(NotExpr *expression) {
-    auto res = expression->p_expr->Accept(*this);
-    return !std::get<int>(res);
-}
-
-

@@ -1,7 +1,7 @@
 #include "MethodInvocation.h"
 
-int MethodInvocation::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void MethodInvocation::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }
 
 MethodInvocation::MethodInvocation(BaseExpr *callable_expr, std::string name, ExprList *arguments) :

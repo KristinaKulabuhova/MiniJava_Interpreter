@@ -1,5 +1,4 @@
-#ifndef MINI_JAVA_NEWCUSTOMVAREXPR_H
-#define MINI_JAVA_NEWCUSTOMVAREXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
@@ -8,8 +7,7 @@ class NewCustomVarExpr : public BaseExpr {
     std::string class_name;
     explicit NewCustomVarExpr(std::string class_name);
     ~NewCustomVarExpr() override = default;
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
 
-#endif //MINI_JAVA_NEWCUSTOMVAREXPR_H

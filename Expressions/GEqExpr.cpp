@@ -7,6 +7,6 @@ GEqExpr::~GEqExpr() {
     delete p_rhs;
 }
 
-int GEqExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void GEqExpr::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }

@@ -1,6 +1,4 @@
-#ifndef PARSEREXAMPLE_ASSIGNMENT_H
-#define PARSEREXAMPLE_ASSIGNMENT_H
-
+#pragma once
 #include "BaseElements/BaseExpr.h"
 #include "BaseElements/BaseExecBlock.h"
 
@@ -11,9 +9,8 @@ class Assignment : public BaseExecBlock {
     BaseExpr* to;
     BaseExpr* from;
     Assignment(BaseExpr* to, BaseExpr* from);
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
     ~Assignment() override;
 };
 
 
-#endif //PARSEREXAMPLE_ASSIGNMENT_H

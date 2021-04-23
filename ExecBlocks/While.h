@@ -1,5 +1,4 @@
-#ifndef PARSEREXAMPLE_WHILE_H
-#define PARSEREXAMPLE_WHILE_H
+#pragma once
 
 #include "BaseElements/BaseExecBlock.h"
 #include "BaseElements/BaseExpr.h"
@@ -9,9 +8,8 @@ class While : public BaseExecBlock {
     BaseExpr* statement;
     BaseExecBlock* cycle_body;
     While(BaseExpr* statement, BaseExecBlock* cycle_body);
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
     ~While() override;
 };
 
 
-#endif //PARSEREXAMPLE_WHILE_H

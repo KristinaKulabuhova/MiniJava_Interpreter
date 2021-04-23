@@ -1,5 +1,4 @@
-#ifndef PARSEREXAMPLE_LEQEXPR_H
-#define PARSEREXAMPLE_LEQEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
@@ -9,8 +8,7 @@ class LEqExpr : public BaseExpr {
     BaseExpr* p_rhs;
     LEqExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~LEqExpr() override;
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
 
-#endif //PARSEREXAMPLE_LEQEXPR_H

@@ -1,80 +1,76 @@
-#ifndef PARSEREXAMPLE_INTERPRETER_H
-#define PARSEREXAMPLE_INTERPRETER_H
+#pragma once 
 
 #include "Visitor.h"
-#include "Elements.h"
+#include "AllIncludes.h"
+#include <tuple>
 
-#include "symbol_table\ScopeLayerTree.h"
-
-#include <map>
 #include <variant>
+#include <map>
+#include <set>
+#include <memory>
+#include <variant>
+#include <cassert>
 #include <vector>
 #include <stdexcept>
 #include <iostream>
 
 class Interpreter : public Visitor {
   public:
-    explicit Interpreter(std::shared_ptr<ScopeLayerTree> tree);
-    explicit Interpreter(const std::vector<VarDeclList*>& var_decl_list);
-    int Visit(AtExpr* expression) override;
-    int Visit(FieldExpr* expression) override;
-    int Visit(NewArrExpr* expression) override;
-    int Visit(NewCustomVarExpr* expression) override;
+    void Visit(AtExpr* expression) override;
+    void Visit(FieldExpr* expression) override;
+    void Visit(NewArrExpr* expression) override;
+    void Visit(NewCustomVarExpr* expression) override;
 
-    int Visit(AndExpr* expression) override;
-    int Visit(NotExpr* expression) override;
-    int Visit(OrExpr* expression) override;
+    void Visit(AndExpr* expression) override;
+    void Visit(NotExpr* expression) override;
+    void Visit(OrExpr* expression) override;
 
-    int Visit(AddExpr* expression) override;
-    int Visit(ModExpr* expression) override;
-    int Visit(MulExpr* expression) override;
-    int Visit(DivExpr* expression) override;
-    int Visit(SubtractExpr* expression) override;
+    void Visit(AddExpr* expression) override;
+    void Visit(ModExpr* expression) override;
+    void Visit(MulExpr* expression) override;
+    void Visit(DivExpr* expression) override;
+    void Visit(SubtractExpr* expression) override;
 
-    int Visit(EqExpr* expression) override;
-    int Visit(GEqExpr* expression) override;
-    int Visit(Greater* expression) override;
-    int Visit(NEqExpr* expression) override;
-    int Visit(LEqExpr* expression) override;
-    int Visit(LessExpr* expression) override;  
+    void Visit(EqExpr* expression) override;
+    void Visit(GEqExpr* expression) override;
+    void Visit(GreaterExpr* expression) override;
+    void Visit(NEqExpr* expression) override;
+    void Visit(LEqExpr* expression) override;
+    void Visit(LessExpr* expression) override;  
     
-    int Visit(IdentExpr* expression) override;
-    int Visit(LengthExpr* expression) override;
-    int Visit(VarExpr* expression) override;
-    int Visit(NumExpr* expression) override;
-    int Visit(ThisExpr* expression) override;
+    void Visit(IdentExpr* expression) override;
+    void Visit(LengthExpr* expression) override;
+    void Visit(NumExpr* expression) override;
     
-    int Visit(FalseExpr* expression) override;
-    int Visit(TrueExpr* expression) override;
+    void Visit(FalseExpr* expression) override;
+    void Visit(TrueExpr* expression) override;
 
-    int Visit(Class* expression) override;
-    int Visit(MainClass* expression) override;
-    int Visit(MethodInvocation* expression) override;
+    void Visit(Class* expression) override;
+    void Visit(MainClass* expression) override;
+    void Visit(MethodInvocation* expression) override;
 
-    int Visit(For* expression) override;
-    int Visit(If* branching) override;
-    int Visit(While* expression) override;
+    void Visit(If* branching) override;
+    void Visit(While* expression) override;
 
-    int Visit(Lvalue* expression) override;
-    int Visit(MethodDeclaration* expression) override;
-    int Visit(Println* expression) override;
-    int Visit(Return* expression) override;
-    int Visit(VariableDeclaration* expression) override;
-    int Visit(AssertExpr* expression) override;
-    int Visit(ScopeAssignmentList* list) override;
-    int Visit(Assignment* assignment) override;
-    int Visit(Block* expression) override;
-    int Visit(ExecCode* expression) override; 
+    void Visit(MethodDeclaration* expression) override;
+    void Visit(Println* expression) override;
+    void Visit(Return* expression) override;
+    void Visit(VariableDeclaration* expression) override;
+    void Visit(AssertExpr* expression) override;
+    void Visit(Assignment* assignment) override;
+    void Visit(Block* expression) override;
+    void Visit(ExecCode* expression) override; 
+    void Visit(Formals* formals) override;
 
-    int GetRusult(Program* program);
+    void Visit(Program* program);
 
-    private:
-      std::map<std::string, VarType> var_value; 
-      std::shared_ptr<SymbolLayer> tree_;
-      std::shared_ptr<SymbolLayer> current_layer_;
+  private: 
+    std::map<std::string, int> variables_;
+    bool is_tos_expr_;
+    int tos_value_;
+    std::string curr_name_;
 
-      std::stack<int> offsets_;
+    void SetTosValue(int value);
+    void UnsetTosValue();
+
 };
-
-
-#endif //PARSEREXAMPLE_INTERPRETER_H

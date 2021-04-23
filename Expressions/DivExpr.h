@@ -1,5 +1,4 @@
-#ifndef PARSEREXAMPLE_DIVEXPR_H
-#define PARSEREXAMPLE_DIVEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
@@ -9,7 +8,6 @@ class DivExpr : public BaseExpr {
     BaseExpr* p_rhs;
     DivExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
     ~DivExpr() override;
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
-#endif //PARSEREXAMPLE_DIVEXPR_H

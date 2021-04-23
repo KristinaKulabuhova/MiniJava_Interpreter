@@ -10,6 +10,6 @@ NumExpr::NumExpr(const std::string& number) {
 //    }
 }
 
-int NumExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void NumExpr::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }

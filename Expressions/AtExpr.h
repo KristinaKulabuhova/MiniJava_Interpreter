@@ -1,6 +1,4 @@
-#ifndef MINI_JAVA_ATEXPR_H
-#define MINI_JAVA_ATEXPR_H
-
+#pragma once
 #include "BaseElements/BaseExpr.h"
 
 class AtExpr : public BaseExpr {
@@ -9,8 +7,7 @@ class AtExpr : public BaseExpr {
     BaseExpr* index;
     AtExpr(BaseExpr* array, BaseExpr* index);
     ~AtExpr() override;
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
 
-#endif //MINI_JAVA_ATEXPR_H

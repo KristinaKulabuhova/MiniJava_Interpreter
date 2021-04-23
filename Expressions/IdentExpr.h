@@ -1,5 +1,4 @@
-#ifndef PARSEREXAMPLE_IDENTEXPR_H
-#define PARSEREXAMPLE_IDENTEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
@@ -9,8 +8,6 @@ class IdentExpr : public BaseExpr {
   public:
     std::string var_name_;
     explicit IdentExpr(std::string  var_name_);
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
-
-#endif 

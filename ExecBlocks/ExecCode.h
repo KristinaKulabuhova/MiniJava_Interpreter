@@ -1,5 +1,4 @@
-#ifndef PARSEREXAMPLE_EXECCODE_H
-#define PARSEREXAMPLE_EXECCODE_H
+#pragma once
 
 #include "BaseElements/BaseExecBlock.h"
 
@@ -11,11 +10,9 @@ class ExecCode : public BaseExecBlock {
 
     ExecCode() = default;
     explicit ExecCode(BaseExecBlock* line);
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
     ~ExecCode() override;
     
     void addBaseBlock(BaseExecBlock* line);
 };
 
-
-#endif //PARSEREXAMPLE_EXECCODE_H

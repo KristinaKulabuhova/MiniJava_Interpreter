@@ -7,6 +7,6 @@ AtExpr::~AtExpr() {
     delete index;
 }
 
-int AtExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void AtExpr::Accept(Visitor &visitor) {
+    visitor.Visit(this);
 }

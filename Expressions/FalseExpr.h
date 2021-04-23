@@ -1,5 +1,4 @@
-#ifndef PASCAL_FALSEEXPR_H
-#define PASCAL_FALSEEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
@@ -7,8 +6,7 @@ class FalseExpr : public BaseExpr {
   public:
     FalseExpr() = default;
     ~FalseExpr() override = default;
-    int Accept(Visitor& visitor) override;
+    void Accept(Visitor& visitor) override;
 };
 
 
-#endif //PASCAL_FALSEEXPR_H
