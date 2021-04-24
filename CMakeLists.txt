@@ -137,7 +137,16 @@ add_executable(
         Visitors/PrintVisitor.cpp
         Visitors/PrintVisitor.h
 
+        Visitors/ScopeTreeVisitor.h
+        Visitors/ScopeTreeVisitor.cpp
+
         symbols/StFunction.h
         symbols/StFunction.cpp
-)    
+        symbols/StVariable.h
+        symbols/StVariable.cpp
+        symbols/StArgument.h
+        symbols/StArgument.cpp
+        symbols/StClass.h
+
+        symbols/StClass.cpp Scopes/BaseScope.cpp Scopes/BaseScope.h)
 target_include_directories(mini_java PRIVATE ${mini_java_SOURCE_DIR})

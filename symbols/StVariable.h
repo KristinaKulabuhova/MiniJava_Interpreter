@@ -2,9 +2,11 @@
 
 #include "BaseSymbol.h"
 
+#include "Expressions/VarType.h"
+
 
 class StVariable : public BaseSymbol {
  public:
-  explicit StVariable(std::string name);
-  std::string type = "int";
+  explicit StVariable(const VarTypeStr& type);
+  VarTypeStr type_;
 };

@@ -1,5 +1,3 @@
 #include "StVariable.h"
 
-StVariable::StVariable(std::string name) {
-  this->name = name;
-}
+StVariable::StVariable(const VarTypeStr& type) : type_(type) {}

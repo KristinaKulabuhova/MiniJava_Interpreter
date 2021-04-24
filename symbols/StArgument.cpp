@@ -1,5 +1,3 @@
 #include "StArgument.h"
 
-StArgument::StArgument(std::string argument) {
-  name = argument;
-}
+StArgument::StArgument(const VarTypeStr &type) : type(type) {}

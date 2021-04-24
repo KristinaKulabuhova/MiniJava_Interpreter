@@ -2,9 +2,12 @@
 
 #include "BaseSymbol.h"
 
+#include "Expressions/VarType.h"
+
 #include <string>
 class StArgument : public BaseSymbol {
  public:
-  explicit StArgument(std::string /*argument*/) {}
-  std::string type = "int";
+  explicit StArgument(const VarTypeStr& type);
+
+  VarTypeStr type;
 };

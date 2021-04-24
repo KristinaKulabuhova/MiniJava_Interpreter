@@ -1,9 +1,9 @@
 #include <Visitor.h>
 #include <AllIncludes.h>
 
-class SymbilTreeVisitor : public Visitor
+class ScopeTreeVisitor : public Visitor
 {
-    SymbilTreeVisitor();
+    ScopeTreeVisitor();
 
     void Visit(Program *program);
 

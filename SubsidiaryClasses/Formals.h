@@ -7,12 +7,12 @@
 class Formals
 {
 public:
-  Formals(VarTypeStr *type, std::string name);
+  explicit Formals(VarTypeStr *type);
   ~Formals() = default;
 
-  void addVar(VarTypeStr *type, std::string name);
+  void addVar(VarTypeStr *type);
   void Accept(Visitor &visitor);
 
 public:
-  std::vector<std::pair<VarTypeStr *, std::string>> variables;
+  std::vector<VarTypeStr *> variables;
 };

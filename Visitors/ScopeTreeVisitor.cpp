@@ -1,8 +1,8 @@
-#include "SymbolTreeVisitor.h"
+#include "ScopeTreeVisitor.h"
 
 #include <memory>
 
-SymbolTreeVisitor::SymbolTreeVisitor() :
+ScopeTreeVisitor::SymbolTreeVisitor() :
 tree_(std::make_shared<ScopeLayer>()), current_layer_(tree_.getRoot()), blocks_counter_(0) {}
 
 int SymbolTreeVisitor::Visit(AtExpr */*expression*/) {

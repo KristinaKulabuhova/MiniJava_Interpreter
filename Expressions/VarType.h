@@ -15,6 +15,7 @@ class VarTypeStr
 public:
   explicit VarTypeStr(SimpleType *simple_type, bool array = false);
   ~VarTypeStr() = default;
+  VarTypeStr(const VarTypeStr&) = default;
 
 public:
   int type;
