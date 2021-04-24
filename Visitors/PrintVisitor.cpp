@@ -48,7 +48,7 @@ void PrintVisitor::Visit(OrExpr *expression) {
 
 void PrintVisitor::Visit(AddExpr *expression) {
     expression->p_lhs->Accept(*this);
-    std::cout << "PLUS ";
+    std::cout << " PLUS ";
     expression->p_rhs->Accept(*this);
     
 }
@@ -150,12 +150,12 @@ void PrintVisitor::Visit(NumExpr *expression) {
     
 }
 
-void PrintVisitor::Visit(FalseExpr *expression) {
+void PrintVisitor::Visit(FalseExpr */*expression*/) {
     std::cout << "FALSE";
     
 }
 
-void PrintVisitor::Visit(TrueExpr *expression) {
+void PrintVisitor::Visit(TrueExpr* /*expression*/) {
     std::cout << "TRUE";
     
 }
@@ -232,9 +232,12 @@ void PrintVisitor::Visit(While *expression) {
 }
 
 void PrintVisitor::Visit(MethodDeclaration *expression) {
+    printTabs();
     printVarTypeStr(expression->return_type_);
     std::cout << " " << expression->name_ << "(";
-    expression->arguments_->Accept(*this);
+    if (expression->arguments_) {
+        expression->arguments_->Accept(*this);
+    }
     std::cout << "):\n";
     ++tabs_counter_;
     expression->exec_code_->Accept(*this);
@@ -245,7 +248,7 @@ void PrintVisitor::Visit(MethodDeclaration *expression) {
 void PrintVisitor::Visit(Println *expression) {
     std::cout << "PRINTLN(";
     expression->expression->Accept(*this);
-    
+    std::cout << ");";
 }
 
 void PrintVisitor::Visit(Return *expression) {
@@ -256,8 +259,7 @@ void PrintVisitor::Visit(Return *expression) {
 
 void PrintVisitor::Visit(VariableDeclaration *expression) {
     printVarTypeStr(expression->type_);
-    std::cout << " " << expression->name_ << ";\n";
-    
+    std::cout << " " << expression->name_ << ";";
 }
 
 void PrintVisitor::Visit(AssertExpr *expression) {
@@ -270,9 +272,9 @@ void PrintVisitor::Visit(AssertExpr *expression) {
 void PrintVisitor::Visit(Assignment *assignment) {
     std::cout << "ASSIGN TO ";
     assignment->to->Accept(*this);
-    std::cout << " FROM ";
+    std::cout << " FROM (";
     assignment->from->Accept(*this);
-    
+    std::cout << ");";
 }
 
 void PrintVisitor::Visit(Block *expression) {
@@ -325,12 +327,15 @@ void PrintVisitor::printVarTypeStr(VarTypeStr* var_type_str) {
     switch (var_type_str->type) {
         case int_t: {
             std::cout << "INT";
+            break;
         }
         case bool_t: {
             std::cout << "BOOLEAN";
+            break;
         }
         case void_t: {
             std::cout << "VOID";
+            break;
         }
         default: {
             std::cout << "CUSTOM";

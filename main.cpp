@@ -31,7 +31,6 @@
 #include <driver.hh>
 
 int main(int argc, char** argv) {
-    int result = 0;
     Driver driver;
 
     for (int i = 1; i < argc; ++i) {
@@ -39,6 +38,9 @@ int main(int argc, char** argv) {
             driver.trace_parsing = true;
         } else if (argv[i] == std::string("-s")) {
             driver.trace_scanning = true;
+        } else if (!driver.parse(argv[i])) {
+             driver.executeProgram();
+//             std::cout << "\nProgram finished with code " << exit_code << ".\n";
         } else {
 
             driver.parse(argv[i]);

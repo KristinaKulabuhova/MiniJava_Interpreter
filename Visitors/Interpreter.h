@@ -62,9 +62,9 @@ class Interpreter : public Visitor {
     void Visit(ExecCode* expression) override; 
     void Visit(Formals* formals) override;
 
-    void Visit(Program* program);
+    void Visit(Program* program) override;
 
-  private: 
+  private:
     std::map<std::string, int> variables_;
     bool is_tos_expr_;
     int tos_value_;

@@ -50,10 +50,11 @@ void Driver::scan_end()
 
 int Driver::executeProgram() const
 {
-    PrintVisitor print_visitor;
+//    PrintVisitor print_visitor;
+    Interpreter interpreter;
     try
     {
-        program->main_class->Accept(print_visitor);
+        program->main_class->Accept(interpreter);
     }
     catch (...)
     {

@@ -230,7 +230,7 @@ statement: "assert" "(" expr ")" ";" 				{ $$ = new AssertExpr($3); }
          | "if"  "(" expr ")" statement "else" statement 	{ $$ = new If($3, $5, $7); }
          | "while"  "(" expr ")" statement 			{ $$ = new While($3, $5); }
          | "System" "." "out" "." "println" "(" expr ")" ";"  	{ $$ = new Println($7); }
-         | expr "=" expr ";" 					{ $$ = new Assignment($1, $3); }
+         | "identifier" "=" expr ";" 				{ $$ = new Assignment(new IdentExpr($1), $3); }
          | "return" expr ";"  					{ $$ = new Return($2); }
          | method_invocation ";"	 			{ $$ = $1; }
 

@@ -1,14 +1,14 @@
 
 #include "Interpreter.h"
 
-void Interpreter::Visit(AtExpr* expression) {}
-void Interpreter::Visit(FieldExpr* expression) {}
-void Interpreter::Visit(NewArrExpr* expression) {}
-void Interpreter::Visit(NewCustomVarExpr* expression) {}
+//void Interpreter::Visit(AtExpr* /*expression*/) {}
+void Interpreter::Visit(FieldExpr* /*expression*/) {}
+void Interpreter::Visit(NewArrExpr* /*expression*/) {}
+void Interpreter::Visit(NewCustomVarExpr* /*expression*/) {}
 
-void Interpreter::Visit(AndExpr* expression) {}
-void Interpreter::Visit(NotExpr* expression) {}
-void Interpreter::Visit(OrExpr* expression) {}
+void Interpreter::Visit(AndExpr* /*expression*/) {}
+void Interpreter::Visit(NotExpr* /*expression*/) {}
+void Interpreter::Visit(OrExpr* /*expression*/) {}
 
 void Interpreter::Visit(AddExpr* expression) {
     int value = 0;
@@ -116,27 +116,28 @@ void Interpreter::Visit(LessExpr* expression) {
 
 void Interpreter::Visit(IdentExpr* expression) {
     SetTosValue(variables_[expression->var_name_]);
+    curr_name_ = expression->var_name_;
 }
 
-void Interpreter::Visit(LengthExpr* expression) {}
+void Interpreter::Visit(LengthExpr* /*expression*/) {}
 
 void Interpreter::Visit(NumExpr* expression) {
     SetTosValue(expression->value);
 }
 
-void Interpreter::Visit(FalseExpr* expression) {
+void Interpreter::Visit(FalseExpr* /*expression*/) {
     SetTosValue(false);
 }
-void Interpreter::Visit(TrueExpr* expression) {
+void Interpreter::Visit(TrueExpr* /*expression*/) {
     SetTosValue(true);
 }
 
-void Interpreter::Visit(Class* expression) {}
+void Interpreter::Visit(Class* /*expression*/) {}
 
 void Interpreter::Visit(MainClass* expression) {
     expression->methods_[0]->Accept(*this);
 }
-void Interpreter::Visit(MethodInvocation* expression) {}
+void Interpreter::Visit(MethodInvocation* /*expression*/) {}
 
 void Interpreter::Visit(If* branching) {
     branching->statement->Accept(*this);
@@ -158,7 +159,11 @@ void Interpreter::Visit(While* expression) {
 	UnsetTosValue();
 }
 
-void Interpreter::Visit(MethodDeclaration* expression) {}
+void Interpreter::Visit(MethodDeclaration* expression) {
+    for (auto& line : expression->exec_code_->program_lines_) {
+        line->Accept(*this);
+    }
+}
 
 void Interpreter::Visit(Println* expression) {
     expression->expression->Accept(*this);
@@ -166,7 +171,7 @@ void Interpreter::Visit(Println* expression) {
 	UnsetTosValue();
 }
 
-void Interpreter::Visit(Return* expression) {}
+void Interpreter::Visit(Return* /*expression*/) {}
 
 void Interpreter::Visit(VariableDeclaration* expression) {
     variables_[expression->name_] = 0;
@@ -178,9 +183,9 @@ void Interpreter::Visit(AssertExpr* expression) {
 }
 
 void Interpreter::Visit(Assignment* assignment) {
-    assignment->to->Accept(*this);
+//    assignment->to->Accept(*this);
 	assignment->from->Accept(*this);
-	variables_[curr_name_] = tos_value_;
+	variables_[assignment->to->var_name_] = tos_value_;
 	UnsetTosValue();
 }
 
@@ -188,13 +193,13 @@ void Interpreter::Visit(Block* expression) {
     expression->exec_code->Accept(*this);
 }
 
-void Interpreter::Visit(ExecCode* expression) {}  
+void Interpreter::Visit(ExecCode* /*expression*/) {}
 
 void Interpreter::Visit(Program* program) {
     program->main_class->Accept(*this);
 }
 
-void Interpreter::Visit(Formals* formals) {}
+void Interpreter::Visit(Formals* /*formals*/) {}
 
 void Interpreter::SetTosValue(int value) {
 	is_tos_expr_ = true;
@@ -205,3 +210,5 @@ void Interpreter::UnsetTosValue() {
 	is_tos_expr_ = false;
 	tos_value_ = 0;
 }
+
+void Interpreter::Visit(AtExpr */*expression*/) {}

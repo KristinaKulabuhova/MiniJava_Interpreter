@@ -1,6 +1,6 @@
 #include "Assignment.h"
 
-Assignment::Assignment(BaseExpr *to, BaseExpr *from) : to(to), from(from) {}
+Assignment::Assignment(IdentExpr *to, BaseExpr *from) : to(to), from(from) {}
 
 Assignment::~Assignment()
 {

@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.16)
 
 SET(CMAKE_CXX_STANDARD 17)
 
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Werror")
 
 project(mini_java)
 set(
@@ -102,10 +102,6 @@ add_executable(
         SubsidiaryClasses/ClassDeclarationList.h
         SubsidiaryClasses/Formals.cpp
         SubsidiaryClasses/Formals.h
-#        MainElements/VariableCall.cpp
-#        MainElements/VariableCall.h
-#        MainElements/VariableArrCall.cpp
-#        MainElements/VariableArrCall.h
         Program.h
         Program.cpp ExecBlocks/Block.cpp
 
@@ -134,6 +130,9 @@ add_executable(
         Expressions/NewArrExpr.h
         Expressions/NewCustomVarExpr.cpp
         Expressions/NewCustomVarExpr.h
+
+        Expressions/SimpleType.cpp
+        Expressions/SimpleType.h
 
         Visitors/PrintVisitor.cpp
         Visitors/PrintVisitor.h

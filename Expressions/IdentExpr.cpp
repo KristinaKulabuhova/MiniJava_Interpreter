@@ -8,3 +8,5 @@ void IdentExpr::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+IdentExpr::~IdentExpr() {}
