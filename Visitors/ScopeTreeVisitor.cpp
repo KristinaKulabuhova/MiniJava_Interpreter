@@ -2,110 +2,109 @@
 
 #include <memory>
 
-ScopeTreeVisitor::SymbolTreeVisitor() :
-tree_(std::make_shared<ScopeLayer>()), current_layer_(tree_.getRoot()), blocks_counter_(0) {}
+ScopeTreeVisitor::SymbolTreeVisitor() : tree_(std::make_shared<ScopeLayer>()), current_layer_(tree_.getRoot()), blocks_counter_(0) {}
 
-int SymbolTreeVisitor::Visit(AtExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(AtExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(FieldExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(FieldExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(NewArrExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(NewArrExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(NewCustomVarExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(NewCustomVarExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(AndExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(AndExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(NotExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(NotExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(OrExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(OrExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(AddExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(AddExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(ModExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(ModExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(MulExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(MulExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(DivExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(DivExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(SubtractExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(SubtractExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(EqExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(EqExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(GEqExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(GEqExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(GreaterExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(GreaterExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(NEqExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(NEqExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(LEqExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(LEqExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(LessExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(LessExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(IdentExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(IdentExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(LengthExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(LengthExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(VarExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(VarExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(NumExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(NumExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(ThisExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(ThisExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(FalseExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(FalseExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(TrueExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(TrueExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(Class *expression) {
+void SymbolTreeVisitor::Visit(Class *expression) {
 
     auto prev_layer = current_layer_;
     current_layer_ = std::make_shared<ScopeLayer>(current_layer_->weak_from_this(), expression->name_);
@@ -119,32 +118,32 @@ int SymbolTreeVisitor::Visit(Class *expression) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(MainClass *expression) {
+void SymbolTreeVisitor::Visit(MainClass *expression) {
     expression->Class::Accept(*this);
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(MethodInvocation */*expression*/) {
+void SymbolTreeVisitor::Visit(MethodInvocation */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(For */*expression*/) {
+void SymbolTreeVisitor::Visit(For */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(If */*branching*/) {
+void SymbolTreeVisitor::Visit(If */*branching*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(While */*expression*/) {
+void SymbolTreeVisitor::Visit(While */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(Lvalue */*expression*/) {
+void SymbolTreeVisitor::Visit(Lvalue */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(MethodDeclaration *expression) {
+void SymbolTreeVisitor::Visit(MethodDeclaration *expression) {
     blocks_counter_ = 0;
     current_layer_->Put(expression->getName(),
                         std::make_shared<StFunction>(std::shared_ptr<MethodDeclaration>(expression)));
@@ -158,29 +157,29 @@ int SymbolTreeVisitor::Visit(MethodDeclaration *expression) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(Println */*expression*/) {
+void SymbolTreeVisitor::Visit(Println */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(Return */*expression*/) {
+void SymbolTreeVisitor::Visit(Return */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(VariableDeclaration *expression) {
+void SymbolTreeVisitor::Visit(VariableDeclaration *expression) {
     current_layer_->Put(expression->getName(),
                         std::make_shared<StVariable>(std::shared_ptr<VariableDeclaration>(expression)));
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(AssertExpr */*expression*/) {
+void SymbolTreeVisitor::Visit(AssertExpr */*expression*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(Assignment */*assignment*/) {
+void SymbolTreeVisitor::Visit(Assignment */*assignment*/) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(Block *expression) {
+void SymbolTreeVisitor::Visit(Block *expression) {
     auto prev_layer = current_layer_;
     current_layer_ = std::make_shared<ScopeLayer>(current_layer_->weak_from_this(),
                                                   std::to_string(blocks_counter_++));
@@ -192,14 +191,14 @@ int SymbolTreeVisitor::Visit(Block *expression) {
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(ExecCode *expression) {
+void SymbolTreeVisitor::Visit(ExecCode *expression) {
     for (auto& program_block : expression->program_lines_) {
         program_block->Accept(*this);
     }
     return 0;
 }
 
-int SymbolTreeVisitor::Visit(Program *program) {
+void SymbolTreeVisitor::Visit(Program *program) {
     program->main_class->Accept(*this);
     for (auto& class_decl : program->class_decl_list->classes) {
         class_decl->Accept(*this);
