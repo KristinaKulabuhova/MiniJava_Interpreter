@@ -23,6 +23,13 @@
 #include<Expressions/IdentExpr.h>
 #include<Expressions/LengthExpr.h>
 #include<Expressions/NumExpr.h>
+
+#include "symbols/StClass.h"
+#include "symbols/StVariable.h"
+#include "symbols/StFunction.h"
+#include "symbols/StArgument.h"
+#include "symbols/BaseSymbol.h"
+
 //#include<ThisExpr.h>
 
 #include<Expressions/FalseExpr.h>

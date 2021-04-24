@@ -8,7 +8,7 @@ class Formals
 {
 public:
   explicit Formals(VarTypeStr *type);
-  ~Formals() = default;
+  ~Formals();
 
   void addVar(VarTypeStr *type);
   void Accept(Visitor &visitor);

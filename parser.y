@@ -209,8 +209,8 @@ method_declaration: "public" type "identifier" "(" formals ")" "{" statement_lis
 
 variable_declaration: type "identifier" ";"	{ $$ = new VariableDeclaration($1, $2); }
 
-formals: type "identifier"			{ $$ = new Formals($1, $2); }
-	   | formals "," type "identifier"	{ $$ = $1, $$->addVar($3, $4); }
+formals: type "identifier"			{ $1->name_ = $2; $$ = new Formals($1); }
+	   | formals "," type "identifier"	{ $$ = $1; $3->name_ = $4; $$->addVar($3); }
 
 type: simple_type		 { $$ = new VarTypeStr($1, false); }
 	| simple_type "[]"	 { $$ = new VarTypeStr($1, true); }

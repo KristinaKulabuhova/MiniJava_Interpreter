@@ -2,9 +2,9 @@
 
 #include <memory>
 
-ScopeTreeVisitor::ScopeTreeVisitor() : tree_(std::make_shared<ScopeLayer>()), current_layer_(tree_.getRoot()), blocks_counter_(0) {}
-
 void ScopeTreeVisitor::Visit(Program *program) {
+    cur_scope = new BaseScope();
+    global_scope_ = cur_scope;
     program->main_class->Accept(*this);
     for (auto& class_decl : program->class_decl_list->classes) {
         class_decl->Accept(*this);
@@ -108,9 +108,7 @@ void ScopeTreeVisitor::Visit(TrueExpr */*expression*/) {
 
 void ScopeTreeVisitor::Visit(Class *expression) {
 
-    auto prev_layer = current_layer_;
-    current_layer_ = std::make_shared<ScopeLayer>(current_layer_->weak_from_this(), expression->name_);
-    prev_layer->AddChild(current_layer_);
+    cur_scope->elements[expression->name_] = new StClass(expression);
     for (auto& field : expression->variables_) {
         field->Accept(*this);
     }
@@ -130,26 +128,54 @@ void ScopeTreeVisitor::Visit(MethodInvocation */*expression*/) {
 }
 
 
-void ScopeTreeVisitor::Visit(If */*branching*/) {
-    
+void ScopeTreeVisitor::Visit(If* branching) {
+    if (dynamic_cast<Block*>(branching->true_branch)) {
+        auto old_scope = cur_scope;
+        cur_scope->children_.emplace_back(new BaseScope);
+        cur_scope = cur_scope->children_.back();
+
+        branching->true_branch->Accept(*this);
+
+        cur_scope = old_scope;
+    }
+    if (dynamic_cast<Block*>(branching->false_branch)) {
+        auto old_scope = cur_scope;
+        cur_scope->children_.emplace_back(new BaseScope);
+        cur_scope = cur_scope->children_.back();
+
+        branching->false_branch->Accept(*this);
+
+        cur_scope = old_scope;
+    }
 }
 
-void ScopeTreeVisitor::Visit(While */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(While* expression) {
+    if (dynamic_cast<Block*>(expression->cycle_body)) {
+        auto old_scope = cur_scope;
+        cur_scope->children_.emplace_back(new BaseScope);
+        cur_scope = cur_scope->children_.back();
+
+        expression->cycle_body->Accept(*this);
+
+        cur_scope = old_scope;
+    }
 }
 
 
 void ScopeTreeVisitor::Visit(MethodDeclaration *expression) {
-    blocks_counter_ = 0;
-    current_layer_->Put(expression->getName(),
-                        std::make_shared<StFunction>(std::shared_ptr<MethodDeclaration>(expression)));
-    auto prev_layer = current_layer_;
-    current_layer_ = std::make_shared<ScopeLayer>(current_layer_->weak_from_this(), expression->getName());
-    prev_layer->AddChild(current_layer_);
-    for (auto& argument : expression->getFormals()->variables) {
-        VariableDeclaration(argument.first, argument.second).Accept(*this);
+    cur_scope->elements[expression->name_] = new StFunction(expression);
+    auto old_scope = cur_scope;
+    cur_scope->children_.emplace_back(new BaseScope);
+    cur_scope = cur_scope->children_.back();
+
+    if (expression->arguments_) {
+        for (const auto &argument : expression->arguments_->variables) {
+            cur_scope->elements[argument->name_] = new StVariable(*argument);
+        }
     }
-    expression->getCode()->Accept(*this);
+    expression->exec_code_->Accept(*this);
+
+    cur_scope = old_scope;
     
 }
 
@@ -162,9 +188,7 @@ void ScopeTreeVisitor::Visit(Return */*expression*/) {
 }
 
 void ScopeTreeVisitor::Visit(VariableDeclaration *expression) {
-    current_layer_->Put(expression->getName(),
-                        std::make_shared<StVariable>(std::shared_ptr<VariableDeclaration>(expression)));
-    
+    cur_scope->elements[expression->name_] = new StVariable(*expression->type_);
 }
 
 void ScopeTreeVisitor::Visit(AssertExpr */*expression*/) {
@@ -176,15 +200,13 @@ void ScopeTreeVisitor::Visit(Assignment */*assignment*/) {
 }
 
 void ScopeTreeVisitor::Visit(Block *expression) {
-    auto prev_layer = current_layer_;
-    current_layer_ = std::make_shared<ScopeLayer>(current_layer_->weak_from_this(),
-                                                  std::to_string(blocks_counter_++));
-    prev_layer->AddChild(current_layer_);
-    auto prev_blocks_counter = blocks_counter_;
-    blocks_counter_ = 0;
+    auto old_scope = cur_scope;
+    cur_scope->children_.emplace_back(new BaseScope);
+    cur_scope = cur_scope->children_.back();
+
     expression->exec_code->Accept(*this);
-    blocks_counter_ = prev_blocks_counter;
-    
+
+    cur_scope = old_scope;
 }
 
 void ScopeTreeVisitor::Visit(ExecCode *expression) {
@@ -194,6 +216,6 @@ void ScopeTreeVisitor::Visit(ExecCode *expression) {
     
 }
 
-std::shared_ptr<ScopeLayer> ScopeTreeVisitor::GetTree() {
-    return tree_.getRoot();
+void ScopeTreeVisitor::Visit(Formals */*formals*/) {
+
 }

@@ -311,14 +311,9 @@ void PrintVisitor::printTabs() const {
 }
 
 void PrintVisitor::Visit(Formals *formals) {
-    if (!formals->variables.empty()) {
-        printVarTypeStr(formals->variables.front().first);
-        std::cout << " " << formals->variables.front().second;
-    }
-    for (size_t i = 1 ; i < formals->variables.size(); ++i) {
-        std::cout << ", ";
-        printVarTypeStr(formals->variables[i].first);
-        std::cout << " " << formals->variables[i].second;
+    for (const auto& var : formals->variables) {
+        printVarTypeStr(var);
+        std::cout << " " << var->name_;
     }
     
 }
@@ -358,7 +353,7 @@ void PrintVisitor::PrintSimpleType(SimpleType* simple_type, bool array) {
             std::cout << "VOID";
         }
         default: {
-            std::cout << simple_type->type_name_ << " CUSTOM";
+            std::cout << simple_type->type_name_ << "CUSTOM";
         }
     }
     if (array) {

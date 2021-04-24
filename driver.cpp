@@ -51,10 +51,12 @@ void Driver::scan_end()
 int Driver::executeProgram() const
 {
 //    PrintVisitor print_visitor;
+    ScopeTreeVisitor scope_tree_visitor;
     Interpreter interpreter;
     try
     {
-        program->main_class->Accept(interpreter);
+        program->Accept(scope_tree_visitor);
+        program->Accept(interpreter);
     }
     catch (...)
     {
