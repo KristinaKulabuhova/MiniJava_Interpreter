@@ -4,10 +4,14 @@
 #include "BaseElements/BaseExpr.h"
 #include <vector>
 
-class ExprList {
-  public:
-    std::vector<BaseExpr*> expressions;
-    explicit ExprList(BaseExpr* expression);
-    void addExpr(BaseExpr* expression);
-};
+class ExprList
+{
+public:
+  explicit ExprList(BaseExpr *expression);
+  ~ExprList() = default;
 
+  void addExpr(BaseExpr *expression);
+
+public:
+  std::vector<BaseExpr *> expressions;
+};

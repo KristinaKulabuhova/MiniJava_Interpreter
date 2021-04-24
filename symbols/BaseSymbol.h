@@ -2,8 +2,12 @@
 
 #include <string>
 
-class BaseSymbol {
- public:
-  std::string name;
+class BaseSymbol
+{
+public:
+  BaseSymbol() = default;
   virtual ~BaseSymbol() = default;
+
+public:
+  std::string name;
 };

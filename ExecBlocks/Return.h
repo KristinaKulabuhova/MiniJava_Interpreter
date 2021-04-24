@@ -3,12 +3,14 @@
 #include "BaseElements/BaseExecBlock.h"
 #include "BaseElements/BaseExpr.h"
 
-class Return : public BaseExecBlock {
-  public:
-    BaseExpr* expression;
-    explicit Return(BaseExpr* expression);
-    void Accept(Visitor& visitor) override;
-    ~Return() override;
+class Return : public BaseExecBlock
+{
+public:
+  explicit Return(BaseExpr *expression);
+  ~Return() override;
+
+  void Accept(Visitor &visitor) override;
+
+public:
+  BaseExpr *expression;
 };
-
-

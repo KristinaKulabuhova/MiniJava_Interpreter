@@ -2,10 +2,12 @@
 
 Println::Println(BaseExpr *expression) : expression(expression) {}
 
-void Println::Accept(Visitor &visitor) {
-    visitor.Visit(this);
+Println::~Println()
+{
+    delete expression;
 }
 
-Println::~Println() {
-    delete expression;
+void Println::Accept(Visitor &visitor)
+{
+    visitor.Visit(this);
 }

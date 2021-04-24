@@ -5,9 +5,14 @@
 #include <vector>
 #include <variant>
 
-class DeclarationList {
-  public:
-    std::vector<std::variant<MethodDeclaration*, VariableDeclaration*>> declarations;
-    void addDecl(const std::variant<MethodDeclaration*, VariableDeclaration*>& declaration);
-};
+class DeclarationList
+{
+public:
+  DeclarationList() = default;
+  ~DeclarationList() = default;
 
+  void addDecl(const std::variant<MethodDeclaration *, VariableDeclaration *> &declaration);
+
+public:
+  std::vector<std::variant<MethodDeclaration *, VariableDeclaration *>> declarations;
+};

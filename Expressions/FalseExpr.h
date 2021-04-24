@@ -2,11 +2,11 @@
 
 #include "BaseElements/BaseExpr.h"
 
-class FalseExpr : public BaseExpr {
-  public:
-    FalseExpr() = default;
-    ~FalseExpr() override = default;
-    void Accept(Visitor& visitor) override;
+class FalseExpr : public BaseExpr
+{
+public:
+  FalseExpr() = default;
+  ~FalseExpr() override = default;
+
+  void Accept(Visitor &visitor) override;
 };
-
-

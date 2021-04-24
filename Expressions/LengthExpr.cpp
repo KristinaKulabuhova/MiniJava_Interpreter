@@ -1,11 +1,13 @@
 #include "LengthExpr.h"
 
-LengthExpr::LengthExpr(BaseExpr* array) : array(array) {}
+LengthExpr::LengthExpr(BaseExpr *array) : array(array) {}
 
-LengthExpr::~LengthExpr() {
+LengthExpr::~LengthExpr()
+{
     delete array;
 }
 
-void LengthExpr::Accept(Visitor &visitor) {
+void LengthExpr::Accept(Visitor &visitor)
+{
     visitor.Visit(this);
 }

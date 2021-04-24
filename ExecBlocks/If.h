@@ -5,12 +5,15 @@
 
 class If : public BaseExecBlock {
   public:
+    If(BaseExpr* statement, BaseExecBlock* true_branch, BaseExecBlock* false_branch = nullptr);
+    ~If() override;
+
+    void Accept(Visitor& visitor) override;
+
+  public:
     BaseExpr* statement;
     BaseExecBlock* true_branch;
     BaseExecBlock* false_branch;
-    If(BaseExpr* statement, BaseExecBlock* true_branch, BaseExecBlock* false_branch = nullptr);
-    void Accept(Visitor& visitor) override;
-    ~If() override;
 };
 
 

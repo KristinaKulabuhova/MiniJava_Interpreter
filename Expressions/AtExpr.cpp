@@ -2,11 +2,13 @@
 
 AtExpr::AtExpr(BaseExpr *array, BaseExpr *index) : array(array), index(index) {}
 
-AtExpr::~AtExpr() {
+AtExpr::~AtExpr()
+{
     delete array;
     delete index;
 }
 
-void AtExpr::Accept(Visitor &visitor) {
+void AtExpr::Accept(Visitor &visitor)
+{
     visitor.Visit(this);
 }

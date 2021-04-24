@@ -1,12 +1,14 @@
 #pragma once
 #include "BaseElements/BaseExpr.h"
 
-class FieldExpr : public BaseExpr {
-  public:
-    std::string name;
+class FieldExpr : public BaseExpr
+{
+public:
+  explicit FieldExpr(std::string name);
+  ~FieldExpr() = default;
 
-    explicit FieldExpr(std::string name);
-    void Accept(Visitor& visitor) override;
+  void Accept(Visitor &visitor) override;
+
+public:
+  std::string name;
 };
-
-

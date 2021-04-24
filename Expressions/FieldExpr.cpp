@@ -1,6 +1,7 @@
 #include "FieldExpr.h"
 
-void FieldExpr::Accept(Visitor &visitor) {
+void FieldExpr::Accept(Visitor &visitor)
+{
     visitor.Visit(this);
 }
 

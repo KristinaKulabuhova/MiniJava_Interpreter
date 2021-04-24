@@ -3,12 +3,14 @@
 #include "BaseElements/BaseExecBlock.h"
 #include "BaseElements/BaseExpr.h"
 
-class Println : public BaseExecBlock {
-  public:
-    BaseExpr* expression;
+class Println : public BaseExecBlock
+{
+public:
+  explicit Println(BaseExpr *expression);
+  ~Println() override;
 
-    explicit Println(BaseExpr* expression);
-    void Accept(Visitor& visitor) override;
-    ~Println() override;
+  void Accept(Visitor &visitor) override;
+
+public:
+  BaseExpr *expression;
 };
-

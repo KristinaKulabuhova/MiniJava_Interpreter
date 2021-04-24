@@ -4,13 +4,15 @@
 
 #include <string>
 
-class Assignment : public BaseExecBlock {
-  public:
-    BaseExpr* to;
-    BaseExpr* from;
-    Assignment(BaseExpr* to, BaseExpr* from);
-    void Accept(Visitor& visitor) override;
-    ~Assignment() override;
+class Assignment : public BaseExecBlock
+{
+public:
+  Assignment(BaseExpr *to, BaseExpr *from);
+  ~Assignment() override;
+
+  void Accept(Visitor &visitor) override;
+
+public:
+  BaseExpr *to;
+  BaseExpr *from;
 };
-
-
