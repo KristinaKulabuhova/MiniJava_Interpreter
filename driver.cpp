@@ -1,10 +1,10 @@
 #include "driver.hh"
 
-
 Driver::Driver() : trace_parsing(false),
                    trace_scanning(false),
                    scanner(*this), parser(scanner, *this)
-{}
+{
+}
 
 // int Driver::Evaluate()
 // {
@@ -50,13 +50,13 @@ void Driver::scan_end()
 
 int Driver::executeProgram() const
 {
-//    PrintVisitor print_visitor;
+    PrintVisitor print_visitor;
     ScopeTreeVisitor scope_tree_visitor;
-    Interpreter interpreter;
+    //Interpreter interpreter;
     try
     {
         program->Accept(scope_tree_visitor);
-        program->Accept(interpreter);
+        program->Accept(print_visitor);
     }
     catch (...)
     {
@@ -64,10 +64,3 @@ int Driver::executeProgram() const
     }
     return 0;
 }
-
-// std::shared_ptr<ScopeLayer> Driver::getScopeLayerTree() const
-// {
-//     SymbolTreeVisitor visitor;
-//     program->Accept(visitor);
-//     return visitor.GetTree();
-// }

@@ -345,12 +345,15 @@ void PrintVisitor::PrintSimpleType(SimpleType* simple_type, bool array) {
     switch (simple_type->type_id) {
         case int_t: {
             std::cout << "INT";
+            break;
         }
         case bool_t: {
             std::cout << "BOOLEAN";
+            break;
         }
         case void_t: {
             std::cout << "VOID";
+            break;
         }
         default: {
             std::cout << simple_type->type_name_ << "CUSTOM";
