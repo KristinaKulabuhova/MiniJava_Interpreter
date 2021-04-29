@@ -20,18 +20,6 @@ void Class::initialize(DeclarationList *decl_list)
     delete decl_list;
 }
 
-Class::~Class()
-{
-    for (VariableDeclaration *declaration : variables_)
-    {
-        delete declaration;
-    }
-    for (MethodDeclaration *declaration : methods_)
-    {
-        delete declaration;
-    }
-}
-
 void Class::addMethod(MethodDeclaration *declaration)
 {
     methods_.emplace_back(declaration);

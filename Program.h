@@ -8,7 +8,7 @@ class Program
 {
 public:
   Program(MainClass *main_class, ClassDeclarationList *class_decl_list);
-  ~Program();
+  ~Program() = default;
 
   void Accept(Visitor &visitor);
 

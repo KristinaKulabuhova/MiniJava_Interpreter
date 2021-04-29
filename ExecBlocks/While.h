@@ -7,7 +7,7 @@ class While : public BaseExecBlock
 {
 public:
   While(BaseExpr *statement, BaseExecBlock *cycle_body);
-  ~While() override;
+  ~While() override = default;
 
   void Accept(Visitor &visitor) override;
 

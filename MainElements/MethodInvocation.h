@@ -12,6 +12,8 @@ public:
   MethodInvocation(BaseExpr *callable_expr, std::string name, ExprList *arguments);
   explicit MethodInvocation(FieldExpr *callable_expr, ExprList *expr_list = nullptr);
 
+  ~MethodInvocation() override = default;
+
   void Accept(Visitor &visitor) override;
 
 public:

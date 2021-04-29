@@ -6,7 +6,7 @@
 class If : public BaseExecBlock {
   public:
     If(BaseExpr* statement, BaseExecBlock* true_branch, BaseExecBlock* false_branch = nullptr);
-    ~If() override;
+    ~If() override = default;
 
     void Accept(Visitor& visitor) override;
 

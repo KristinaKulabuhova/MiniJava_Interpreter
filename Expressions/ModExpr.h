@@ -6,7 +6,7 @@ class ModExpr : public BaseExpr
 {
 public:
   ModExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
-  ~ModExpr() override;
+  ~ModExpr() override = default;
 
   void Accept(Visitor &visitor) override;
 

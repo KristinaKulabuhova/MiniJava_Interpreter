@@ -2,10 +2,6 @@
 
 VariableDeclaration::VariableDeclaration(VarTypeStr *type, std::string name, int value) : type_(type), name_(std::move(name)), value_(value) {}
 
-VariableDeclaration::~VariableDeclaration() {
-    delete type_;
-}
-
 VarTypeStr *VariableDeclaration::GetType() const
 {
     return type_;

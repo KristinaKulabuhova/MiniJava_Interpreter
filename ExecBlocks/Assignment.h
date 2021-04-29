@@ -8,7 +8,7 @@
 class Assignment : public BaseExecBlock {
   public:
     Assignment(IdentExpr* to, BaseExpr* from);
-    ~Assignment() override;
+    ~Assignment() override = default;
 
     void Accept(Visitor& visitor) override;
 

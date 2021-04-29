@@ -40,6 +40,7 @@ int Driver::executeProgram() const
 {
     PrintVisitor print_visitor;
     ScopeTreeVisitor scope_tree_visitor;
+    GarbageCollector collector;
     //Interpreter interpreter;
     try
     {
@@ -50,9 +51,6 @@ int Driver::executeProgram() const
     {
         return -1;
     }
+    program->Accept(collector);
     return 0;
-}
-
-Driver::~Driver() {
-    delete program;
 }

@@ -5,7 +5,7 @@ class AtExpr : public BaseExpr
 {
 public:
   AtExpr(BaseExpr *array, BaseExpr *index);
-  ~AtExpr() override;
+  ~AtExpr() override = default;
 
   void Accept(Visitor &visitor) override;
 

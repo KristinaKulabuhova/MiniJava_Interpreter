@@ -2,12 +2,6 @@
 
 Assignment::Assignment(IdentExpr *to, BaseExpr *from) : to_(to), from_(from) {}
 
-Assignment::~Assignment()
-{
-    delete to_;
-    delete from_;
-}
-
 IdentExpr* Assignment::GetTo() const {
       return to_;
     }

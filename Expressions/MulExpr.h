@@ -6,7 +6,7 @@ class MulExpr : public BaseExpr
 {
 public:
   MulExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
-  ~MulExpr() override;
+  ~MulExpr() override = default;
 
   void Accept(Visitor &visitor) override;
 

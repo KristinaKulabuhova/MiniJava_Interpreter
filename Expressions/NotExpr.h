@@ -6,7 +6,7 @@ class NotExpr : public BaseExpr
 {
 public:
   explicit NotExpr(BaseExpr *p_expr);
-  ~NotExpr() override;
+  ~NotExpr() override = default;
 
   void Accept(Visitor &visitor) override;
 

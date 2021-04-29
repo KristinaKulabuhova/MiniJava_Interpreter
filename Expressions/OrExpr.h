@@ -6,7 +6,7 @@ class OrExpr : public BaseExpr
 {
 public:
   OrExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
-  ~OrExpr() override;
+  ~OrExpr() override = default;
 
   void Accept(Visitor &visitor) override;
 

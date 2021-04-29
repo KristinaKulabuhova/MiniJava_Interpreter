@@ -2,11 +2,6 @@
 
 AssertExpr::AssertExpr(BaseExpr *expression) : expression(expression) {}
 
-AssertExpr::~AssertExpr()
-{
-    delete expression;
-}
-
 BaseExpr* AssertExpr::GetExpression() const {
     return expression;
   }

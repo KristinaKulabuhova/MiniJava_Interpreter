@@ -12,7 +12,7 @@ std::string MethodDeclaration::GetName() const
     return name_;
 }
 
-std::shared_ptr<Formals> MethodDeclaration::GetFormals() const
+Formals* MethodDeclaration::GetFormals() const
 {
     return arguments_;
 }
@@ -22,7 +22,7 @@ VarTypeStr *MethodDeclaration::GetType() const
     return return_type_;
 }
 
-std::shared_ptr<ExecCode> MethodDeclaration::GetCode() const
+ExecCode* MethodDeclaration::GetCode() const
 {
     return exec_code_;
 }

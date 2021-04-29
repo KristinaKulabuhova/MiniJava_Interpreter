@@ -148,5 +148,10 @@ add_executable(
         symbols/StArgument.cpp
         symbols/StClass.h
 
-        symbols/StClass.cpp Scopes/BaseScope.cpp Scopes/BaseScope.h)
+        symbols/StClass.cpp
+        Scopes/BaseScope.cpp
+        Scopes/BaseScope.h
+        Visitors/GarbageCollector.cpp
+        Visitors/GarbageCollector.h
+)
 target_include_directories(mini_java PRIVATE ${mini_java_SOURCE_DIR})

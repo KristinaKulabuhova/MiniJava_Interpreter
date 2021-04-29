@@ -6,7 +6,7 @@ class LEqExpr : public BaseExpr
 {
 public:
   LEqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
-  ~LEqExpr() override;
+  ~LEqExpr() override = default;
   
   void Accept(Visitor &visitor) override;
 

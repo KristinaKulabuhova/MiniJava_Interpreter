@@ -6,7 +6,7 @@ class LengthExpr : public BaseExpr
 {
 public:
   explicit LengthExpr(BaseExpr *array);
-  ~LengthExpr() override;
+  ~LengthExpr() override = default;
 
   void Accept(Visitor &visitor) override;
 

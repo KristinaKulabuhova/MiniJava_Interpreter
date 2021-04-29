@@ -11,7 +11,7 @@ class Class : public BaseDeclaration
 {
 public:
   void Accept(Visitor &visitor) override;
-  ~Class() override;
+  ~Class() override = default;
   Class(std::string name, std::string parent_class);
 
   void initialize(DeclarationList *decl_list);

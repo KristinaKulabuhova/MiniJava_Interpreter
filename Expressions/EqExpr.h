@@ -5,7 +5,7 @@ class EqExpr : public BaseExpr
 {
 public:
   EqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
-  ~EqExpr() override;
+  ~EqExpr() override = default;
   
   void Accept(Visitor &visitor) override;
 

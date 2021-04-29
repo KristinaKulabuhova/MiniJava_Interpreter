@@ -8,7 +8,7 @@ class VariableDeclaration : public BaseExecBlock
 {
 public:
   VariableDeclaration(VarTypeStr *type, std::string name, int value = 0);
-  ~VariableDeclaration();
+  ~VariableDeclaration() override = default;
 
   VarTypeStr *GetType() const;
   std::string GetName() const;

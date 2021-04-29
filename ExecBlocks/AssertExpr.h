@@ -7,7 +7,7 @@ class AssertExpr : public BaseExecBlock
 {
 public:
   explicit AssertExpr(BaseExpr *expression);
-  ~AssertExpr() override;
+  ~AssertExpr() override = default;
 
   void Accept(Visitor &visitor) override;
 

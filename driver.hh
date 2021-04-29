@@ -10,6 +10,7 @@
 #include "Visitors/Interpreter.h"
 #include "Visitors/PrintVisitor.h"
 #include "Visitors/ScopeTreeVisitor.h"
+#include "Visitors/GarbageCollector.h"
 
 class Driver
 {

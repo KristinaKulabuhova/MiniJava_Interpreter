@@ -6,7 +6,7 @@ class GreaterExpr : public BaseExpr
 {
 public:
   GreaterExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
-  ~GreaterExpr() override;
+  ~GreaterExpr() override = default;
   
   void Accept(Visitor &visitor) override;
 

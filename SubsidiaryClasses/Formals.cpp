@@ -14,12 +14,6 @@ void Formals::addVar(VarTypeStr *type) {
     variables.emplace_back(type);
 }
 
-Formals::~Formals() {
-    for (auto& arg : variables) {
-        delete arg;
-    }
-}
-
 std::vector<VarTypeStr *> Formals::GetVariables() const {
     return variables;
 }

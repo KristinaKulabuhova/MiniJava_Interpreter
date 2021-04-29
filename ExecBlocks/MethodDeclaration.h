@@ -15,15 +15,15 @@ public:
   ~MethodDeclaration() override = default;
 
   std::string GetName() const;
-  std::shared_ptr<Formals> GetFormals() const;
+  Formals* GetFormals() const;
   VarTypeStr *GetType() const;
-  std::shared_ptr<ExecCode> GetCode() const;
+  ExecCode* GetCode() const;
 
   void Accept(Visitor &visitor) override;
 
 private:
   std::string name_;
-  std::shared_ptr<Formals> arguments_;
+  Formals* arguments_;
   VarTypeStr *return_type_;
-  std::shared_ptr<ExecCode> exec_code_;
+  ExecCode* exec_code_;
 };

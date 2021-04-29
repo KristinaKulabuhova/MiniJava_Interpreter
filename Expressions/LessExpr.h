@@ -6,7 +6,7 @@ class LessExpr : public BaseExpr
 {
 public:
   LessExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
-  ~LessExpr() override;
+  ~LessExpr() override = default;
 
   void Accept(Visitor &visitor) override;
 

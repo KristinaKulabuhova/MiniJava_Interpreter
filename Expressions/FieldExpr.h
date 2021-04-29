@@ -5,7 +5,7 @@ class FieldExpr : public BaseExpr
 {
 public:
   explicit FieldExpr(std::string name);
-  ~FieldExpr() = default;
+  ~FieldExpr() override = default;
 
   void Accept(Visitor &visitor) override;
 

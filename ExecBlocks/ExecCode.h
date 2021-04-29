@@ -9,7 +9,7 @@ class ExecCode : public BaseExecBlock
 public:
   ExecCode() = default;
   explicit ExecCode(BaseExecBlock *line);
-  ~ExecCode() override;
+  ~ExecCode() override = default;
 
   void addBaseBlock(BaseExecBlock *line);
   void Accept(Visitor &visitor) override;

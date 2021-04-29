@@ -7,7 +7,7 @@ class Println : public BaseExecBlock
 {
 public:
   explicit Println(BaseExpr *expression);
-  ~Println() override;
+  ~Println() override = default;
 
   void Accept(Visitor &visitor) override;
 
