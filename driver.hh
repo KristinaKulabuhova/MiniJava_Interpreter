@@ -19,7 +19,7 @@ public:
 
 public:
    Driver();
-   ~Driver();
+   ~Driver() = default;
 
    int parse(const std::string &f);
 
