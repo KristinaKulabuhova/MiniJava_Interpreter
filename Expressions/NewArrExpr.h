@@ -11,7 +11,10 @@ public:
   
   void Accept(Visitor &visitor) override;
 
-public:
+  SimpleType* GetType() const;
+  BaseExpr* GetElement() const;
+
+private:
   SimpleType *simple_type;
   BaseExpr *n_elements;
 };

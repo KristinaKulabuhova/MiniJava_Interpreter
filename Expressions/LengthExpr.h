@@ -10,6 +10,8 @@ public:
 
   void Accept(Visitor &visitor) override;
 
-public:
+  BaseExpr* GetArray() const;
+
+private:
   BaseExpr *array;
 };

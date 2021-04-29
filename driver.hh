@@ -18,6 +18,7 @@ public:
 
 public:
    Driver();
+   ~Driver();
 
    int parse(const std::string &f);
 
@@ -28,7 +29,7 @@ public:
 
 public:
    std::ifstream stream;
-   Program *program;
+   Program *program = nullptr;
    bool trace_parsing;
    bool trace_scanning;
    yy::location location;

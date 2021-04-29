@@ -4,9 +4,14 @@
 
 #include "Expressions/VarType.h"
 
+class StVariable : public BaseSymbol
+{
+public:
+  explicit StVariable(const VarTypeStr &type);
+  ~StVariable() = default;
 
-class StVariable : public BaseSymbol {
- public:
-  explicit StVariable(const VarTypeStr& type);
+  VarTypeStr GetType() const;
+
+private:
   VarTypeStr type_;
 };

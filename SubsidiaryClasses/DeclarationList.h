@@ -11,8 +11,10 @@ public:
   DeclarationList() = default;
   ~DeclarationList() = default;
 
-  void addDecl(const std::variant<MethodDeclaration *, VariableDeclaration *> &declaration);
+  void addDecl(BaseExecBlock *declaration);
 
-public:
+  std::vector<std::variant<MethodDeclaration *, VariableDeclaration *>> GetDeclarations() const;
+
+private:
   std::vector<std::variant<MethodDeclaration *, VariableDeclaration *>> declarations;
 };

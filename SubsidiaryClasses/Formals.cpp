@@ -19,3 +19,7 @@ Formals::~Formals() {
         delete arg;
     }
 }
+
+std::vector<VarTypeStr *> Formals::GetVariables() const {
+    return variables;
+}

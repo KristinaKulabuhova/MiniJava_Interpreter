@@ -8,6 +8,8 @@ public:
   BaseSymbol() = default;
   virtual ~BaseSymbol() = default;
 
-public:
+  std::string GetName() const;
+
+private:
   std::string name;
 };

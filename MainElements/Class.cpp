@@ -2,37 +2,67 @@
 
 #include <utility>
 
-Class::Class(std::string name, std::string parent_class) :
-name_(std::move(name)), parent_class_(std::move(parent_class)) {}
+Class::Class(std::string name, std::string parent_class) : name_(std::move(name)), parent_class_(std::move(parent_class)) {}
 
-void Class::initialize(DeclarationList *decl_list) {
-    for (std::variant<MethodDeclaration*, VariableDeclaration*>& declaration : decl_list->declarations) {
-        if (declaration.index() == 0) {
-            addMethod(std::get<MethodDeclaration*>(declaration));
-        } else {
-            addVariable(std::get<VariableDeclaration*>(declaration));
+void Class::initialize(DeclarationList *decl_list)
+{
+    for (auto &declaration : decl_list->GetDeclarations())
+    {
+        if (declaration.index() == 0)
+        {
+            addMethod(std::get<MethodDeclaration *>(declaration));
+        }
+        else
+        {
+            addVariable(std::get<VariableDeclaration *>(declaration));
         }
     }
     delete decl_list;
 }
 
-void Class::addMethod(MethodDeclaration *declaration) {
+Class::~Class()
+{
+    for (VariableDeclaration *declaration : variables_)
+    {
+        delete declaration;
+    }
+    for (MethodDeclaration *declaration : methods_)
+    {
+        delete declaration;
+    }
+}
+
+void Class::addMethod(MethodDeclaration *declaration)
+{
     methods_.emplace_back(declaration);
 }
 
-void Class::addVariable(VariableDeclaration *declaration) {
+void Class::addVariable(VariableDeclaration *declaration)
+{
     variables_.emplace_back(declaration);
 }
 
-void Class::Accept(Visitor &visitor) {
+void Class::Accept(Visitor &visitor)
+{
     visitor.Visit(this);
 }
 
-Class::~Class() {
-    for (VariableDeclaration* declaration : variables_) {
-        delete declaration;
-    }
-    for (MethodDeclaration* declaration : methods_) {
-        delete declaration;
-    }
+std::string Class::GetName() const
+{
+    return name_;
+}
+
+std::string Class::GetParent() const
+{
+    return parent_class_;
+}
+
+std::vector<VariableDeclaration *> Class::GetVariable() const
+{
+    return variables_;
+}
+
+std::vector<MethodDeclaration *> Class::GetMethods() const
+{
+    return methods_;
 }

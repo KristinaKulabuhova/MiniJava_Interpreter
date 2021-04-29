@@ -12,3 +12,13 @@ void SubtractExpr::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+BaseExpr *SubtractExpr::GetLeft() const
+{
+    return p_lhs;
+}
+
+BaseExpr *SubtractExpr::GetRight() const
+{
+    return p_rhs;
+}

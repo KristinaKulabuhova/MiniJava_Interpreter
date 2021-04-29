@@ -11,3 +11,7 @@ void LengthExpr::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+ BaseExpr* LengthExpr::GetArray() const {
+    return array;
+ }

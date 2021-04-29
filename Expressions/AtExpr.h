@@ -9,7 +9,10 @@ public:
 
   void Accept(Visitor &visitor) override;
 
-public:
+  BaseExpr* GetArray() const;
+  BaseExpr* GetIndex() const;
+
+private:
   BaseExpr *array;
   BaseExpr *index;
 };

@@ -2,17 +2,21 @@
 
 VariableDeclaration::VariableDeclaration(VarTypeStr *type, std::string name, int value) : type_(type), name_(std::move(name)), value_(value) {}
 
-VarTypeStr *VariableDeclaration::getType() const
+VariableDeclaration::~VariableDeclaration() {
+    delete type_;
+}
+
+VarTypeStr *VariableDeclaration::GetType() const
 {
     return type_;
 }
 
-std::string VariableDeclaration::getName() const
+std::string VariableDeclaration::GetName() const
 {
     return name_;
 }
 
-int VariableDeclaration::getValue() const
+int VariableDeclaration::GetValue() const
 {
     return value_;
 }

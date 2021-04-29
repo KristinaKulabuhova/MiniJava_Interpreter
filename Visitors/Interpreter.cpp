@@ -12,117 +12,117 @@ void Interpreter::Visit(OrExpr* /*expression*/) {}
 
 void Interpreter::Visit(AddExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
 
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
     value += tos_value_;
     SetTosValue(value);
 }
 
 void Interpreter::Visit(ModExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
 
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
     value %= tos_value_;
     SetTosValue(value);
 }
 
 void Interpreter::Visit(MulExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
 
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
     value *= tos_value_;
     SetTosValue(value);
 }
 
 void Interpreter::Visit(DivExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
 
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
     value /= tos_value_;
     SetTosValue(value);
 }
 
 void Interpreter::Visit(SubtractExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
 
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
     value -= tos_value_;
     SetTosValue(value);
 }
 
 void Interpreter::Visit(EqExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
 
     SetTosValue(value == tos_value_);
 }
 
 void Interpreter::Visit(GEqExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
 
     SetTosValue(value >= tos_value_);
 }
 
 void Interpreter::Visit(GreaterExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
 
     SetTosValue(value > tos_value_);
 }
 
 void Interpreter::Visit(NEqExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
 
     SetTosValue(value != tos_value_);
 }
 
 void Interpreter::Visit(LEqExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
 
     SetTosValue(value <= tos_value_);
 }
 
 void Interpreter::Visit(LessExpr* expression) {
     int value = 0;
-    expression->p_lhs->Accept(*this);
+    expression->GetLeft()->Accept(*this);
     value += tos_value_;
-    expression->p_rhs->Accept(*this);
+    expression->GetRight()->Accept(*this);
 
     SetTosValue(value < tos_value_);
 }  
 
 void Interpreter::Visit(IdentExpr* expression) {
-    SetTosValue(variables_[expression->var_name_]);
-    curr_name_ = expression->var_name_;
+    SetTosValue(variables_[expression->GetName()]);
+    curr_name_ = expression->GetName();
 }
 
 void Interpreter::Visit(LengthExpr* /*expression*/) {}
 
 void Interpreter::Visit(NumExpr* expression) {
-    SetTosValue(expression->value);
+    SetTosValue(expression->GetValue());
 }
 
 void Interpreter::Visit(FalseExpr* /*expression*/) {
@@ -135,38 +135,38 @@ void Interpreter::Visit(TrueExpr* /*expression*/) {
 void Interpreter::Visit(Class* /*expression*/) {}
 
 void Interpreter::Visit(MainClass* expression) {
-    expression->methods_[0]->Accept(*this);
+    expression->GetMethods()[0]->Accept(*this);
 }
 void Interpreter::Visit(MethodInvocation* /*expression*/) {}
 
 void Interpreter::Visit(If* branching) {
-    branching->statement->Accept(*this);
+    branching->GetStatement()->Accept(*this);
 
 	if (tos_value_) {
-        branching->true_branch->Accept(*this);
-	} else if (branching->false_branch != nullptr) {
-		branching->false_branch->Accept(*this);
+        branching->GetTrueBranch()->Accept(*this);
+	} else if (branching->GetFalseBranch() != nullptr) {
+		branching->GetFalseBranch()->Accept(*this);
 	}
 
 	UnsetTosValue();
 }
 
 void Interpreter::Visit(While* expression) {
-    expression->statement->Accept(*this);
+    expression->GetStatement()->Accept(*this);
 	while(tos_value_) {
-	    expression->cycle_body->Accept(*this);
+	    expression->GetCycleBody()->Accept(*this);
 	}
 	UnsetTosValue();
 }
 
 void Interpreter::Visit(MethodDeclaration* expression) {
-    for (auto& line : expression->exec_code_->program_lines_) {
+    for (auto& line : expression->GetCode()->GetProgramLines()) {
         line->Accept(*this);
     }
 }
 
 void Interpreter::Visit(Println* expression) {
-    expression->expression->Accept(*this);
+    expression->GetExpression()->Accept(*this);
 	std::cout << tos_value_ << '\n';
 	UnsetTosValue();
 }
@@ -174,23 +174,23 @@ void Interpreter::Visit(Println* expression) {
 void Interpreter::Visit(Return* /*expression*/) {}
 
 void Interpreter::Visit(VariableDeclaration* expression) {
-    variables_[expression->name_] = 0;
+    variables_[expression->GetName()] = 0;
 }
 void Interpreter::Visit(AssertExpr* expression) {
-    expression->expression->Accept(*this);
+    expression->GetExpression()->Accept(*this);
 	assert(tos_value_);
 	UnsetTosValue();
 }
 
 void Interpreter::Visit(Assignment* assignment) {
 //    assignment->to->Accept(*this);
-	assignment->from->Accept(*this);
-	variables_[assignment->to->var_name_] = tos_value_;
+	assignment->GetFrom()->Accept(*this);
+	variables_[assignment->GetTo()->GetName()] = tos_value_;
 	UnsetTosValue();
 }
 
 void Interpreter::Visit(Block* expression) {
-    expression->exec_code->Accept(*this);
+    expression->GetExecCode()->Accept(*this);
 }
 
 void Interpreter::Visit(ExecCode* /*expression*/) {}

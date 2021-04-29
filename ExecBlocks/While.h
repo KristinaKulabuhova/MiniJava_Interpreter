@@ -11,7 +11,10 @@ public:
 
   void Accept(Visitor &visitor) override;
 
-public:
+  BaseExpr* GetStatement() const;
+  BaseExecBlock* GetCycleBody() const;
+
+private:
   BaseExpr *statement;
   BaseExecBlock *cycle_body;
 };

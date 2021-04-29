@@ -10,6 +10,8 @@ public:
   
   void addClass(Class *new_class);
 
-public:
-  std::vector<Class *> classes;
+  std::vector<Class *> GetClasses() const;
+
+private:
+  std::vector<Class *> classes_;
 };

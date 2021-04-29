@@ -11,3 +11,11 @@ void NewArrExpr::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+  SimpleType* NewArrExpr::GetType() const {
+      return simple_type;
+  }
+
+  BaseExpr* NewArrExpr::GetElement() const {
+      return n_elements;
+  }

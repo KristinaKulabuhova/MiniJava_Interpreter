@@ -7,18 +7,25 @@
 #include "SubsidiaryClasses/DeclarationList.h"
 #include "BaseElements/BaseDeclaration.h"
 
-class Class : public BaseDeclaration{
-  public:
-    void Accept(Visitor& visitor) override;
-    ~Class() override;
-    Class(std::string name, std::string parent_class);
-    void initialize(DeclarationList* decl_list);
-    void addMethod(MethodDeclaration* declaration);
-    void addVariable(VariableDeclaration* declaration);
+class Class : public BaseDeclaration
+{
+public:
+  void Accept(Visitor &visitor) override;
+  ~Class() override;
+  Class(std::string name, std::string parent_class);
 
-  public:
-    std::string name_;
-    std::string parent_class_;
-    std::vector<VariableDeclaration*> variables_;
-    std::vector<MethodDeclaration*> methods_;
+  void initialize(DeclarationList *decl_list);
+  void addMethod(MethodDeclaration *declaration);
+  void addVariable(VariableDeclaration *declaration);
+
+  std::string GetName() const;
+  std::string GetParent() const;
+  std::vector<VariableDeclaration *> GetVariable() const;
+  std::vector<MethodDeclaration *> GetMethods() const;
+
+private:
+  std::string name_;
+  std::string parent_class_;
+  std::vector<VariableDeclaration *> variables_;
+  std::vector<MethodDeclaration *> methods_;
 };

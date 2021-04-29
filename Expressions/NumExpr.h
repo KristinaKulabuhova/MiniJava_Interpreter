@@ -9,6 +9,8 @@ public:
 
   void Accept(Visitor &visitor) override;
 
-public:
+  int32_t GetValue() const;
+
+private:
   int32_t value;
 };

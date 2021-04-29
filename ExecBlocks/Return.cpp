@@ -11,3 +11,7 @@ void Return::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+ BaseExpr* Return::GetExpression() const {
+     return expression;
+ }

@@ -7,22 +7,22 @@ void MethodDeclaration::Accept(Visitor &visitor)
     visitor.Visit(this);
 }
 
-std::string MethodDeclaration::getName() const
+std::string MethodDeclaration::GetName() const
 {
     return name_;
 }
 
-std::shared_ptr<Formals> MethodDeclaration::getFormals() const
+std::shared_ptr<Formals> MethodDeclaration::GetFormals() const
 {
     return arguments_;
 }
 
-VarTypeStr *MethodDeclaration::getType() const
+VarTypeStr *MethodDeclaration::GetType() const
 {
     return return_type_;
 }
 
-std::shared_ptr<ExecCode> MethodDeclaration::getCode() const
+std::shared_ptr<ExecCode> MethodDeclaration::GetCode() const
 {
     return exec_code_;
 }

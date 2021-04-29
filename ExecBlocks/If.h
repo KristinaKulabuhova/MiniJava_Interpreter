@@ -10,7 +10,11 @@ class If : public BaseExecBlock {
 
     void Accept(Visitor& visitor) override;
 
-  public:
+    BaseExecBlock* GetFalseBranch() const;
+    BaseExecBlock* GetTrueBranch() const;
+    BaseExpr* GetStatement() const;
+
+  private:
     BaseExpr* statement;
     BaseExecBlock* true_branch;
     BaseExecBlock* false_branch;

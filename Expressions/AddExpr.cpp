@@ -10,3 +10,11 @@ AddExpr::~AddExpr() {
 void AddExpr::Accept(Visitor &visitor) {
     visitor.Visit(this);
 }
+
+  BaseExpr* AddExpr::GetLeft() const {
+      return p_lhs;
+  }
+
+  BaseExpr* AddExpr::GetRight() const {
+      return p_rhs;
+  }

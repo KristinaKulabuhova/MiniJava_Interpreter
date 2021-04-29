@@ -10,6 +10,8 @@ public:
 
   void Accept(Visitor &visitor) override;
 
-public:
+  BaseExpr* GetExpression() const;
+
+private:
   BaseExpr *p_expr;
 };

@@ -13,6 +13,8 @@ public:
   void addVar(VarTypeStr *type);
   void Accept(Visitor &visitor);
 
-public:
+  std::vector<VarTypeStr *> GetVariables() const;
+
+private:
   std::vector<VarTypeStr *> variables;
 };

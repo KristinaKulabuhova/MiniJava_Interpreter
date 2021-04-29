@@ -12,3 +12,13 @@ void MulExpr::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+BaseExpr *MulExpr::GetLeft() const
+{
+    return p_lhs;
+}
+
+BaseExpr *MulExpr::GetRight() const
+{
+    return p_rhs;
+}

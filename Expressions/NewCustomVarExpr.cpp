@@ -6,3 +6,7 @@ void NewCustomVarExpr::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+std::string NewCustomVarExpr::GetName() const {
+    return class_name;
+}

@@ -9,7 +9,10 @@ public:
   
   void Accept(Visitor &visitor) override;
 
-public:
+  BaseExpr* GetLeft() const;
+  BaseExpr* GetRight() const;
+
+private:
   BaseExpr *p_lhs;
   BaseExpr *p_rhs;
 };

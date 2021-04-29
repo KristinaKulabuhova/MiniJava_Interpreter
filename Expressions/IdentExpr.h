@@ -11,6 +11,8 @@ public:
 
   void Accept(Visitor &visitor) override;
 
-public:
+  std::string GetName() const;
+
+private:
   std::string var_name_;
 };

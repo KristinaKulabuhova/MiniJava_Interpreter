@@ -5,9 +5,13 @@
 #include "Expressions/VarType.h"
 
 #include <string>
-class StArgument : public BaseSymbol {
- public:
-  explicit StArgument(const VarTypeStr& type);
+class StArgument : public BaseSymbol
+{
+public:
+  explicit StArgument(const VarTypeStr &type);
 
-  VarTypeStr type;
+  VarTypeStr GetType() const;
+
+private:
+  VarTypeStr type_;
 };

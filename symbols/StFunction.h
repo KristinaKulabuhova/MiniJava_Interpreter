@@ -6,9 +6,12 @@
 #include <vector>
 #include "ExecBlocks/MethodDeclaration.h"
 
-class StFunction: public BaseSymbol {
- public:
-  std::vector<StArgument> arguments;
-  VarTypeStr return_type;
-  explicit StFunction(MethodDeclaration* function);
+class StFunction : public BaseSymbol
+{
+public:
+  explicit StFunction(MethodDeclaration *function);
+
+private:
+  VarTypeStr return_type_;
+  std::vector<StArgument> arguments_;
 };

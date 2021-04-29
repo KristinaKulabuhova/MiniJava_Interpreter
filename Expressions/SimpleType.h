@@ -8,7 +8,10 @@ public:
   SimpleType(int type_id, std::string name);
   ~SimpleType() = default;
 
-public:
+  std::string GetName() const;
+  int GetId() const;
+
+private:
   std::string type_name_;
   int type_id;
 };

@@ -11,3 +11,7 @@ void Block::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+ExecCode* Block::GetExecCode() const {
+    return exec_code;
+}

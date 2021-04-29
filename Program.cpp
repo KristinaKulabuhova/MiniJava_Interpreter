@@ -5,7 +5,7 @@ Program::Program(MainClass *main_class, ClassDeclarationList *class_decl_list) :
 Program::~Program()
 {
     delete main_class;
-    for (auto &p_class : class_decl_list->classes)
+    for (auto &p_class : class_decl_list->GetClasses())
     {
         delete p_class;
     }

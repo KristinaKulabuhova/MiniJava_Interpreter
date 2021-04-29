@@ -14,6 +14,8 @@ public:
   void addBaseBlock(BaseExecBlock *line);
   void Accept(Visitor &visitor) override;
 
-public:
+  std::vector<BaseExecBlock *> GetProgramLines() const;
+
+private:
   std::vector<BaseExecBlock *> program_lines_;
 };

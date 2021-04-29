@@ -12,7 +12,10 @@ class Assignment : public BaseExecBlock {
 
     void Accept(Visitor& visitor) override;
 
-  public:
-    IdentExpr* to;
-    BaseExpr* from;
+    IdentExpr* GetTo() const;
+    BaseExpr* GetFrom() const;
+
+  private:
+    IdentExpr* to_;
+    BaseExpr* from_;
 };

@@ -6,7 +6,7 @@ void ScopeTreeVisitor::Visit(Program *program) {
     cur_scope = new BaseScope();
     global_scope_ = cur_scope;
     program->main_class->Accept(*this);
-    for (auto& class_decl : program->class_decl_list->classes) {
+    for (auto& class_decl : program->class_decl_list->GetClasses()) {
         class_decl->Accept(*this);
     }
     
@@ -108,11 +108,11 @@ void ScopeTreeVisitor::Visit(TrueExpr */*expression*/) {
 
 void ScopeTreeVisitor::Visit(Class *expression) {
 
-    cur_scope->elements[expression->name_] = new StClass(expression);
-    for (auto& field : expression->variables_) {
+    cur_scope->elements[expression->GetName()] = new StClass(expression);
+    for (auto& field : expression->GetVariable()) {
         field->Accept(*this);
     }
-    for (auto& method : expression->methods_) {
+    for (auto& method : expression->GetMethods()) {
         method->Accept(*this);
     }
     
@@ -129,33 +129,33 @@ void ScopeTreeVisitor::Visit(MethodInvocation */*expression*/) {
 
 
 void ScopeTreeVisitor::Visit(If* branching) {
-    if (dynamic_cast<Block*>(branching->true_branch)) {
+    if (dynamic_cast<Block*>(branching->GetTrueBranch())) {
         auto old_scope = cur_scope;
         cur_scope->children_.emplace_back(new BaseScope);
         cur_scope = cur_scope->children_.back();
 
-        branching->true_branch->Accept(*this);
+        branching->GetTrueBranch()->Accept(*this);
 
         cur_scope = old_scope;
     }
-    if (dynamic_cast<Block*>(branching->false_branch)) {
+    if (dynamic_cast<Block*>(branching->GetFalseBranch())) {
         auto old_scope = cur_scope;
         cur_scope->children_.emplace_back(new BaseScope);
         cur_scope = cur_scope->children_.back();
 
-        branching->false_branch->Accept(*this);
+        branching->GetFalseBranch()->Accept(*this);
 
         cur_scope = old_scope;
     }
 }
 
 void ScopeTreeVisitor::Visit(While* expression) {
-    if (dynamic_cast<Block*>(expression->cycle_body)) {
+    if (dynamic_cast<Block*>(expression->GetCycleBody())) {
         auto old_scope = cur_scope;
         cur_scope->children_.emplace_back(new BaseScope);
         cur_scope = cur_scope->children_.back();
 
-        expression->cycle_body->Accept(*this);
+        expression->GetCycleBody()->Accept(*this);
 
         cur_scope = old_scope;
     }
@@ -163,17 +163,17 @@ void ScopeTreeVisitor::Visit(While* expression) {
 
 
 void ScopeTreeVisitor::Visit(MethodDeclaration *expression) {
-    cur_scope->elements[expression->name_] = new StFunction(expression);
+    cur_scope->elements[expression->GetName()] = new StFunction(expression);
     auto old_scope = cur_scope;
     cur_scope->children_.emplace_back(new BaseScope);
     cur_scope = cur_scope->children_.back();
 
-    if (expression->arguments_) {
-        for (const auto &argument : expression->arguments_->variables) {
-            cur_scope->elements[argument->name_] = new StVariable(*argument);
+    if (expression->GetFormals()) {
+        for (const auto &argument : expression->GetFormals()->GetVariables()) {
+            cur_scope->elements[argument->GetName()] = new StVariable(*argument);
         }
     }
-    expression->exec_code_->Accept(*this);
+    expression->GetCode()->Accept(*this);
 
     cur_scope = old_scope;
     
@@ -188,7 +188,7 @@ void ScopeTreeVisitor::Visit(Return */*expression*/) {
 }
 
 void ScopeTreeVisitor::Visit(VariableDeclaration *expression) {
-    cur_scope->elements[expression->name_] = new StVariable(*expression->type_);
+    cur_scope->elements[expression->GetName()] = new StVariable(*expression->GetType());
 }
 
 void ScopeTreeVisitor::Visit(AssertExpr */*expression*/) {
@@ -204,13 +204,13 @@ void ScopeTreeVisitor::Visit(Block *expression) {
     cur_scope->children_.emplace_back(new BaseScope);
     cur_scope = cur_scope->children_.back();
 
-    expression->exec_code->Accept(*this);
+    expression->GetExecCode()->Accept(*this);
 
     cur_scope = old_scope;
 }
 
 void ScopeTreeVisitor::Visit(ExecCode *expression) {
-    for (auto& program_block : expression->program_lines_) {
+    for (auto& program_block : expression->GetProgramLines()) {
         program_block->Accept(*this);
     }
     

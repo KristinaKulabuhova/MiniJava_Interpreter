@@ -8,15 +8,15 @@ class VariableDeclaration : public BaseExecBlock
 {
 public:
   VariableDeclaration(VarTypeStr *type, std::string name, int value = 0);
-  virtual ~VariableDeclaration() = default;
+  ~VariableDeclaration();
 
-  VarTypeStr *getType() const;
-  std::string getName() const;
-  int getValue() const;
+  VarTypeStr *GetType() const;
+  std::string GetName() const;
+  int GetValue() const;
 
   virtual void Accept(Visitor &visitor) override;
 
-public:
+private:
   VarTypeStr *type_;
   std::string name_;
   int value_;

@@ -11,3 +11,8 @@ void NotExpr::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+BaseExpr* NotExpr::GetExpression() const {
+    return p_expr;
+}
+

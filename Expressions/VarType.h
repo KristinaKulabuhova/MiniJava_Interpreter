@@ -14,11 +14,15 @@ class VarTypeStr
 {
 public:
   explicit VarTypeStr(SimpleType *simple_type, bool array = false);
-  ~VarTypeStr() = default;
   VarTypeStr(const VarTypeStr&) = default;
+  ~VarTypeStr() = default;
+  
+  std::string GetName() const;
+  bool GetArray() const;
+  int GetType() const;
 
-public:
-  int type;
-  bool array{false};
+private:
+  int type_;
+  bool array_{false};
   std::string name_;
 };

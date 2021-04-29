@@ -8,10 +8,12 @@ class ExprList
 {
 public:
   explicit ExprList(BaseExpr *expression);
-  ~ExprList() = default;
+  ~ExprList();
 
   void addExpr(BaseExpr *expression);
 
-public:
+  std::vector<BaseExpr *> GetExpr() const;
+
+private:
   std::vector<BaseExpr *> expressions;
 };

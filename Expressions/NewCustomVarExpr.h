@@ -10,6 +10,8 @@ public:
 
   void Accept(Visitor &visitor) override;
 
-public:
+  std::string GetName() const;
+
+private:
   std::string class_name;
 };

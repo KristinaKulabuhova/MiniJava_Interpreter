@@ -12,3 +12,13 @@ void EqExpr::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+BaseExpr *EqExpr::GetLeft() const
+{
+    return p_lhs;
+}
+
+BaseExpr *EqExpr::GetRight() const
+{
+    return p_rhs;
+}

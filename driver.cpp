@@ -6,18 +6,6 @@ Driver::Driver() : trace_parsing(false),
 {
 }
 
-// int Driver::Evaluate()
-// {
-//     // SymbolTreeVisitor visitor;
-//     // visitor.Visit(program);
-
-//     // std::shared_ptr<ScopeLayerTree> tree = visitor.GetTree();
-//     // Interpreter interpreter(tree);
-//     UnsetTosValue();
-//     Visit(program);
-//     return 0;
-// }
-
 int Driver::parse(const std::string &f)
 {
     file = f;
@@ -63,4 +51,8 @@ int Driver::executeProgram() const
         return -1;
     }
     return 0;
+}
+
+Driver::~Driver() {
+    delete program;
 }

@@ -12,3 +12,13 @@ void DivExpr::Accept(Visitor &visitor)
 {
     visitor.Visit(this);
 }
+
+BaseExpr *DivExpr::GetLeft() const
+{
+    return p_lhs;
+}
+
+BaseExpr *DivExpr::GetRight() const
+{
+    return p_rhs;
+}

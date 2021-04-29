@@ -11,6 +11,8 @@ public:
 
   void Accept(Visitor &visitor) override;
 
-public:
+  ExecCode* GetExecCode() const;
+
+private:
   ExecCode *exec_code;
 };

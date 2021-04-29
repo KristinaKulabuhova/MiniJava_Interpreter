@@ -8,20 +8,20 @@
 #include <Expressions/VarType.h>
 #include <memory>
 
-class MethodDeclaration : BaseExecBlock
+class MethodDeclaration : public BaseExecBlock
 {
 public:
   MethodDeclaration(std::string name, Formals *arguments, VarTypeStr *return_type, ExecCode *exec_code);
   ~MethodDeclaration() override = default;
 
-  std::string getName() const;
-  std::shared_ptr<Formals> getFormals() const;
-  VarTypeStr *getType() const;
-  std::shared_ptr<ExecCode> getCode() const;
+  std::string GetName() const;
+  std::shared_ptr<Formals> GetFormals() const;
+  VarTypeStr *GetType() const;
+  std::shared_ptr<ExecCode> GetCode() const;
 
   void Accept(Visitor &visitor) override;
 
-public:
+private:
   std::string name_;
   std::shared_ptr<Formals> arguments_;
   VarTypeStr *return_type_;
