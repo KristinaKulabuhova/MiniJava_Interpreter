@@ -1,16 +1,19 @@
-#ifndef PARSEREXAMPLE_LESSEXPR_H
-#define PARSEREXAMPLE_LESSEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
-class LessExpr : public BaseExpr {
-  public:
-    BaseExpr* p_lhs;
-    BaseExpr* p_rhs;
-    LessExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~LessExpr() override;
-    var_t Accept(Visitor& visitor) override;
+class ModExpr : public BaseExpr
+{
+public:
+  ModExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  ~ModExpr() override = default;
+
+  void Accept(Visitor &visitor) override;
+
+  BaseExpr* GetLeft() const;
+  BaseExpr* GetRight() const;
+
+private:
+  BaseExpr *p_lhs;
+  BaseExpr *p_rhs;
 };
-
-
-#endif

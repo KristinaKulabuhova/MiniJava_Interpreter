@@ -1,16 +1,19 @@
-#ifndef PARSEREXAMPLE_GREATEREXPR_H
-#define PARSEREXAMPLE_GREATEREXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
-class GreaterExpr : public BaseExpr {
-  public:
-    BaseExpr* p_lhs;
-    BaseExpr* p_rhs;
-    GreaterExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~GreaterExpr() override;
-    var_t Accept(Visitor& visitor) override;
+class GreaterExpr : public BaseExpr
+{
+public:
+  GreaterExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  ~GreaterExpr() override = default;
+  
+  void Accept(Visitor &visitor) override;
+
+  BaseExpr* GetLeft() const;
+  BaseExpr* GetRight() const;
+
+private:
+  BaseExpr *p_lhs;
+  BaseExpr *p_rhs;
 };
-
-
-#endif //PARSEREXAMPLE_GREATEREXPR_H

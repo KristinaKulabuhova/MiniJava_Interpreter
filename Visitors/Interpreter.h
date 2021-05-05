@@ -1,80 +1,76 @@
-#ifndef PARSEREXAMPLE_INTERPRETER_H
-#define PARSEREXAMPLE_INTERPRETER_H
+#pragma once 
 
-#include "VarDeclList/VarDeclList.h"
 #include "Visitor.h"
-#include "Elements.h"
+#include "AllIncludes.h"
+#include <tuple>
 
+#include <variant>
 #include <map>
+#include <set>
+#include <memory>
+#include <variant>
+#include <cassert>
+#include <vector>
 #include <stdexcept>
 #include <iostream>
 
-class MultiDeclError : public std::runtime_error {
-  public:
-    explicit MultiDeclError(const std::string& var_name) :
-    std::runtime_error("Multiple declaration of variable \"" + var_name + "\".") {};
-};
-
-class UndefRefError : public std::runtime_error {
-  public:
-    explicit UndefRefError(const std::string& var_name) :
-    std::runtime_error("Undefined reference to \"" + var_name + "\".") {};
-};
-
-class WrongBinaryOperandsError : public std::runtime_error {
-  public:
-    explicit WrongBinaryOperandsError(const std::string& operation,
-                                      const std::string& first_type, const std::string& second_type) :
-    std::runtime_error("Wrong operands to binary operation \""
-    + operation + "\": " + first_type + "\" and \"" + second_type + "\".") {};
-};
-
-class ExpectedBoolError : public std::runtime_error {
-  public:
-    explicit ExpectedBoolError(const std::string& type) :
-    std::runtime_error("Can't interpret type \"" + type + "\" as bool.") {};
-};
-
-class ExpectedIntError : public std::runtime_error {
-  public:
-    explicit ExpectedIntError(const std::string& type) :
-            std::runtime_error("Can't interpret type \"" + type + "\" as integer.") {};
-};
-
 class Interpreter : public Visitor {
   public:
-    std::map<std::string, var_t> var_value;
-    explicit Interpreter(const std::vector<VarDeclList*>& var_decl_list);
-    var_t Visit(AddExpr* expression) override;
-    var_t Visit(DivExpr* expression) override;
-    var_t Visit(ModExpr* expression) override;
-    var_t Visit(MulExpr* expression) override;
-    var_t Visit(SubtractExpr* expression) override;
-    var_t Visit(IdentExpr* expression) override;
-    var_t Visit(ConstExpr* expression) override;
+    void Visit(AtExpr* expression) override;
+    void Visit(FieldExpr* expression) override;
+    void Visit(NewArrExpr* expression) override;
+    void Visit(NewCustomVarExpr* expression) override;
 
-    var_t Visit(LessExpr* expression) override;
-    var_t Visit(GreaterExpr* expression) override;
-    var_t Visit(LeqExpr* expression) override;
-    var_t Visit(GeqExpr* expression) override;
-    var_t Visit(EqExpr* expression) override;
-    var_t Visit(NEqExpr* expression) override;
-    var_t Visit(AndExpr* expression) override;
-    var_t Visit(OrExpr* expression) override;
-    var_t Visit(NotExpr* expression) override;
+    void Visit(AndExpr* expression) override;
+    void Visit(NotExpr* expression) override;
+    void Visit(OrExpr* expression) override;
 
-    void Visit(Assignment* assignment) override;
-    void Visit(ExecCode* code) override;
+    void Visit(AddExpr* expression) override;
+    void Visit(ModExpr* expression) override;
+    void Visit(MulExpr* expression) override;
+    void Visit(DivExpr* expression) override;
+    void Visit(SubtractExpr* expression) override;
+
+    void Visit(EqExpr* expression) override;
+    void Visit(GEqExpr* expression) override;
+    void Visit(GreaterExpr* expression) override;
+    void Visit(NEqExpr* expression) override;
+    void Visit(LEqExpr* expression) override;
+    void Visit(LessExpr* expression) override;  
+    
+    void Visit(IdentExpr* expression) override;
+    void Visit(LengthExpr* expression) override;
+    void Visit(NumExpr* expression) override;
+    
+    void Visit(FalseExpr* expression) override;
+    void Visit(TrueExpr* expression) override;
+
+    void Visit(Class* expression) override;
+    void Visit(MainClass* expression) override;
+    void Visit(MethodInvocation* expression) override;
+
     void Visit(If* branching) override;
-    void Visit(While* while_cycle) override;
-    void Visit(For* for_cycle) override;
-    void Visit(Read* read_module) override;
-    void Visit(Write* write_module) override;
-    void CheckOperationCorrectness(const std::string& operation, bool only_for_numbers, const var_t& first_val, const var_t& second_val);
-    void CheckBoolCorrectness(const var_t& val);
-    void CheckIntCorrectness(const var_t& val);
-    void GetType(std::pair<int, std::string>& type, const var_t& val);
+    void Visit(While* expression) override;
+
+    void Visit(MethodDeclaration* expression) override;
+    void Visit(Println* expression) override;
+    void Visit(Return* expression) override;
+    void Visit(VariableDeclaration* expression) override;
+    void Visit(AssertExpr* expression) override;
+    void Visit(Assignment* assignment) override;
+    void Visit(Block* expression) override;
+    void Visit(ExecCode* expression) override; 
+    void Visit(Formals* formals) override;
+
+    void Visit(Program* program) override;
+
+  private:
+    std::map<std::string, int> variables_;
+    bool is_tos_expr_;
+    int tos_value_;
+    std::string curr_name_;
+
+    void SetTosValue(int value);
+    void UnsetTosValue();
+
 };
-
-
-#endif //PARSEREXAMPLE_INTERPRETER_H

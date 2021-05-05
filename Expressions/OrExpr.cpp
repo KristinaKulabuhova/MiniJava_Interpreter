@@ -2,11 +2,17 @@
 
 OrExpr::OrExpr(BaseExpr *p_lhs, BaseExpr *p_rhs) : p_lhs(p_lhs), p_rhs(p_rhs) {}
 
-OrExpr::~OrExpr() {
-    delete p_lhs;
-    delete p_rhs;
+void OrExpr::Accept(Visitor &visitor)
+{
+    visitor.Visit(this);
 }
 
-var_t OrExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+BaseExpr *OrExpr::GetLeft() const
+{
+    return p_lhs;
+}
+
+BaseExpr *OrExpr::GetRight() const
+{
+    return p_rhs;
 }

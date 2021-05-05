@@ -1,15 +1,19 @@
-#ifndef PARSEREXAMPLE_DIVEXPR_H
-#define PARSEREXAMPLE_DIVEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
-class DivExpr : public BaseExpr {
-  public:
-    BaseExpr* p_lhs;
-    BaseExpr* p_rhs;
-    DivExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~DivExpr() override;
-    var_t Accept(Visitor& visitor) override;
-};
+class DivExpr : public BaseExpr
+{
+public:
+  DivExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  ~DivExpr() override = default;
 
-#endif //PARSEREXAMPLE_DIVEXPR_H
+  void Accept(Visitor &visitor) override;
+
+  BaseExpr* GetLeft() const;
+  BaseExpr* GetRight() const;
+
+private:
+  BaseExpr *p_lhs;
+  BaseExpr *p_rhs;
+};

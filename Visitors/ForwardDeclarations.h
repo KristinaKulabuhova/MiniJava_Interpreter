@@ -1,30 +1,51 @@
-#ifndef PARSEREXAMPLE_FORWARDDECLARATIONS_H
-#define PARSEREXAMPLE_FORWARDDECLARATIONS_H
+#pragma once
 
-class BaseExpr;
+class AtExpr;
+class FieldExpr;
+class NewArrExpr;
+class NewCustomVarExpr;
+class AndExpr;
+class NotExpr;
+class OrExpr;
+
 class AddExpr;
-class DivExpr;
 class ModExpr;
 class MulExpr;
+class DivExpr;
 class SubtractExpr;
-class IdentExpr;
-class ConstExpr;
-class LessExpr;
-class GreaterExpr;
-class LeqExpr;
-class GeqExpr;
-class EqExpr;
-class NEqExpr;
-class AndExpr;
-class OrExpr;
-class NotExpr;
 
-class Assignment;
-class ExecCode;
+class EqExpr;
+class GEqExpr;
+class GreaterExpr;
+class NEqExpr;
+class LEqExpr;
+class LessExpr;
+    
+class IdentExpr;
+class LengthExpr;
+class NumExpr;
+    
+class FalseExpr;
+class TrueExpr;
+
+class Class;
+class MainClass;
+class MethodInvocation;
+
 class If;
 class While;
-class For;
-class Read;
-class Write;
 
-#endif //PARSEREXAMPLE_FORWARDDECLARATIONS_H
+class MethodDeclaration;
+class Println;
+class Return;
+class VariableDeclaration;
+class AssertExpr;
+class Assignment;
+class Block;
+class ExecCode;
+
+class Program;
+
+class Formals;
+
+

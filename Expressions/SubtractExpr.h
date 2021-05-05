@@ -1,16 +1,19 @@
-#ifndef PARSEREXAMPLE_SUBTRACTEXPR_H
-#define PARSEREXAMPLE_SUBTRACTEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
-class SubtractExpr : public BaseExpr {
-  public:
-    BaseExpr* p_lhs;
-    BaseExpr* p_rhs;
-    SubtractExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~SubtractExpr() override;
-    var_t Accept(Visitor& visitor) override;
+class SubtractExpr : public BaseExpr
+{
+public:
+  SubtractExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  ~SubtractExpr() override = default;
+
+  void Accept(Visitor &visitor) override;
+
+  BaseExpr* GetLeft() const;
+  BaseExpr* GetRight() const;
+
+private:
+  BaseExpr *p_lhs;
+  BaseExpr *p_rhs;
 };
-
-
-#endif //PARSEREXAMPLE_SUBTRACTEXPR_H

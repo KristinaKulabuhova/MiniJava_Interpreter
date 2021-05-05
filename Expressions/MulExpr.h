@@ -1,16 +1,19 @@
-#ifndef PARSEREXAMPLE_MULEXPR_H
-#define PARSEREXAMPLE_MULEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
-class MulExpr : public BaseExpr {
-  public:
-    BaseExpr* p_lhs;
-    BaseExpr* p_rhs;
-    MulExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~MulExpr() override;
-    var_t Accept(Visitor& visitor) override;
+class MulExpr : public BaseExpr
+{
+public:
+  MulExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  ~MulExpr() override = default;
+
+  void Accept(Visitor &visitor) override;
+
+  BaseExpr* GetLeft() const;
+  BaseExpr* GetRight() const;
+
+private:
+  BaseExpr *p_lhs;
+  BaseExpr *p_rhs;
 };
-
-
-#endif //PARSEREXAMPLE_MULEXPR_H

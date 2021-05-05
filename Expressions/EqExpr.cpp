@@ -2,11 +2,17 @@
 
 EqExpr::EqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs) : p_lhs(p_lhs), p_rhs(p_rhs) {}
 
-EqExpr::~EqExpr() {
-    delete p_lhs;
-    delete p_rhs;
+void EqExpr::Accept(Visitor &visitor)
+{
+    visitor.Visit(this);
 }
 
-var_t EqExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+BaseExpr *EqExpr::GetLeft() const
+{
+    return p_lhs;
+}
+
+BaseExpr *EqExpr::GetRight() const
+{
+    return p_rhs;
 }

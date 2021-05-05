@@ -1,16 +1,18 @@
-#ifndef PARSEREXAMPLE_EQEXPR_H
-#define PARSEREXAMPLE_EQEXPR_H
-
+#pragma once
 #include "BaseElements/BaseExpr.h"
 
-class EqExpr : public BaseExpr {
-  public:
-    BaseExpr* p_lhs;
-    BaseExpr* p_rhs;
-    EqExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~EqExpr() override;
-    var_t Accept(Visitor& visitor) override;
+class EqExpr : public BaseExpr
+{
+public:
+  EqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  ~EqExpr() override = default;
+  
+  void Accept(Visitor &visitor) override;
+
+  BaseExpr* GetLeft() const;
+  BaseExpr* GetRight() const;
+
+private:
+  BaseExpr *p_lhs;
+  BaseExpr *p_rhs;
 };
-
-
-#endif //PARSEREXAMPLE_EQEXPR_H

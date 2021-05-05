@@ -1,16 +1,18 @@
-#ifndef PARSEREXAMPLE_IDENTEXPR_H
-#define PARSEREXAMPLE_IDENTEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
-
 #include "string"
 
-class IdentExpr : public BaseExpr {
-  public:
-    std::string var_name_;
-    explicit IdentExpr(std::string  var_name_);
-    var_t Accept(Visitor& visitor) override;
+class IdentExpr : public BaseExpr
+{
+public:
+  explicit IdentExpr(std::string var_name_);
+  ~IdentExpr() override = default;
+
+  void Accept(Visitor &visitor) override;
+
+  std::string GetName() const;
+
+private:
+  std::string var_name_;
 };
-
-
-#endif 

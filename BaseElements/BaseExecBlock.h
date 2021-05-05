@@ -1,5 +1,4 @@
-#ifndef PARSEREXAMPLE_BASEEXECBLOCK_H
-#define PARSEREXAMPLE_BASEEXECBLOCK_H
+#pragma once
 
 #include "Visitors/Visitor.h"
 
@@ -9,4 +8,3 @@ class BaseExecBlock {
     virtual ~BaseExecBlock() = default;
 };
 
-#endif //PARSEREXAMPLE_BASEEXECBLOCK_H

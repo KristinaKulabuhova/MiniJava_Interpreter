@@ -1,16 +1,19 @@
-#ifndef PARSEREXAMPLE_ANDEXPR_H
-#define PARSEREXAMPLE_ANDEXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
-class AndExpr : public BaseExpr {
-  public:
-    BaseExpr* p_lhs;
-    BaseExpr* p_rhs;
-    AndExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~AndExpr() override;
-    var_t Accept(Visitor& visitor) override;
+class AndExpr : public BaseExpr
+{
+public:
+  AndExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  ~AndExpr() override = default;
+
+  void Accept(Visitor &visitor) override;
+
+  BaseExpr *GetLeft() const;
+  BaseExpr *GetRight() const;
+
+private:
+  BaseExpr *p_lhs;
+  BaseExpr *p_rhs;
 };
-
-
-#endif //PARSEREXAMPLE_ANDEXPR_H

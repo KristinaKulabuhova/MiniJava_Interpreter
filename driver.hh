@@ -3,32 +3,38 @@
 #include <map>
 #include <string>
 #include <fstream>
+
 #include "scanner.h"
 #include "parser.hh"
-
 #include "Program.h"
 #include "Visitors/Interpreter.h"
+#include "Visitors/PrintVisitor.h"
+#include "Visitors/ScopeTreeVisitor.h"
+#include "Visitors/GarbageCollector.h"
 
-class Driver {
- public:
-    Driver();
-    int parse(const std::string& f);
-    std::string file;
-    bool trace_parsing;
+class Driver
+{
+public:
+   friend class Scanner;
 
-    void scan_begin();
-    void scan_end();
+public:
+   Driver();
+   ~Driver() = default;
 
-    bool trace_scanning;
-    yy::location location;
+   int parse(const std::string &f);
 
-    friend class Scanner;
-    Scanner scanner;
-    yy::parser parser;
-    Program* program;
+   void scan_begin();
+   void scan_end();
 
-    int executeProgram();
- private:
-    std::ifstream stream;
+   int executeProgram() const;
 
+public:
+   std::ifstream stream;
+   Program *program = nullptr;
+   bool trace_parsing;
+   bool trace_scanning;
+   yy::location location;
+   std::string file;
+   Scanner scanner;
+   yy::parser parser;
 };

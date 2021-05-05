@@ -1,17 +1,19 @@
-#ifndef PARSEREXAMPLE_NEQEXPR_H
-#define PARSEREXAMPLE_NEQEXPR_H
-
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
-class NEqExpr : public BaseExpr {
-  public:
-    BaseExpr* p_lhs;
-    BaseExpr* p_rhs;
-    NEqExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~NEqExpr() override;
-    var_t Accept(Visitor& visitor) override;
+class NEqExpr : public BaseExpr
+{
+public:
+  NEqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  ~NEqExpr() override = default;
+
+  void Accept(Visitor &visitor) override;
+
+  BaseExpr* GetLeft() const;
+  BaseExpr* GetRight() const;
+
+private:
+  BaseExpr *p_lhs;
+  BaseExpr *p_rhs;
 };
-
-
-#endif //PARSEREXAMPLE_NEQEXPR_H

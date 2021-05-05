@@ -1,16 +1,19 @@
-#ifndef PARSEREXAMPLE_OREXPR_H
-#define PARSEREXAMPLE_OREXPR_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
-class OrExpr : public BaseExpr {
-  public:
-    BaseExpr* p_lhs;
-    BaseExpr* p_rhs;
-    OrExpr(BaseExpr* p_lhs, BaseExpr* p_rhs);
-    ~OrExpr() override;
-    var_t Accept(Visitor& visitor) override;
+class OrExpr : public BaseExpr
+{
+public:
+  OrExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  ~OrExpr() override = default;
+
+  void Accept(Visitor &visitor) override;
+
+  BaseExpr* GetLeft() const;
+  BaseExpr* GetRight() const;
+
+private:
+  BaseExpr *p_lhs;
+  BaseExpr *p_rhs;
 };
-
-
-#endif //PARSEREXAMPLE_OREXPR_H

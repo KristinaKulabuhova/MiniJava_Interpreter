@@ -1,15 +1,17 @@
-#ifndef LENGTH_H
-#define LENGTH_H
+#pragma once
 
 #include "BaseElements/BaseExpr.h"
 
-class LengthExpr : public BaseExpr {
-  public:
-    BaseExpr* array;
-    LeqExpr(BaseExpr* array);
-    ~LeqExpr() override;
-    var_t Accept(Visitor& visitor) override;
+class LengthExpr : public BaseExpr
+{
+public:
+  explicit LengthExpr(BaseExpr *array);
+  ~LengthExpr() override = default;
+
+  void Accept(Visitor &visitor) override;
+
+  BaseExpr* GetArray() const;
+
+private:
+  BaseExpr *array;
 };
-
-
-#endif

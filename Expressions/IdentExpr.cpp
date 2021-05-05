@@ -4,6 +4,11 @@
 
 IdentExpr::IdentExpr(std::string var_name_) : var_name_(std::move(var_name_)) {}
 
-var_t IdentExpr::Accept(Visitor &visitor) {
-    return visitor.Visit(this);
+void IdentExpr::Accept(Visitor &visitor)
+{
+    visitor.Visit(this);
+}
+
+std::string IdentExpr::GetName() const {
+    return var_name_;
 }

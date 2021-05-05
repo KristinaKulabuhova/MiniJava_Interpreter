@@ -1,17 +1,18 @@
-#ifndef PARSEREXAMPLE_PROGRAM_H
-#define PARSEREXAMPLE_PROGRAM_H
+#pragma once
 
-#include "VarDeclList/VarDeclList.h"
-#include "MainElements/ExecCode.h"
+#include "SubsidiaryClasses/ClassDeclarationList.h"
+#include "MainElements/MainClass.h"
+#include "ExecBlocks/ExecCode.h"
 
-class Program {
-  public:
-    std::string program_name;
-    std::vector<VarDeclList*> var_declarations;
-    ExecCode* executable_code;
-    Program(std::string program_name, std::vector<VarDeclList*> var_declarations, ExecCode* executable_code);
-    ~Program();
+class Program
+{
+public:
+  Program(MainClass *main_class, ClassDeclarationList *class_decl_list);
+  ~Program() = default;
+
+  void Accept(Visitor &visitor);
+
+public:
+  MainClass *main_class;
+  ClassDeclarationList *class_decl_list;
 };
-
-
-#endif //PARSEREXAMPLE_PROGRAM_H
