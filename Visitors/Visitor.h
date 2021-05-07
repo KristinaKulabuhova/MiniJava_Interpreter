@@ -10,7 +10,7 @@
 class MultiDeclError : public std::runtime_error {
   public:
     explicit MultiDeclError(const std::string& var_name) :
-    std::runtime_error("Multiple declaration of variable \"" + var_name + "\".") {};
+    std::runtime_error("Multiple declaration of name \"" + var_name + "\".") {};
 };
 
 class UndefRefError : public std::runtime_error {

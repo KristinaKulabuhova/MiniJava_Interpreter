@@ -12,84 +12,104 @@ void ScopeTreeVisitor::Visit(Program *program) {
     
 }
 
-void ScopeTreeVisitor::Visit(AtExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(AtExpr *expression) {
+    expression->GetArray()->Accept(*this);
+    expression->GetIndex()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(FieldExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(FieldExpr *expression) {
+    if (!cur_scope->GetElement(expression->GetName())) {
+        throw UndefRefError(expression->GetName());
+    }
 }
 
-void ScopeTreeVisitor::Visit(NewArrExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(NewArrExpr *expression) {
+    expression->GetElement()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(NewCustomVarExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(NewCustomVarExpr *expression) {
+    if (!cur_scope->GetElement(expression->GetName())) {
+        throw UndefRefError(expression->GetName());
+    }
 }
 
-void ScopeTreeVisitor::Visit(AndExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(AndExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(NotExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(NotExpr *expression) {
+    expression->GetExpression()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(OrExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(OrExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(AddExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(AddExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(ModExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(ModExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(MulExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(MulExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(DivExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(DivExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(SubtractExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(SubtractExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(EqExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(EqExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(GEqExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(GEqExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(GreaterExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(GreaterExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(NEqExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(NEqExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(LEqExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(LEqExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(LessExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(LessExpr *expression) {
+    expression->GetLeft()->Accept(*this);
+    expression->GetRight()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(IdentExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(IdentExpr *expression) {
+    if (!cur_scope->GetElement(expression->GetName())) {
+        throw UndefRefError(expression->GetName());
+    }
 }
 
-void ScopeTreeVisitor::Visit(LengthExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(LengthExpr *expression) {
+    expression->GetArray()->Accept(*this);
 }
 
 
@@ -108,7 +128,9 @@ void ScopeTreeVisitor::Visit(TrueExpr */*expression*/) {
 
 void ScopeTreeVisitor::Visit(Class *expression) {
 
-    cur_scope->elements[expression->GetName()] = new StClass(expression);
+    if (!cur_scope->AddElement(expression->GetName(), new StClass(expression))) {
+        throw MultiDeclError(expression->GetName());
+    }
     for (auto& field : expression->GetVariable()) {
         field->Accept(*this);
     }
@@ -123,16 +145,17 @@ void ScopeTreeVisitor::Visit(MainClass *expression) {
     
 }
 
-void ScopeTreeVisitor::Visit(MethodInvocation */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(MethodInvocation *expression) {
+    if (!cur_scope->GetElement(expression->name)) {
+        throw UndefRefError(expression->name);
+    }
 }
 
 
 void ScopeTreeVisitor::Visit(If* branching) {
     if (dynamic_cast<Block*>(branching->GetTrueBranch())) {
         auto old_scope = cur_scope;
-        cur_scope->children_.emplace_back(new BaseScope);
-        cur_scope = cur_scope->children_.back();
+        cur_scope = cur_scope->CreateChild();
 
         branching->GetTrueBranch()->Accept(*this);
 
@@ -140,8 +163,7 @@ void ScopeTreeVisitor::Visit(If* branching) {
     }
     if (dynamic_cast<Block*>(branching->GetFalseBranch())) {
         auto old_scope = cur_scope;
-        cur_scope->children_.emplace_back(new BaseScope);
-        cur_scope = cur_scope->children_.back();
+        cur_scope = cur_scope->CreateChild();
 
         branching->GetFalseBranch()->Accept(*this);
 
@@ -152,8 +174,7 @@ void ScopeTreeVisitor::Visit(If* branching) {
 void ScopeTreeVisitor::Visit(While* expression) {
     if (dynamic_cast<Block*>(expression->GetCycleBody())) {
         auto old_scope = cur_scope;
-        cur_scope->children_.emplace_back(new BaseScope);
-        cur_scope = cur_scope->children_.back();
+        cur_scope = cur_scope->CreateChild();
 
         expression->GetCycleBody()->Accept(*this);
 
@@ -163,14 +184,17 @@ void ScopeTreeVisitor::Visit(While* expression) {
 
 
 void ScopeTreeVisitor::Visit(MethodDeclaration *expression) {
-    cur_scope->elements[expression->GetName()] = new StFunction(expression);
+    if (!cur_scope->AddElement(expression->GetName(), new StFunction(expression))) {
+        throw MultiDeclError(expression->GetName());
+    }
     auto old_scope = cur_scope;
-    cur_scope->children_.emplace_back(new BaseScope);
-    cur_scope = cur_scope->children_.back();
+    cur_scope = cur_scope->CreateChild();
 
     if (expression->GetFormals()) {
         for (const auto &argument : expression->GetFormals()->GetVariables()) {
-            cur_scope->elements[argument->GetName()] = new StVariable(*argument);
+            if (!cur_scope->AddElement(expression->GetName(), new StVariable(*argument))) {
+                throw MultiDeclError(argument->GetName());
+            }
         }
     }
     expression->GetCode()->Accept(*this);
@@ -179,30 +203,32 @@ void ScopeTreeVisitor::Visit(MethodDeclaration *expression) {
     
 }
 
-void ScopeTreeVisitor::Visit(Println */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(Println *expression) {
+    expression->GetExpression()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(Return */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(Return *expression) {
+    expression->GetExpression()->Accept(*this);
 }
 
 void ScopeTreeVisitor::Visit(VariableDeclaration *expression) {
-    cur_scope->elements[expression->GetName()] = new StVariable(*expression->GetType());
+    if (!cur_scope->AddElement(expression->GetName(), new StVariable(*expression->GetType()))) {
+        throw MultiDeclError(expression->GetName());
+    }
 }
 
-void ScopeTreeVisitor::Visit(AssertExpr */*expression*/) {
-    
+void ScopeTreeVisitor::Visit(AssertExpr *expression) {
+    expression->GetExpression()->Accept(*this);
 }
 
-void ScopeTreeVisitor::Visit(Assignment */*assignment*/) {
-    
+void ScopeTreeVisitor::Visit(Assignment *assignment) {
+    assignment->GetFrom()->Accept(*this);
+    assignment->GetTo()->Accept(*this);
 }
 
 void ScopeTreeVisitor::Visit(Block *expression) {
     auto old_scope = cur_scope;
-    cur_scope->children_.emplace_back(new BaseScope);
-    cur_scope = cur_scope->children_.back();
+    cur_scope = cur_scope->CreateChild();
 
     expression->GetExecCode()->Accept(*this);
 
