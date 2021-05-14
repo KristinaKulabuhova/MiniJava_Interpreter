@@ -1,6 +1,10 @@
 #include "ExecCode.h"
 
-ExecCode::ExecCode(BaseExecBlock *line)
+ExecCode::ExecCode(yy::location loc) : BaseExecBlock(loc)
+{
+}
+
+ExecCode::ExecCode(BaseExecBlock *line, yy::location loc) : BaseExecBlock(loc)
 {
     program_lines_.emplace_back(line);
 }

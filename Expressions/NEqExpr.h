@@ -5,7 +5,7 @@
 class NEqExpr : public BaseExpr
 {
 public:
-  NEqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  NEqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc);
   ~NEqExpr() override = default;
 
   void Accept(Visitor &visitor) override;

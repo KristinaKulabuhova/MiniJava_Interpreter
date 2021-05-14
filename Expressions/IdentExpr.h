@@ -6,7 +6,7 @@
 class IdentExpr : public BaseExpr
 {
 public:
-  explicit IdentExpr(std::string var_name_);
+  explicit IdentExpr(std::string var_name_, yy::location loc);
   ~IdentExpr() override = default;
 
   void Accept(Visitor &visitor) override;

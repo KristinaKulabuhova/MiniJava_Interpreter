@@ -6,7 +6,7 @@
 class While : public BaseExecBlock
 {
 public:
-  While(BaseExpr *statement, BaseExecBlock *cycle_body);
+  While(BaseExpr *statement, BaseExecBlock *cycle_body, yy::location loc);
   ~While() override = default;
 
   void Accept(Visitor &visitor) override;

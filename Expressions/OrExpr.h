@@ -5,7 +5,7 @@
 class OrExpr : public BaseExpr
 {
 public:
-  OrExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  OrExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc);
   ~OrExpr() override = default;
 
   void Accept(Visitor &visitor) override;

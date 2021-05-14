@@ -5,7 +5,7 @@
 class AddExpr : public BaseExpr
 {
 public:
-  AddExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  AddExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc);
   ~AddExpr() override = default;
 
   void Accept(Visitor &visitor) override;

@@ -5,7 +5,7 @@
 class SubtractExpr : public BaseExpr
 {
 public:
-  SubtractExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  SubtractExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc);
   ~SubtractExpr() override = default;
 
   void Accept(Visitor &visitor) override;

@@ -192,24 +192,24 @@ unit: program { driver.program = $1; };
 
 program: main_class class_declaration_list { $$ = new Program($1, $2); }
 
-main_class: "class" "identifier" "{" "public" "static" "void" "main" "(" ")" "{" statement_list "}" "}" { $$ = new MainClass($2, $11); };
+main_class: "class" "identifier" "{" "public" "static" "void" "main" "(" ")" "{" statement_list "}" "}" { $$ = new MainClass($2, $11, driver.location); };
 
 class_declaration_list: class_declaration_list class_declaration 	{ $$ = $1; $$->addClass($2); }
-					  | %empty 			{ $$ = new ClassDeclarationList(); }
+					  | %empty 			{ $$ = new ClassDeclarationList(driver.location); }
 
-class_declaration:   "class" "identifier" "extends" "identifier" "{" declaration_list "}"  	{ $$ = new Class($2, $4); $$->initialize($6); }
-		         | "class" "identifier" "{" declaration_list "}" 			{ $$ = new Class($2, nullptr); $$->initialize($4); }
+class_declaration:   "class" "identifier" "extends" "identifier" "{" declaration_list "}"  	{ $$ = new Class($2, $4, driver.location); $$->initialize($6); }
+		         | "class" "identifier" "{" declaration_list "}" 			{ $$ = new Class($2, nullptr, driver.location); $$->initialize($4); }
 
 declaration_list: declaration_list variable_declaration 	{ $$ = $1; $$->addDecl($2); }
 		  | declaration_list method_declaration         { $$ = $1; $$->addDecl($2); }
-		  | %empty 				        { $$ = new DeclarationList(); }
+		  | %empty 				        { $$ = new DeclarationList(driver.location); }
 
-method_declaration: "public" type "identifier" "(" formals ")" "{" statement_list "}"		{ $$ = new MethodDeclaration($3, $5, $2, $8); }
-		          | "public" type "identifier" "(" ")" "{" statement_list "}"		{ $$ = new MethodDeclaration($3, nullptr, $2, $7); }
+method_declaration: "public" type "identifier" "(" formals ")" "{" statement_list "}"		{ $$ = new MethodDeclaration($3, $5, $2, $8, driver.location); }
+		          | "public" type "identifier" "(" ")" "{" statement_list "}"		{ $$ = new MethodDeclaration($3, nullptr, $2, $7, driver.location); }
 
-variable_declaration: type "identifier" ";"	{ $$ = new VariableDeclaration($1, $2); }
+variable_declaration: type "identifier" ";"	{ $$ = new VariableDeclaration($1, $2, driver.location); }
 
-formals: type "identifier"			{ $1->GetName() = $2; $$ = new Formals($1); }
+formals: type "identifier"			{ $1->GetName() = $2; $$ = new Formals($1, driver.location); }
 	   | formals "," type "identifier"	{ $$ = $1; $3->GetName() = $4; $$->addVar($3); }
 
 type: simple_type		 { $$ = new VarTypeStr($1, false); }
@@ -221,50 +221,50 @@ simple_type:"int" 		{ $$ = new SimpleType(0, ""); }
 	      | "identifier" 	{ $$ = new SimpleType(3, $1); }
 
 statement_list:   statement_list statement	{ $$ = $1; $$->addBaseBlock($2); }
-		      | %empty			{ $$ = new ExecCode(); }
+		      | %empty			{ $$ = new ExecCode(driver.location); }
 
-statement: "assert" "(" expr ")" ";" 				{ $$ = new AssertExpr($3); }
+statement: "assert" "(" expr ")" ";" 				{ $$ = new AssertExpr($3, driver.location); }
     	 | variable_declaration 				{ $$ = $1; }
-         | "{" statement_list "}"  				{ $$ = new Block($2); }
-         | "if"  "(" expr ")" statement   			{ $$ = new If($3, $5); }
-         | "if"  "(" expr ")" statement "else" statement 	{ $$ = new If($3, $5, $7); }
-         | "while"  "(" expr ")" statement 			{ $$ = new While($3, $5); }
-         | "System" "." "out" "." "println" "(" expr ")" ";"  	{ $$ = new Println($7); }
-         | "identifier" "=" expr ";" 				{ $$ = new Assignment(new IdentExpr($1), $3); }
-         | "return" expr ";"  					{ $$ = new Return($2); }
+         | "{" statement_list "}"  				{ $$ = new Block($2, driver.location); }
+         | "if"  "(" expr ")" statement   			{ $$ = new If($3, $5, nullptr, driver.location); }
+         | "if"  "(" expr ")" statement "else" statement 	{ $$ = new If($3, $5, $7, driver.location); }
+         | "while"  "(" expr ")" statement 			{ $$ = new While($3, $5, driver.location); }
+         | "System" "." "out" "." "println" "(" expr ")" ";"  	{ $$ = new Println($7, driver.location); }
+         | "identifier" "=" expr ";" 				{ $$ = new Assignment(new IdentExpr($1, driver.location), $3, driver.location); }
+         | "return" expr ";"  					{ $$ = new Return($2, driver.location); }
          | method_invocation ";"	 			{ $$ = $1; }
 
-method_invocation:   expr "." "identifier" "(" ")"		{ $$ = new MethodInvocation($1, $3, nullptr); }
-		   | expr "." "identifier" "(" expr_list ")"	{ $$ = new MethodInvocation($1, $3, $5); }
-          	   | field_invocation "(" ")"			{ $$ = new MethodInvocation($1); }
-		   | field_invocation "(" expr_list ")"		{ $$ = new MethodInvocation($1, $3); }
+method_invocation:   expr "." "identifier" "(" ")"		{ $$ = new MethodInvocation($1, $3, nullptr, driver.location); }
+		   | expr "." "identifier" "(" expr_list ")"	{ $$ = new MethodInvocation($1, $3, $5, driver.location); }
+          	   | field_invocation "(" ")"			{ $$ = new MethodInvocation($1, nullptr, driver.location); }
+		   | field_invocation "(" expr_list ")"		{ $$ = new MethodInvocation($1, $3, driver.location); }
 
-field_invocation: "this" "." "identifier"			 { $$ = new FieldExpr($3); }
+field_invocation: "this" "." "identifier"			 { $$ = new FieldExpr($3, driver.location); }
 
-expr_list: expr			                { $$ = new ExprList($1); }
+expr_list: expr			                { $$ = new ExprList($1, driver.location); }
 	     | expr_list "," expr 	        { $$ = $1; $$->addExpr($3);}
 
-expr: expr "&&" expr  			        { $$ = new AndExpr($1, $3); }
-	| expr "||" expr			{ $$ = new OrExpr($1, $3); }
-	| expr "<" expr				{ $$ = new LessExpr($1, $3); }
-	| expr ">" expr				{ $$ = new GreaterExpr($1, $3); }
-	| expr ">=" expr			{ $$ = new GEqExpr($1, $3); }
-	| expr "!=" expr			{ $$ = new NEqExpr($1, $3); }
-	| expr "<=" expr			{ $$ = new LEqExpr($1, $3); }
-	| expr "==" expr   			{ $$ = new EqExpr($1, $3); }
-	| expr "+" expr    			{ $$ = new AddExpr($1, $3); }
-	| expr "-" expr     		        { $$ = new SubtractExpr($1, $3); }
-	| expr "*" expr  			{ $$ = new MulExpr($1, $3); }
-	| expr "/" expr  			{ $$ = new DivExpr($1, $3); }
-	| expr "%" expr  			{ $$ = new ModExpr($1, $3); }
-	| expr "[" expr "]"			{ $$ = new AtExpr($1, $3); }
-	| expr "." "length"    			{ $$ = new LengthExpr($1); }
-	| "new" simple_type "[" expr "]"	{ $$ = new NewArrExpr($2, $4); }
-	| "new" "identifier" "(" ")"		{ $$ = new NewCustomVarExpr($2); }
-	| "identifier"				{ $$ = new IdentExpr($1);}
-	| "number"				{ $$ = new NumExpr($1); }
-	| "true"				{ $$ = new TrueExpr(); }
-	| "false"				{ $$ = new FalseExpr(); }
+expr: expr "&&" expr  			        { $$ = new AndExpr($1, $3, driver.location); }
+	| expr "||" expr			{ $$ = new OrExpr($1, $3, driver.location); }
+	| expr "<" expr				{ $$ = new LessExpr($1, $3, driver.location); }
+	| expr ">" expr				{ $$ = new GreaterExpr($1, $3, driver.location); }
+	| expr ">=" expr			{ $$ = new GEqExpr($1, $3, driver.location); }
+	| expr "!=" expr			{ $$ = new NEqExpr($1, $3, driver.location); }
+	| expr "<=" expr			{ $$ = new LEqExpr($1, $3, driver.location); }
+	| expr "==" expr   			{ $$ = new EqExpr($1, $3, driver.location); }
+	| expr "+" expr    			{ $$ = new AddExpr($1, $3, driver.location); }
+	| expr "-" expr     		        { $$ = new SubtractExpr($1, $3, driver.location); }
+	| expr "*" expr  			{ $$ = new MulExpr($1, $3, driver.location); }
+	| expr "/" expr  			{ $$ = new DivExpr($1, $3, driver.location); }
+	| expr "%" expr  			{ $$ = new ModExpr($1, $3, driver.location); }
+	| expr "[" expr "]"			{ $$ = new AtExpr($1, $3, driver.location); }
+	| expr "." "length"    			{ $$ = new LengthExpr($1, driver.location); }
+	| "new" simple_type "[" expr "]"	{ $$ = new NewArrExpr($2, $4, driver.location); }
+	| "new" "identifier" "(" ")"		{ $$ = new NewCustomVarExpr($2, driver.location); }
+	| "identifier"				{ $$ = new IdentExpr($1, driver.location);}
+	| "number"				{ $$ = new NumExpr($1, driver.location); }
+	| "true"				{ $$ = new TrueExpr(driver.location); }
+	| "false"				{ $$ = new FalseExpr(driver.location); }
 	| method_invocation			{ $$ = $1; }
 	| field_invocation			{ $$ = $1; }
 

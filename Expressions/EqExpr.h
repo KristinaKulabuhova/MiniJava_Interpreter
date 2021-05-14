@@ -4,13 +4,13 @@
 class EqExpr : public BaseExpr
 {
 public:
-  EqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  EqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc);
   ~EqExpr() override = default;
-  
+
   void Accept(Visitor &visitor) override;
 
-  BaseExpr* GetLeft() const;
-  BaseExpr* GetRight() const;
+  BaseExpr *GetLeft() const;
+  BaseExpr *GetRight() const;
 
 private:
   BaseExpr *p_lhs;

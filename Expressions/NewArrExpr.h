@@ -6,7 +6,7 @@
 class NewArrExpr : public BaseExpr
 {
 public:
-  NewArrExpr(SimpleType *simple_type, BaseExpr *n_elements);
+  NewArrExpr(SimpleType *simple_type, BaseExpr *n_elements, yy::location loc);
   ~NewArrExpr() override = default;
   
   void Accept(Visitor &visitor) override;

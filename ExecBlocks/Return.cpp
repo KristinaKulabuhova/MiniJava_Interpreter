@@ -1,6 +1,9 @@
 #include "Return.h"
 
-Return::Return(BaseExpr *expression) : expression(expression) {}
+Return::Return(BaseExpr *expression, yy::location loc) : BaseExecBlock(loc)
+{
+    expression = expression;
+}
 
 void Return::Accept(Visitor &visitor)
 {

@@ -12,7 +12,7 @@ class Class : public BaseDeclaration
 public:
   void Accept(Visitor &visitor) override;
   ~Class() override = default;
-  Class(std::string name, std::string parent_class);
+  Class(std::string name, std::string parent_class, yy::location loc);
 
   void initialize(DeclarationList *decl_list);
   void addMethod(MethodDeclaration *declaration);

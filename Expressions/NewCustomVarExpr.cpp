@@ -1,6 +1,9 @@
 #include "NewCustomVarExpr.h"
 
-NewCustomVarExpr::NewCustomVarExpr(std::string class_name) : class_name(std::move(class_name)) {}
+NewCustomVarExpr::NewCustomVarExpr(std::string class_name, yy::location loc) : BaseExpr(loc)
+{
+    class_name = std::move(class_name);
+}
 
 void NewCustomVarExpr::Accept(Visitor &visitor)
 {

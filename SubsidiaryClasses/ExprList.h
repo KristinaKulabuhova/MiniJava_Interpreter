@@ -7,7 +7,7 @@
 class ExprList
 {
 public:
-  explicit ExprList(BaseExpr *expression);
+  explicit ExprList(BaseExpr *expression, yy::location loc);
   ~ExprList();
 
   void addExpr(BaseExpr *expression);
@@ -16,4 +16,5 @@ public:
 
 private:
   std::vector<BaseExpr *> expressions;
+  yy::location location_;
 };

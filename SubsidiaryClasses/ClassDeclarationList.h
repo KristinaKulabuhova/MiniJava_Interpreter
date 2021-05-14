@@ -5,7 +5,7 @@
 class ClassDeclarationList
 {
 public:
-  ClassDeclarationList() = default;
+  ClassDeclarationList(yy::location loc);
   ~ClassDeclarationList() = default;
   
   void addClass(Class *new_class);
@@ -14,4 +14,5 @@ public:
 
 private:
   std::vector<Class *> classes_;
+  yy::location location_;
 };

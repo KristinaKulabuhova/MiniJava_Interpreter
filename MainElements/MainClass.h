@@ -9,5 +9,5 @@ class MainClass : public Class
 public:
   void Accept(Visitor &visitor) override;
   ~MainClass() override = default;
-  MainClass(std::string name, ExecCode *exec_code);
+  MainClass(std::string name, ExecCode *exec_code, yy::location loc);
 };

@@ -1,6 +1,9 @@
 #include "NotExpr.h"
 
-NotExpr::NotExpr(BaseExpr *p_expr) : p_expr(p_expr) {}
+NotExpr::NotExpr(BaseExpr *p_expr, yy::location loc) : BaseExpr(loc) 
+{
+    p_expr = p_expr;
+}
 
 void NotExpr::Accept(Visitor &visitor)
 {

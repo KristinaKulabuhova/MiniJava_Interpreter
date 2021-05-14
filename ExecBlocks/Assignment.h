@@ -7,7 +7,7 @@
 
 class Assignment : public BaseExecBlock {
   public:
-    Assignment(IdentExpr* to, BaseExpr* from);
+    Assignment(IdentExpr* to, BaseExpr* from, yy::location loc);
     ~Assignment() override = default;
 
     void Accept(Visitor& visitor) override;

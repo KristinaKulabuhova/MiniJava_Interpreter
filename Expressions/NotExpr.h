@@ -5,7 +5,7 @@
 class NotExpr : public BaseExpr
 {
 public:
-  explicit NotExpr(BaseExpr *p_expr);
+  explicit NotExpr(BaseExpr *p_expr, yy::location loc);
   ~NotExpr() override = default;
 
   void Accept(Visitor &visitor) override;

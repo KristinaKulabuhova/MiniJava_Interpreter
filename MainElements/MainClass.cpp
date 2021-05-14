@@ -1,9 +1,9 @@
 #include "MainClass.h"
 
-MainClass::MainClass(std::string name, ExecCode *exec_code) : Class(std::move(name), "")
+MainClass::MainClass(std::string name, ExecCode *exec_code, yy::location loc) : Class(std::move(name), "", loc)
 {
-    auto *decl_list = new DeclarationList();
-    decl_list->addDecl(new MethodDeclaration("main", nullptr, new VarTypeStr(new SimpleType(2, "void"), false), exec_code));
+    auto *decl_list = new DeclarationList(loc);
+    decl_list->addDecl(new MethodDeclaration("main", nullptr, new VarTypeStr(new SimpleType(2, "void"), false), exec_code, loc));
     initialize(decl_list);
 }
 

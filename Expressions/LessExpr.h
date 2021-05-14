@@ -5,7 +5,7 @@
 class LessExpr : public BaseExpr
 {
 public:
-  LessExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  LessExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc);
   ~LessExpr() override = default;
 
   void Accept(Visitor &visitor) override;

@@ -1,5 +1,9 @@
 #include "SubsidiaryClasses/DeclarationList.h"
 
+DeclarationList::DeclarationList(yy::location loc) {
+    location_ = loc;
+}
+
 void DeclarationList::addDecl(BaseExecBlock *declaration)
 {
     auto method_decl = dynamic_cast<MethodDeclaration *>(declaration);

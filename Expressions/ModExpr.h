@@ -5,7 +5,7 @@
 class ModExpr : public BaseExpr
 {
 public:
-  ModExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  ModExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc);
   ~ModExpr() override = default;
 
   void Accept(Visitor &visitor) override;

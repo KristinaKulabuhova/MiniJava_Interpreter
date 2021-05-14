@@ -3,11 +3,12 @@
 #include "vector"
 #include "Visitors/Visitor.h"
 #include "Expressions/VarType.h"
+#include "BaseElements/BaseExpr.h"
 
 class Formals
 {
 public:
-  explicit Formals(VarTypeStr *type);
+  explicit Formals(VarTypeStr *type, yy::location loc);
   ~Formals() = default;
 
   void addVar(VarTypeStr *type);
@@ -17,4 +18,5 @@ public:
 
 private:
   std::vector<VarTypeStr *> variables;
+  yy::location location_;
 };

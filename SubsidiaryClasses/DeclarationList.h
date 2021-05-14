@@ -8,7 +8,7 @@
 class DeclarationList
 {
 public:
-  DeclarationList() = default;
+  DeclarationList(yy::location loc);
   ~DeclarationList() = default;
 
   void addDecl(BaseExecBlock *declaration);
@@ -16,5 +16,6 @@ public:
   std::vector<std::variant<MethodDeclaration *, VariableDeclaration *>> GetDeclarations() const;
 
 private:
+  yy::location location_;
   std::vector<std::variant<MethodDeclaration *, VariableDeclaration *>> declarations;
 };

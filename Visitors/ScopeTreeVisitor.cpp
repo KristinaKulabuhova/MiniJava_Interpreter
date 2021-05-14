@@ -9,7 +9,9 @@ void ScopeTreeVisitor::Visit(Program *program) {
     for (auto& class_decl : program->class_decl_list->GetClasses()) {
         class_decl->Accept(*this);
     }
-    
+    for (size_t i = 0; i < all_errors.size(); ++i) {
+        std::cout << all_errors[i].second << " " << all_errors[i].first << "\n";
+    }
 }
 
 void ScopeTreeVisitor::Visit(AtExpr *expression) {
@@ -19,7 +21,7 @@ void ScopeTreeVisitor::Visit(AtExpr *expression) {
 
 void ScopeTreeVisitor::Visit(FieldExpr *expression) {
     if (!cur_scope->GetElement(expression->GetName())) {
-        throw UndefRefError(expression->GetName());
+        UndefRefError(expression->GetName(), expression->GetLoc());
     }
 }
 
@@ -29,7 +31,7 @@ void ScopeTreeVisitor::Visit(NewArrExpr *expression) {
 
 void ScopeTreeVisitor::Visit(NewCustomVarExpr *expression) {
     if (!cur_scope->GetElement(expression->GetName())) {
-        throw UndefRefError(expression->GetName());
+        UndefRefError(expression->GetName(), expression->GetLoc());
     }
 }
 
@@ -104,7 +106,7 @@ void ScopeTreeVisitor::Visit(LessExpr *expression) {
 
 void ScopeTreeVisitor::Visit(IdentExpr *expression) {
     if (!cur_scope->GetElement(expression->GetName())) {
-        throw UndefRefError(expression->GetName());
+        UndefRefError(expression->GetName(), expression->GetLoc());
     }
 }
 
@@ -129,7 +131,7 @@ void ScopeTreeVisitor::Visit(TrueExpr */*expression*/) {
 void ScopeTreeVisitor::Visit(Class *expression) {
 
     if (!cur_scope->AddElement(expression->GetName(), new StClass(expression))) {
-        throw MultiDeclError(expression->GetName());
+        MultiDeclError(expression->GetName(), expression->GetLoc());
     }
     for (auto& field : expression->GetVariable()) {
         field->Accept(*this);
@@ -147,7 +149,7 @@ void ScopeTreeVisitor::Visit(MainClass *expression) {
 
 void ScopeTreeVisitor::Visit(MethodInvocation *expression) {
     if (!cur_scope->GetElement(expression->name)) {
-        throw UndefRefError(expression->name);
+        UndefRefError(expression->name, expression->BaseExpr::GetLoc());
     }
 }
 
@@ -185,7 +187,7 @@ void ScopeTreeVisitor::Visit(While* expression) {
 
 void ScopeTreeVisitor::Visit(MethodDeclaration *expression) {
     if (!cur_scope->AddElement(expression->GetName(), new StFunction(expression))) {
-        throw MultiDeclError(expression->GetName());
+        MultiDeclError(expression->GetName(), expression->GetLoc());
     }
     auto old_scope = cur_scope;
     cur_scope = cur_scope->CreateChild();
@@ -193,7 +195,7 @@ void ScopeTreeVisitor::Visit(MethodDeclaration *expression) {
     if (expression->GetFormals()) {
         for (const auto &argument : expression->GetFormals()->GetVariables()) {
             if (!cur_scope->AddElement(expression->GetName(), new StVariable(*argument))) {
-                throw MultiDeclError(argument->GetName());
+                MultiDeclError(argument->GetName(), expression->GetLoc());
             }
         }
     }
@@ -213,7 +215,7 @@ void ScopeTreeVisitor::Visit(Return *expression) {
 
 void ScopeTreeVisitor::Visit(VariableDeclaration *expression) {
     if (!cur_scope->AddElement(expression->GetName(), new StVariable(*expression->GetType()))) {
-        throw MultiDeclError(expression->GetName());
+        MultiDeclError(expression->GetName(), expression->GetLoc());
     }
 }
 

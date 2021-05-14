@@ -1,6 +1,11 @@
 #include "If.h"
 
-If::If(BaseExpr *statement, BaseExecBlock *true_branch, BaseExecBlock *false_branch) : statement(statement), true_branch(true_branch), false_branch(false_branch) {}
+If::If(BaseExpr *statement, BaseExecBlock *true_branch, BaseExecBlock *false_branch, yy::location loc) : BaseExecBlock(loc)
+{
+    statement = statement; 
+    true_branch = true_branch;
+    false_branch = false_branch;
+}
 
 void If::Accept(Visitor &visitor)
 {

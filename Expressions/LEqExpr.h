@@ -5,7 +5,7 @@
 class LEqExpr : public BaseExpr
 {
 public:
-  LEqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  LEqExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc);
   ~LEqExpr() override = default;
   
   void Accept(Visitor &visitor) override;

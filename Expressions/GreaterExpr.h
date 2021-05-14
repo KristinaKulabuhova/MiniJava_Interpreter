@@ -5,13 +5,13 @@
 class GreaterExpr : public BaseExpr
 {
 public:
-  GreaterExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  GreaterExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc);
   ~GreaterExpr() override = default;
-  
+
   void Accept(Visitor &visitor) override;
 
-  BaseExpr* GetLeft() const;
-  BaseExpr* GetRight() const;
+  BaseExpr *GetLeft() const;
+  BaseExpr *GetRight() const;
 
 private:
   BaseExpr *p_lhs;

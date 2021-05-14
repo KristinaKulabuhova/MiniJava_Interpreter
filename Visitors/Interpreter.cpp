@@ -193,7 +193,11 @@ void Interpreter::Visit(Block* expression) {
     expression->GetExecCode()->Accept(*this);
 }
 
-void Interpreter::Visit(ExecCode* /*expression*/) {}
+void Interpreter::Visit(ExecCode* expression) {
+    for (auto expr: expression->GetProgramLines()) {
+        expr->Accept(*this);
+    }
+}
 
 void Interpreter::Visit(Program* program) {
     program->main_class->Accept(*this);

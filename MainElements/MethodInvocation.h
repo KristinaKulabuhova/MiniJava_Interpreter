@@ -9,8 +9,8 @@
 class MethodInvocation : public BaseExpr, public BaseExecBlock
 {
 public:
-  MethodInvocation(BaseExpr *callable_expr, std::string name, ExprList *arguments);
-  explicit MethodInvocation(FieldExpr *callable_expr, ExprList *expr_list = nullptr);
+  MethodInvocation(BaseExpr *callable_expr, std::string name, ExprList *arguments, yy::location loc);
+  explicit MethodInvocation(FieldExpr *callable_expr, ExprList *expr_list, yy::location loc);
 
   ~MethodInvocation() override = default;
 

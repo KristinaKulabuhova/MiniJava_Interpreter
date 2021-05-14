@@ -1,6 +1,9 @@
 #include "Block.h"
 
-Block::Block(ExecCode *exec_code) : exec_code(exec_code) {}
+Block::Block(ExecCode *exec_code_, yy::location loc) : BaseExecBlock(loc)
+{
+    exec_code = exec_code_;
+}
 
 void Block::Accept(Visitor &visitor)
 {

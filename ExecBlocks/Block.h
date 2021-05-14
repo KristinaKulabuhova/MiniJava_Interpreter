@@ -6,7 +6,7 @@
 class Block : public BaseExecBlock
 {
 public:
-  Block(ExecCode *exec_code);
+  Block(ExecCode *exec_code, yy::location loc);
   ~Block() override = default;
 
   void Accept(Visitor &visitor) override;

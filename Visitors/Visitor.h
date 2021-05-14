@@ -3,41 +3,35 @@
 #include "ForwardDeclarations.h"
 
 #include <variant>
+#include <iostream>
+#include "parser.hh"
 #include <string>
 #include <stdexcept>
+#include <vector>
 
+inline std::vector<std::pair<std::string, yy::location>> all_errors;
 
-class MultiDeclError : public std::runtime_error {
-  public:
-    explicit MultiDeclError(const std::string& var_name) :
-    std::runtime_error("Multiple declaration of name \"" + var_name + "\".") {};
-};
+inline void MultiDeclError(const std::string& var_name, yy::location loc) {
+    all_errors.push_back(std::make_pair("Multiple declaration of name \"" + var_name + "\".", loc));
+}
 
-class UndefRefError : public std::runtime_error {
-  public:
-    explicit UndefRefError(const std::string& var_name) :
-    std::runtime_error("Undefined reference to \"" + var_name + "\".") {};
-};
+inline void UndefRefError(const std::string& var_name, yy::location loc) {
+    all_errors.push_back(std::make_pair("Undefined reference to \"" + var_name + "\".", loc));
+}
 
-class WrongBinaryOperandsError : public std::runtime_error {
-  public:
-    explicit WrongBinaryOperandsError(const std::string& operation,
-                                      const std::string& first_type, const std::string& second_type) :
-    std::runtime_error("Wrong operands to binary operation \""
-    + operation + "\": " + first_type + "\" and \"" + second_type + "\".") {};
-};
+inline void WrongBinaryOperandsError(const std::string& operation,
+                                      const std::string& first_type, const std::string& second_type, yy::location loc) {
+    all_errors.push_back(std::make_pair("std::make_pair(Wrong operands to binary operation \""
+    + operation + "\": " + first_type + "\" and \"" + second_type + "\".", loc));
+}
 
-class ExpectedBoolError : public std::runtime_error {
-  public:
-    explicit ExpectedBoolError(const std::string& type) :
-    std::runtime_error("Can't interpret type \"" + type + "\" as bool.") {};
-};
+inline void ExpectedBoolError(const std::string& type, yy::location loc) {
+    all_errors.push_back(std::make_pair("Can't interpret type \"" + type + "\" as bool.", loc));
+}
 
-class ExpectedIntError : public std::runtime_error {
-  public:
-    explicit ExpectedIntError(const std::string& type) :
-            std::runtime_error("Can't interpret type \"" + type + "\" as integer.") {};
-};
+inline void ExpectedIntError(const std::string& type, yy::location loc) {
+    all_errors.push_back(std::make_pair("Can't interpret type \"" + type + "\" as integer.", loc));
+}
 
 
 class Visitor {
@@ -66,7 +60,6 @@ class Visitor {
     
     virtual void Visit(IdentExpr* expression) = 0;
     virtual void Visit(LengthExpr* expression) = 0;
-    //virtual void Visit(VarExpr* expression) = 0;
     virtual void Visit(NumExpr* expression) = 0;
     
     virtual void Visit(FalseExpr* expression) = 0;

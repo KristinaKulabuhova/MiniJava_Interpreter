@@ -6,7 +6,7 @@
 class Return : public BaseExecBlock
 {
 public:
-  explicit Return(BaseExpr *expression);
+  explicit Return(BaseExpr *expression, yy::location loc);
   ~Return() override = default;
 
   void Accept(Visitor &visitor) override;

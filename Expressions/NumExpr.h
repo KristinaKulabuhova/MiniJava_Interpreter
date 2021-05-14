@@ -4,7 +4,7 @@
 class NumExpr : public BaseExpr
 {
 public:
-  explicit NumExpr(const std::string &number);
+  explicit NumExpr(const std::string &number, yy::location loc);
   ~NumExpr() override = default;
 
   void Accept(Visitor &visitor) override;

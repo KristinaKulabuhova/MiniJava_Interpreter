@@ -41,16 +41,17 @@ int Driver::executeProgram() const
     PrintVisitor print_visitor;
     ScopeTreeVisitor scope_tree_visitor;
     GarbageCollector collector;
-    //Interpreter interpreter;
-    try
-    {
-        program->Accept(scope_tree_visitor);
-        program->Accept(print_visitor);
+    Interpreter interpreter;
+    
+    program->Accept(scope_tree_visitor);
+    program->Accept(print_visitor);
+    if (all_errors.size() == 0) {
+        program->Accept(interpreter);
     }
-    catch (...)
-    {
+    else {
         return -1;
     }
     program->Accept(collector);
+    
     return 0;
 }

@@ -1,6 +1,9 @@
 #include "AssertExpr.h"
 
-AssertExpr::AssertExpr(BaseExpr *expression) : expression(expression) {}
+AssertExpr::AssertExpr(BaseExpr *expression, yy::location loc) : BaseExecBlock(loc) 
+{
+  expression = expression;
+}
 
 BaseExpr* AssertExpr::GetExpression() const {
     return expression;

@@ -1,6 +1,6 @@
 #include "NumExpr.h"
 
-NumExpr::NumExpr(const std::string &number)
+NumExpr::NumExpr(const std::string &number, yy::location loc) : BaseExpr(loc)
 {
     value = std::stoi(number);
 }

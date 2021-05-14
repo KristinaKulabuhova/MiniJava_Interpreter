@@ -1,8 +1,9 @@
 #include "ExprList.h"
 
-ExprList::ExprList(BaseExpr *expression)
+ExprList::ExprList(BaseExpr *expression, yy::location loc)
 {
     expressions.emplace_back(expression);
+    location_ = loc;
 }
 
 void ExprList::addExpr(BaseExpr *expression)

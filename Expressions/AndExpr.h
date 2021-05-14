@@ -5,7 +5,7 @@
 class AndExpr : public BaseExpr
 {
 public:
-  AndExpr(BaseExpr *p_lhs, BaseExpr *p_rhs);
+  AndExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc);
   ~AndExpr() override = default;
 
   void Accept(Visitor &visitor) override;

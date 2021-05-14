@@ -1,5 +1,7 @@
 #include "BaseScope.h"
 
+#include <iostream>
+
 bool BaseScope::AddElement(const std::string& name, BaseSymbol *symbol) {
     if (elements.find(name) != elements.end()) {
         return false;

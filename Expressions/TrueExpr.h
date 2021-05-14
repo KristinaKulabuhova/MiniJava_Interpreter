@@ -5,7 +5,7 @@
 class TrueExpr : public BaseExpr
 {
 public:
-  TrueExpr() = default;
+  TrueExpr(yy::location loc);
   ~TrueExpr() override = default;
 
   void Accept(Visitor &visitor) override;

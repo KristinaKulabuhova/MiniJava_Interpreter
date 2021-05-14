@@ -1,6 +1,10 @@
 #include "Assignment.h"
 
-Assignment::Assignment(IdentExpr *to, BaseExpr *from) : to_(to), from_(from) {}
+Assignment::Assignment(IdentExpr *to, BaseExpr *from, yy::location loc) : BaseExecBlock(loc)
+{
+  to_ = to; 
+  from_ = from;
+}
 
 IdentExpr* Assignment::GetTo() const {
       return to_;

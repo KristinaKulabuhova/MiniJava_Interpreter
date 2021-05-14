@@ -1,6 +1,10 @@
 #include "AndExpr.h"
 
-AndExpr::AndExpr(BaseExpr *p_lhs, BaseExpr *p_rhs) : p_lhs(p_lhs), p_rhs(p_rhs) {}
+AndExpr::AndExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc) : BaseExpr(loc)
+{
+    p_lhs = p_lhs;
+    p_rhs = p_rhs;
+}
 
 void AndExpr::Accept(Visitor &visitor)
 {

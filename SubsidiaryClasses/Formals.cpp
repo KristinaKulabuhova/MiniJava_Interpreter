@@ -1,8 +1,9 @@
 #include "Formals.h"
 
-Formals::Formals(VarTypeStr *type)
+Formals::Formals(VarTypeStr *type, yy::location loc)
 {
     variables.emplace_back(type);
+    location_ = loc;
 }
 
 void Formals::Accept(Visitor &visitor)

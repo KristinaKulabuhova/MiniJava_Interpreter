@@ -11,7 +11,7 @@
 class MethodDeclaration : public BaseExecBlock
 {
 public:
-  MethodDeclaration(std::string name, Formals *arguments, VarTypeStr *return_type, ExecCode *exec_code);
+  MethodDeclaration(std::string name, Formals *arguments, VarTypeStr *return_type, ExecCode *exec_code, yy::location loc);
   ~MethodDeclaration() override = default;
 
   std::string GetName() const;

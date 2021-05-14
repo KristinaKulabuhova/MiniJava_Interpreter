@@ -72,5 +72,4 @@ class Interpreter : public Visitor {
 
     void SetTosValue(int value);
     void UnsetTosValue();
-
 };

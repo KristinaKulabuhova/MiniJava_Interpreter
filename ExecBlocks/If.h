@@ -5,7 +5,7 @@
 
 class If : public BaseExecBlock {
   public:
-    If(BaseExpr* statement, BaseExecBlock* true_branch, BaseExecBlock* false_branch = nullptr);
+    If(BaseExpr* statement, BaseExecBlock* true_branch, BaseExecBlock* false_branch, yy::location loc);
     ~If() override = default;
 
     void Accept(Visitor& visitor) override;
