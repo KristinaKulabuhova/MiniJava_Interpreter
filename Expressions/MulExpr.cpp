@@ -2,8 +2,8 @@
 
 MulExpr::MulExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc) : BaseExpr(loc)
 {
-    p_lhs = p_lhs;
-    p_rhs = p_rhs;
+    p_lhs_ = p_lhs;
+    p_rhs_ = p_rhs;
 }
 
 void MulExpr::Accept(Visitor &visitor)
@@ -13,10 +13,10 @@ void MulExpr::Accept(Visitor &visitor)
 
 BaseExpr *MulExpr::GetLeft() const
 {
-    return p_lhs;
+    return p_lhs_;
 }
 
 BaseExpr *MulExpr::GetRight() const
 {
-    return p_rhs;
+    return p_rhs_;
 }

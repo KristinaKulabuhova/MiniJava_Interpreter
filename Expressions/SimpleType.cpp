@@ -1,11 +1,11 @@
 #include "SimpleType.h"
 
-SimpleType::SimpleType(int id, std::string name) : type_name_(std::move(name)), type_id(id) {}
+SimpleType::SimpleType(int id, std::string name) : type_name_(std::move(name)), type_id_(id) {}
 
 std::string SimpleType::GetName() const {
     return type_name_;
 }
 
 int SimpleType::GetId() const {
-    return type_id;
+    return type_id_;
 }

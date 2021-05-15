@@ -181,14 +181,14 @@ void PrintVisitor::Visit(MainClass *expression) {
 }
 
 void PrintVisitor::Visit(MethodInvocation *expression) {
-    expression->callable_expr->Accept(*this);
-    std::cout << " POvoid " << expression->name << "(";
-    if (!expression->arguments->GetExpr().empty()) {
-        expression->arguments->GetExpr().front()->Accept(*this);
+    expression->callable_expr_->Accept(*this);
+    std::cout << " POvoid " << expression->name_ << "(";
+    if (!expression->arguments_->GetExpr().empty()) {
+        expression->arguments_->GetExpr().front()->Accept(*this);
     }
-    for (size_t i = 1; i < expression->arguments->GetExpr().size(); ++i) {
+    for (size_t i = 1; i < expression->arguments_->GetExpr().size(); ++i) {
         std::cout << ", ";
-        expression->arguments->GetExpr()[i]->Accept(*this);
+        expression->arguments_->GetExpr()[i]->Accept(*this);
     }
     std::cout << ")";
     

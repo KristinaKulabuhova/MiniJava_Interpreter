@@ -15,9 +15,9 @@ class If : public BaseExecBlock {
     BaseExpr* GetStatement() const;
 
   private:
-    BaseExpr* statement;
-    BaseExecBlock* true_branch;
-    BaseExecBlock* false_branch;
+    BaseExpr* statement_;
+    BaseExecBlock* true_branch_;
+    BaseExecBlock* false_branch_;
 };
 
 

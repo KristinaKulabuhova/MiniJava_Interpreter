@@ -2,8 +2,8 @@
 
 AddExpr::AddExpr(BaseExpr *p_lhs, BaseExpr *p_rhs, yy::location loc) : BaseExpr(loc)
 {
-    p_lhs = p_lhs;
-    p_rhs = p_rhs;
+    p_lhs_ = p_lhs;
+    p_rhs_ = p_rhs;
 }
 
 void AddExpr::Accept(Visitor &visitor)
@@ -13,10 +13,10 @@ void AddExpr::Accept(Visitor &visitor)
 
 BaseExpr *AddExpr::GetLeft() const
 {
-    return p_lhs;
+    return p_lhs_;
 }
 
 BaseExpr *AddExpr::GetRight() const
 {
-    return p_rhs;
+    return p_rhs_;
 }

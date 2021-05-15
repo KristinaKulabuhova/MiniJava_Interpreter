@@ -2,7 +2,7 @@
 
 LengthExpr::LengthExpr(BaseExpr *array, yy::location loc) : BaseExpr(loc)
 {
-    array = array;
+    array_ = array;
 }
 
 void LengthExpr::Accept(Visitor &visitor)
@@ -12,5 +12,5 @@ void LengthExpr::Accept(Visitor &visitor)
 
 BaseExpr *LengthExpr::GetArray() const
 {
-    return array;
+    return array_;
 }

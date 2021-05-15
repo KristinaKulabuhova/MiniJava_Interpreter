@@ -13,5 +13,5 @@ public:
 
 private:
   std::string type_name_;
-  int type_id;
+  int type_id_;
 };

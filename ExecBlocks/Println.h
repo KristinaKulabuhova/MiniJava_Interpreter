@@ -14,5 +14,5 @@ public:
   BaseExpr* GetExpression() const;
 
 private:
-  BaseExpr *expression;
+  BaseExpr *expression_;
 };

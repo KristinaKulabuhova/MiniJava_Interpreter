@@ -1,8 +1,8 @@
 #include "Println.h"
 
-Println::Println(BaseExpr *expression_, yy::location loc) : BaseExecBlock(loc)
+Println::Println(BaseExpr *expression, yy::location loc) : BaseExecBlock(loc)
 { 
-    expression = expression_;
+    expression_ = expression;
 }
 
 void Println::Accept(Visitor &visitor)
@@ -11,5 +11,5 @@ void Println::Accept(Visitor &visitor)
 }
 
   BaseExpr* Println::GetExpression() const {
-      return expression;
+      return expression_;
   }

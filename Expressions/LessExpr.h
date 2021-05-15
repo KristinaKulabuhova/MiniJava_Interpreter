@@ -14,6 +14,6 @@ public:
   BaseExpr* GetRight() const;
 
 private:
-  BaseExpr *p_lhs;
-  BaseExpr *p_rhs;
+  BaseExpr *p_lhs_;
+  BaseExpr *p_rhs_;
 };

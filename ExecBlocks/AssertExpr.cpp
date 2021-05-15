@@ -2,11 +2,11 @@
 
 AssertExpr::AssertExpr(BaseExpr *expression, yy::location loc) : BaseExecBlock(loc) 
 {
-  expression = expression;
+  expression_ = expression;
 }
 
 BaseExpr* AssertExpr::GetExpression() const {
-    return expression;
+    return expression_;
   }
 
 void AssertExpr::Accept(Visitor &visitor)

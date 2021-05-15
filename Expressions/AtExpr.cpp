@@ -2,8 +2,8 @@
 
 AtExpr::AtExpr(BaseExpr *array, BaseExpr *index, yy::location loc) : BaseExpr(loc)
 {
-    array = array;
-    index = index;
+    array_ = array;
+    index_ = index;
 }
 
 void AtExpr::Accept(Visitor &visitor)
@@ -13,10 +13,10 @@ void AtExpr::Accept(Visitor &visitor)
 
 BaseExpr *AtExpr::GetArray() const
 {
-    return array;
+    return array_;
 }
 
 BaseExpr *AtExpr::GetIndex() const
 {
-    return index;
+    return index_;
 }

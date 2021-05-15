@@ -142,9 +142,9 @@ void GarbageCollector::Visit(MainClass *expression) {
 }
 
 void GarbageCollector::Visit(MethodInvocation *expression) {
-    expression->callable_expr->Accept(*this);
-    delete expression->callable_expr;
-    for (auto& arg : expression->arguments->GetExpr()) {
+    expression->callable_expr_->Accept(*this);
+    delete expression->callable_expr_;
+    for (auto& arg : expression->arguments_->GetExpr()) {
         arg->Accept(*this);
         delete arg;
     }

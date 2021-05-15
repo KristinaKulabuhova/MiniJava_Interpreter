@@ -2,8 +2,8 @@
 
 While::While(BaseExpr *statement, BaseExecBlock *cycle_body, yy::location loc) : BaseExecBlock(loc) 
 {
-    statement = statement; 
-    cycle_body = cycle_body;
+    statement_ = statement; 
+    cycle_body_ = cycle_body;
 }
 
 void While::Accept(Visitor &visitor)
@@ -12,9 +12,9 @@ void While::Accept(Visitor &visitor)
 }
 
 BaseExpr* While::GetStatement() const {
-    return statement;
+    return statement_;
 }
 
 BaseExecBlock* While::GetCycleBody() const {
-    return cycle_body;
+    return cycle_body_;
 }

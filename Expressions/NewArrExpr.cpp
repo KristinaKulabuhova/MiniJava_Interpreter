@@ -2,8 +2,8 @@
 
 NewArrExpr::NewArrExpr(SimpleType *simple_type, BaseExpr *n_elements, yy::location loc) : BaseExpr(loc)
 {
-    simple_type = simple_type;
-    n_elements = n_elements;
+    simple_type_ = simple_type;
+    n_elements_ = n_elements;
 }
 
 void NewArrExpr::Accept(Visitor &visitor)
@@ -12,9 +12,9 @@ void NewArrExpr::Accept(Visitor &visitor)
 }
 
   SimpleType* NewArrExpr::GetType() const {
-      return simple_type;
+      return simple_type_;
   }
 
   BaseExpr* NewArrExpr::GetElement() const {
-      return n_elements;
+      return n_elements_;
   }

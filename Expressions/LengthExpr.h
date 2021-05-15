@@ -13,5 +13,5 @@ public:
   BaseExpr *GetArray() const;
 
 private:
-  BaseExpr *array;
+  BaseExpr *array_;
 };

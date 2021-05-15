@@ -12,5 +12,5 @@ public:
   int32_t GetValue() const;
 
 private:
-  int32_t value;
+  int32_t value_;
 };

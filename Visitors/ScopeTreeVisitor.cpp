@@ -148,8 +148,8 @@ void ScopeTreeVisitor::Visit(MainClass *expression) {
 }
 
 void ScopeTreeVisitor::Visit(MethodInvocation *expression) {
-    if (!cur_scope->GetElement(expression->name)) {
-        UndefRefError(expression->name, expression->BaseExpr::GetLoc());
+    if (!cur_scope->GetElement(expression->name_)) {
+        UndefRefError(expression->name_, expression->BaseExpr::GetLoc());
     }
 }
 

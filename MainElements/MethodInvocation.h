@@ -17,7 +17,7 @@ public:
   void Accept(Visitor &visitor) override;
 
 public:
-  BaseExpr *callable_expr; // nullptr if it is "this"
-  std::string name;
-  ExprList *arguments;
+  BaseExpr *callable_expr_; // nullptr if it is "this"
+  std::string name_;
+  ExprList *arguments_;
 };

@@ -15,6 +15,6 @@ public:
   BaseExpr* GetElement() const;
 
 private:
-  SimpleType *simple_type;
-  BaseExpr *n_elements;
+  SimpleType *simple_type_;
+  BaseExpr *n_elements_;
 };

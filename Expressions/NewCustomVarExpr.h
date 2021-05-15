@@ -13,5 +13,5 @@ public:
   std::string GetName() const;
 
 private:
-  std::string class_name;
+  std::string class_name_;
 };

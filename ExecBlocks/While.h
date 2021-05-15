@@ -15,6 +15,6 @@ public:
   BaseExecBlock* GetCycleBody() const;
 
 private:
-  BaseExpr *statement;
-  BaseExecBlock *cycle_body;
+  BaseExpr *statement_;
+  BaseExecBlock *cycle_body_;
 };

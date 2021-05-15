@@ -2,7 +2,7 @@
 
 Return::Return(BaseExpr *expression, yy::location loc) : BaseExecBlock(loc)
 {
-    expression = expression;
+    expression_ = expression;
 }
 
 void Return::Accept(Visitor &visitor)
@@ -11,5 +11,5 @@ void Return::Accept(Visitor &visitor)
 }
 
  BaseExpr* Return::GetExpression() const {
-     return expression;
+     return expression_;
  }

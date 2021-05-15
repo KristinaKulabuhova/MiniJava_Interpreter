@@ -1,5 +1,5 @@
 class Program {
-    public static void main (){
+    public static void main () {
           
         int a;
         a = 8;

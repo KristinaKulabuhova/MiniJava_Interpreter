@@ -2,7 +2,7 @@
 
 NotExpr::NotExpr(BaseExpr *p_expr, yy::location loc) : BaseExpr(loc) 
 {
-    p_expr = p_expr;
+    p_expr_ = p_expr;
 }
 
 void NotExpr::Accept(Visitor &visitor)
@@ -11,6 +11,6 @@ void NotExpr::Accept(Visitor &visitor)
 }
 
 BaseExpr* NotExpr::GetExpression() const {
-    return p_expr;
+    return p_expr_;
 }
 

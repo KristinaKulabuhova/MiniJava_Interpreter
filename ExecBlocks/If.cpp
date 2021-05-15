@@ -2,9 +2,9 @@
 
 If::If(BaseExpr *statement, BaseExecBlock *true_branch, BaseExecBlock *false_branch, yy::location loc) : BaseExecBlock(loc)
 {
-    statement = statement; 
-    true_branch = true_branch;
-    false_branch = false_branch;
+    statement_ = statement; 
+    true_branch_ = true_branch;
+    false_branch_ = false_branch;
 }
 
 void If::Accept(Visitor &visitor)
@@ -13,13 +13,13 @@ void If::Accept(Visitor &visitor)
 }
 
 BaseExecBlock* If::GetFalseBranch() const {
-    return false_branch;
+    return false_branch_;
 }
 
 BaseExecBlock* If::GetTrueBranch() const {
-    return true_branch;
+    return true_branch_;
 }
 
 BaseExpr* If::GetStatement() const {
-    return statement;
+    return statement_;
 }

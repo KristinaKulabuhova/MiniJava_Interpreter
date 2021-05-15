@@ -14,5 +14,5 @@ public:
   ExecCode* GetExecCode() const;
 
 private:
-  ExecCode *exec_code;
+  ExecCode *exec_code_;
 };

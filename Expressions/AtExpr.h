@@ -13,6 +13,6 @@ public:
   BaseExpr *GetIndex() const;
 
 private:
-  BaseExpr *array;
-  BaseExpr *index;
+  BaseExpr *array_;
+  BaseExpr *index_;
 };

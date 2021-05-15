@@ -2,7 +2,7 @@
 
 NumExpr::NumExpr(const std::string &number, yy::location loc) : BaseExpr(loc)
 {
-    value = std::stoi(number);
+    value_ = std::stoi(number);
 }
 
 void NumExpr::Accept(Visitor &visitor)
@@ -12,5 +12,5 @@ void NumExpr::Accept(Visitor &visitor)
 
 int32_t NumExpr::GetValue() const
 {
-    return value;
+    return value_;
 }
