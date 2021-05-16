@@ -185,12 +185,12 @@ void PrintVisitor::Visit(MethodInvocation *expression) {
         expression->callable_expr_->Accept(*this);
     }
     std::cout << " POvoid " << expression->name_ << "(";
-    if (!expression->arguments_->GetExpr().empty()) {
+    if (expression->arguments_) {
         expression->arguments_->GetExpr().front()->Accept(*this);
-    }
-    for (size_t i = 1; i < expression->arguments_->GetExpr().size(); ++i) {
-        std::cout << ", ";
-        expression->arguments_->GetExpr()[i]->Accept(*this);
+        for (size_t i = 1; i < expression->arguments_->GetExpr().size(); ++i) {
+            std::cout << ", ";
+            expression->arguments_->GetExpr()[i]->Accept(*this);
+        }
     }
     std::cout << ")";
     
