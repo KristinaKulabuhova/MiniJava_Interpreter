@@ -23,5 +23,6 @@ BaseSymbol *BaseScope::GetElement(const std::string &name) {
 
 BaseScope *BaseScope::CreateChild() {
     children_.emplace_back(new BaseScope);
+    children_.back()->parent_ = this;
     return children_.back();
 }

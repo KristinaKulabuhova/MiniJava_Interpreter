@@ -76,7 +76,7 @@ void PrintVisitor::Visit(DivExpr *expression) {
 
 void PrintVisitor::Visit(SubtractExpr *expression) {
     expression->GetLeft()->Accept(*this);
-    std::cout << "SUBTRACT ";
+    std::cout << " SUBTRACT ";
     expression->GetRight()->Accept(*this);
     
 }
@@ -181,7 +181,9 @@ void PrintVisitor::Visit(MainClass *expression) {
 }
 
 void PrintVisitor::Visit(MethodInvocation *expression) {
-    expression->callable_expr_->Accept(*this);
+    if (expression->callable_expr_) {
+        expression->callable_expr_->Accept(*this);
+    }
     std::cout << " POvoid " << expression->name_ << "(";
     if (!expression->arguments_->GetExpr().empty()) {
         expression->arguments_->GetExpr().front()->Accept(*this);
@@ -268,6 +270,7 @@ void PrintVisitor::Visit(Assignment *assignment) {
 }
 
 void PrintVisitor::Visit(Block *expression) {
+    printTabs();
     std::cout << "NEW_BLOCK_BEGIN:\n";
     ++tabs_counter_;
     expression->GetExecCode()->Accept(*this);

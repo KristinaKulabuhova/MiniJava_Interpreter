@@ -10,7 +10,7 @@ FieldExpr::FieldExpr(std::string name, yy::location loc) : BaseExpr(loc)
     name_ = std::move(name);
 }
 
-std::string FieldExpr::GetName() const
+const std::string& FieldExpr::GetName() const
 {
     return name_;
 }

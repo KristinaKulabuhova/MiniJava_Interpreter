@@ -9,7 +9,7 @@ public:
 
   void Accept(Visitor &visitor) override;
 
-  std::string GetName() const;
+  const std::string& GetName() const;
 
 private:
   std::string name_;

@@ -14,7 +14,7 @@ MethodInvocation::MethodInvocation(BaseExpr *callable_expr, std::string name, Ex
 
 MethodInvocation::MethodInvocation(FieldExpr *callable_expr, ExprList *expr_list, yy::location loc) : BaseExpr(loc), BaseExecBlock(loc) 
 {
-    callable_expr = nullptr; 
+    callable_expr_ = nullptr;
     expr_list = nullptr;
     name_ = callable_expr->GetName(); 
     arguments_ = expr_list;

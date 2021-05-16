@@ -45,7 +45,7 @@ int Driver::executeProgram() const
     
     program->Accept(scope_tree_visitor);
     program->Accept(print_visitor);
-    if (all_errors.size() == 0) {
+    if (all_errors.empty()) {
         program->Accept(interpreter);
     }
     else {

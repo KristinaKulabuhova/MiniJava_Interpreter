@@ -198,7 +198,7 @@ class_declaration_list: class_declaration_list class_declaration 	{ $$ = $1; $$-
 					  | %empty 			{ $$ = new ClassDeclarationList(driver.location); }
 
 class_declaration:   "class" "identifier" "extends" "identifier" "{" declaration_list "}"  	{ $$ = new Class($2, $4, driver.location); $$->initialize($6); }
-		         | "class" "identifier" "{" declaration_list "}" 			{ $$ = new Class($2, nullptr, driver.location); $$->initialize($4); }
+		         | "class" "identifier" "{" declaration_list "}" 			{ $$ = new Class($2, "", driver.location); $$->initialize($4); }
 
 declaration_list: declaration_list variable_declaration 	{ $$ = $1; $$->addDecl($2); }
 		  | declaration_list method_declaration         { $$ = $1; $$->addDecl($2); }

@@ -2,13 +2,22 @@ class Program {
     public static void main () {
           
         int a;
+        a = 0;
+        System.out.println(a);
+    }
+}
+
+class MyClass {
+    public void main2 () {
+
+        int a;
         int b;
         b = 9;
-        a = getNumberPlusOne(b);
+        a = this.getNumberPlusOne(b);
         System.out.println(a);
     }
 
-    public static int getNumberPlusOne(int a) {
+    public int getNumberPlusOne(int a) {
         a = a + 1;
         return a;
     }

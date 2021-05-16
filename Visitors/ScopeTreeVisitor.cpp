@@ -9,8 +9,8 @@ void ScopeTreeVisitor::Visit(Program *program) {
     for (auto& class_decl : program->class_decl_list->GetClasses()) {
         class_decl->Accept(*this);
     }
-    for (size_t i = 0; i < all_errors.size(); ++i) {
-        std::cout << all_errors[i].second << " " << all_errors[i].first << "\n";
+    for (auto & all_error : all_errors) {
+        std::cout << all_error.second << " " << all_error.first << "\n";
     }
 }
 
@@ -155,33 +155,14 @@ void ScopeTreeVisitor::Visit(MethodInvocation *expression) {
 
 
 void ScopeTreeVisitor::Visit(If* branching) {
-    if (dynamic_cast<Block*>(branching->GetTrueBranch())) {
-        auto old_scope = cur_scope;
-        cur_scope = cur_scope->CreateChild();
-
-        branching->GetTrueBranch()->Accept(*this);
-
-        cur_scope = old_scope;
-    }
-    if (dynamic_cast<Block*>(branching->GetFalseBranch())) {
-        auto old_scope = cur_scope;
-        cur_scope = cur_scope->CreateChild();
-
+    branching->GetTrueBranch()->Accept(*this);
+    if (branching->GetFalseBranch()) {
         branching->GetFalseBranch()->Accept(*this);
-
-        cur_scope = old_scope;
     }
 }
 
 void ScopeTreeVisitor::Visit(While* expression) {
-    if (dynamic_cast<Block*>(expression->GetCycleBody())) {
-        auto old_scope = cur_scope;
-        cur_scope = cur_scope->CreateChild();
-
-        expression->GetCycleBody()->Accept(*this);
-
-        cur_scope = old_scope;
-    }
+    expression->GetCycleBody()->Accept(*this);
 }
 
 
