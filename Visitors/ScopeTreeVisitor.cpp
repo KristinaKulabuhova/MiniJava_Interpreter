@@ -5,12 +5,38 @@
 void ScopeTreeVisitor::Visit(Program *program) {
     cur_scope = new BaseScope();
     global_scope_ = cur_scope;
-    program->main_class->Accept(*this);
+    cur_scope->AddElement(program->main_class->GetName(), new StClass(program->main_class));
+    cur_scope = cur_scope->CreateChild();
+    for (auto& p_method : program->main_class->GetMethods()) {
+        if (!cur_scope->AddElement(p_method->GetName(), new StFunction(p_method))) {
+            MultiDeclError(p_method->GetName(), p_method->GetLoc());
+        }
+    }
+    cur_scope = cur_scope->GetParent();
     for (auto& class_decl : program->class_decl_list->GetClasses()) {
-        class_decl->Accept(*this);
+        if (!cur_scope->AddElement(class_decl->GetName(), new StClass(class_decl))) {
+            MultiDeclError(class_decl->GetName(), class_decl->GetLoc());
+        }
+        cur_scope = cur_scope->CreateChild();
+        for (auto& p_method : class_decl->GetMethods()) {
+            if (!cur_scope->AddElement(p_method->GetName(), new StFunction(p_method))) {
+                MultiDeclError(p_method->GetName(), p_method->GetLoc());
+            }
+        }
+        cur_scope = cur_scope->GetParent();
+    }
+    cur_scope = cur_scope->GetChild(0);
+    program->main_class->Accept(*this);
+    cur_scope = cur_scope->GetParent();
+    for (size_t ind = 0; ind < program->class_decl_list->GetClasses().size(); ++ind) {
+        cur_scope = cur_scope->GetChild(ind + 1);
+        program->class_decl_list->GetClasses()[ind]->Accept(*this);
+        cur_scope = cur_scope->GetParent();
     }
     for (auto & all_error : all_errors) {
+        cur_scope = cur_scope->CreateChild();
         std::cout << all_error.second << " " << all_error.first << "\n";
+        cur_scope = global_scope_;
     }
 }
 
@@ -130,14 +156,13 @@ void ScopeTreeVisitor::Visit(TrueExpr */*expression*/) {
 
 void ScopeTreeVisitor::Visit(Class *expression) {
 
-    if (!cur_scope->AddElement(expression->GetName(), new StClass(expression))) {
-        MultiDeclError(expression->GetName(), expression->GetLoc());
-    }
     for (auto& field : expression->GetVariable()) {
         field->Accept(*this);
     }
     for (auto& method : expression->GetMethods()) {
+        cur_scope = cur_scope->CreateChild();
         method->Accept(*this);
+        cur_scope = cur_scope->GetParent();
     }
     
 }
@@ -167,13 +192,6 @@ void ScopeTreeVisitor::Visit(While* expression) {
 
 
 void ScopeTreeVisitor::Visit(MethodDeclaration *expression) {
-    if (!cur_scope->AddElement(expression->GetName(), new StFunction(expression))) {
-        MultiDeclError(expression->GetName(), expression->GetLoc());
-    }
-    auto old_scope = cur_scope;
-    cur_scope = cur_scope->CreateChild();
-
-
     if (expression->GetFormals()) {
         for (const auto &argument : expression->GetFormals()->GetVariables()) {
             if (!cur_scope->AddElement(argument->GetName(), new StVariable(*argument))) {
@@ -182,8 +200,6 @@ void ScopeTreeVisitor::Visit(MethodDeclaration *expression) {
         }
     }
     expression->GetCode()->Accept(*this);
-
-    cur_scope = old_scope;
     
 }
 
@@ -211,12 +227,11 @@ void ScopeTreeVisitor::Visit(Assignment *assignment) {
 }
 
 void ScopeTreeVisitor::Visit(Block *expression) {
-    auto old_scope = cur_scope;
     cur_scope = cur_scope->CreateChild();
 
     expression->GetExecCode()->Accept(*this);
 
-    cur_scope = old_scope;
+    cur_scope = cur_scope->GetParent();
 }
 
 void ScopeTreeVisitor::Visit(ExecCode *expression) {

@@ -27,3 +27,14 @@ BaseScope *BaseScope::CreateChild() {
     children_.back()->parent_ = this;
     return children_.back();
 }
+
+BaseScope *BaseScope::GetChild(size_t index) {
+    if (index < children_.size()) {
+        return children_[index];
+    }
+    return nullptr;
+}
+
+BaseScope *BaseScope::GetParent() const {
+    return parent_;
+}

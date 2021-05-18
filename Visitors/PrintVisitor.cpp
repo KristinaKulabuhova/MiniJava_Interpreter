@@ -172,7 +172,7 @@ void PrintVisitor::Visit(Class *expression) {
         p_field->Accept(*this);
     }
     --tabs_counter_;
-    
+    --tabs_counter_;
 }
 
 void PrintVisitor::Visit(MainClass *expression) {
@@ -281,7 +281,9 @@ void PrintVisitor::Visit(Block *expression) {
 
 void PrintVisitor::Visit(ExecCode *expression) {
     for (auto& line : expression->GetProgramLines()) {
-        printTabs();
+        if (!dynamic_cast<Block*>(line)) {
+            printTabs();
+        }
         line->Accept(*this);
         std::cout << "\n";
     }
@@ -293,7 +295,6 @@ void PrintVisitor::Visit(Program *program) {
     for (auto& decl : program->class_decl_list->GetClasses()) {
         decl->Accept(*this);
     }
-    
 }
 
 void PrintVisitor::printTabs() const {

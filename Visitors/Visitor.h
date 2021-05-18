@@ -12,25 +12,25 @@
 inline std::vector<std::pair<std::string, yy::location>> all_errors;
 
 inline void MultiDeclError(const std::string& var_name, yy::location loc) {
-    all_errors.push_back(std::make_pair("Multiple declaration of name \"" + var_name + "\".", loc));
+    all_errors.emplace_back("Multiple declaration of name \"" + var_name + "\".", loc);
 }
 
 inline void UndefRefError(const std::string& var_name, yy::location loc) {
-    all_errors.push_back(std::make_pair("Undefined reference to \"" + var_name + "\".", loc));
+    all_errors.emplace_back("Undefined reference to \"" + var_name + "\".", loc);
 }
 
 inline void WrongBinaryOperandsError(const std::string& operation,
                                       const std::string& first_type, const std::string& second_type, yy::location loc) {
-    all_errors.push_back(std::make_pair("std::make_pair(Wrong operands to binary operation \""
-    + operation + "\": " + first_type + "\" and \"" + second_type + "\".", loc));
+    all_errors.emplace_back("std::make_pair(Wrong operands to binary operation \""
+    + operation + "\": " + first_type + "\" and \"" + second_type + "\".", loc);
 }
 
 inline void ExpectedBoolError(const std::string& type, yy::location loc) {
-    all_errors.push_back(std::make_pair("Can't interpret type \"" + type + "\" as bool.", loc));
+    all_errors.emplace_back("Can't interpret type \"" + type + "\" as bool.", loc);
 }
 
 inline void ExpectedIntError(const std::string& type, yy::location loc) {
-    all_errors.push_back(std::make_pair("Can't interpret type \"" + type + "\" as integer.", loc));
+    all_errors.emplace_back("Can't interpret type \"" + type + "\" as integer.", loc);
 }
 
 
