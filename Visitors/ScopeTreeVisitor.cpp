@@ -173,9 +173,10 @@ void ScopeTreeVisitor::Visit(MethodDeclaration *expression) {
     auto old_scope = cur_scope;
     cur_scope = cur_scope->CreateChild();
 
+
     if (expression->GetFormals()) {
         for (const auto &argument : expression->GetFormals()->GetVariables()) {
-            if (!cur_scope->AddElement(expression->GetName(), new StVariable(*argument))) {
+            if (!cur_scope->AddElement(argument->GetName(), new StVariable(*argument))) {
                 MultiDeclError(argument->GetName(), expression->GetLoc());
             }
         }

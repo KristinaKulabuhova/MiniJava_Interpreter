@@ -2,7 +2,7 @@
 
 VarTypeStr::VarTypeStr(SimpleType *simple_type, bool array) : type_(simple_type->GetId()), array_(array), name_(simple_type->GetName()) {}
 
-std::string VarTypeStr::GetName() const {
+std::string& VarTypeStr::GetName() {
     return name_;
 }
 

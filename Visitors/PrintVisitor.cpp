@@ -234,7 +234,6 @@ void PrintVisitor::Visit(MethodDeclaration *expression) {
     ++tabs_counter_;
     expression->GetCode()->Accept(*this);
     --tabs_counter_;
-    
 }
 
 void PrintVisitor::Visit(Println *expression) {

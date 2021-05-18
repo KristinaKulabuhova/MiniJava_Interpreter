@@ -155,6 +155,7 @@ void Interpreter::Visit(While* expression) {
     expression->GetStatement()->Accept(*this);
 	while(tos_value_) {
 	    expression->GetCycleBody()->Accept(*this);
+        expression->GetStatement()->Accept(*this);
 	}
 	UnsetTosValue();
 }

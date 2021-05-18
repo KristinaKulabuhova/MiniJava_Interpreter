@@ -17,7 +17,7 @@ public:
   VarTypeStr(const VarTypeStr&) = default;
   ~VarTypeStr() = default;
   
-  std::string GetName() const;
+  std::string& GetName();
   bool GetArray() const;
   int GetType() const;
 
